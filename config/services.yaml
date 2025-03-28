@@ -4,7 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-
+    app.discord_guild_id: '%env(DISCORD_GUILD_ID)%'
+    app.discord_token: '%env(DISCORD_TOKEN)%'
 services:
     # default configuration for services in *this* file
     _defaults:

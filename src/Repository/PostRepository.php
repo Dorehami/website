@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -18,34 +19,58 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Post[] Returns an array of Post objects sorted by newest
+     * @return array Returns an array with posts and pagination info sorted by newest
      */
     public function findNewest(int $limit = 10, int $page = 1): array
     {
-        return $this->createBaseQueryBuilder($limit, $page)
-            ->orderBy('p.createdAt', 'DESC')
-            ->getQuery()
-            ->getResult();
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->orderBy('p.createdAt', 'DESC');
+
+        return $this->paginate($queryBuilder, $page, $limit);
     }
 
     /**
-     * @return Post[] Returns an array of Post objects sorted by most popular (most votes)
+     * @return array Returns an array with posts and pagination info sorted by most popular (most votes)
      */
     public function findMostPopular(int $limit = 10, int $page = 1): array
     {
-        return $this->createBaseQueryBuilder($limit, $page)
-            ->orderBy('COUNT(v.id)', 'DESC')
+        $queryBuilder = $this->createQueryBuilder('p')
             ->leftJoin('p.votes', 'v')
             ->groupBy('p.id')
-            ->addOrderBy('p.createdAt', 'DESC')
-            ->getQuery()
-            ->getResult();
+            ->orderBy('COUNT(v.id)', 'DESC')
+            ->addOrderBy('p.createdAt', 'DESC');
+
+        return $this->paginate($queryBuilder, $page, $limit);
     }
 
-    private function createBaseQueryBuilder(int $limit = 10, int $page = 1): QueryBuilder
+    /**
+     * Paginates a query and returns both results and pagination metadata
+     */
+    private function paginate(QueryBuilder $queryBuilder, int $page = 1, int $limit = 10): array
     {
-        return $this->createQueryBuilder('p')
-            ->setMaxResults($limit)
-            ->setFirstResult($limit * ($page - 1));
+        $page = max(1, $page);
+
+        $queryBuilder
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        $paginator = new Paginator($queryBuilder);
+
+        $total = count($paginator);
+        $lastPage = ceil($total / $limit);
+
+        return [
+            'posts' => $paginator->getIterator(),
+            'pagination' => [
+                'current_page' => $page,
+                'last_page' => $lastPage,
+                'per_page' => $limit,
+                'total' => $total,
+                'has_previous' => $page > 1,
+                'has_next' => $page < $lastPage,
+                'previous_page' => $page > 1 ? $page - 1 : null,
+                'next_page' => $page < $lastPage ? $page + 1 : null,
+            ]
+        ];
     }
 }

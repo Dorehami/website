@@ -13,6 +13,7 @@ class TimeAgoExtension extends AbstractExtension
     {
         return [
             new TwigFilter('persian_ago', [$this, 'formatTimeAgo']),
+            new TwigFilter('persian_number', [$this, 'formatPersianNumber']),
         ];
     }
 
@@ -49,7 +50,7 @@ class TimeAgoExtension extends AbstractExtension
         return $this->formatPersianNumber($years) . ' سال پیش';
     }
 
-    private function formatPersianNumber(int $number): string
+    public function formatPersianNumber(int $number): string
     {
         $persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
         $englishDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];

@@ -3,7 +3,7 @@
 {% block title %}دورهمی | جامعه توسعه‌دهندگان نرم‌افزار{% endblock %}
 
 {% block body %}
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-6xl mx-auto">
         {% for type, messages in app.flashes %}
             {% for message in messages %}
                 <div class="mb-4 p-4 rounded-md {% if type == 'success' %}bg-green-50 text-green-800{% else %}bg-red-50 text-red-800{% endif %}">
@@ -30,15 +30,15 @@
                 </div>
                 <div class="flex flex-col items-center">
                     <div class="flex items-center mb-2">
-                        <svg class="w-5 h-5 text-primary-600 ml-2" xmlns="http://www.w3.org/2000/svg"
-                             viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M8.25 4.5a3.75 3.75 0 117.5 0v8.25a3.75 3.75 0 11-7.5 0V4.5z"/>
-                            <path d="M6 10.5a.75.75 0 01.75.75v1.5a5.25 5.25 0 1010.5 0v-1.5a.75.75 0 011.5 0v1.5a6.751 6.751 0 01-6 6.709v2.291h3a.75.75 0 010 1.5h-7.5a.75.75 0 010-1.5h3v-2.291a6.751 6.751 0 01-6-6.709v-1.5A.75.75 0 016 10.5z"/>
+                        <svg class="w-5 h-5 text-primary-600 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none"
+                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/>
                         </svg>
-                        <span class="text-2xl font-bold text-gray-800">{{ discord_users }}</span>
-                        <span class="text-gray-500 mr-2">کاربر</span>
+                        <span class="text-2xl font-bold text-primary-800">{{ discord_info.total_members|persian_number }}</span>
+                        <span class="text-primary-500 mr-2">کاربر</span>
                     </div>
-                    <a href="https://discord.gg/your-invite"
+                    <a href="{{ path('redirect_invite') }}"
                        class="inline-flex items-center py-2 px-4 rounded bg-primary-600 text-white hover:bg-primary-700 transition duration-200">
                         <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
@@ -155,9 +155,9 @@
                         همین الان به جامعه برنامه‌نویسی دورهمی بپیوندید و از مزایای آن بهره‌مند شوید!
                     </p>
                     <div class="text-center">
-                        <a href="{{ path('connect_discord') }}"
+                        <a href="{{ path('redirect_invite') }}"
                            class="inline-block bg-white text-primary-600 hover:bg-gray-100 px-6 py-3 rounded-md font-bold">
-                            ورود با دیسکورد
+                            پیوست به دیسکورد
                         </a>
                     </div>
                 </div>
@@ -203,7 +203,7 @@
 
                                     <!-- Meta information -->
                                     <div class="mt-1 text-xs text-gray-500 flex">
-                                        <span>{{ post.points }} امتیاز</span>
+                                        <span>{{ post.points|persian_number }} امتیاز</span>
                                         <span class="mx-1">•</span>
                                         <span>{{ post.author.displayName }}</span>
                                         <span class="mx-1">•</span>
@@ -213,7 +213,7 @@
                                         <span class="mx-1">•</span>
                                         <a href="{{ path('app_post_show', {'id': post.id}) }}"
                                            class="text-primary-600 hover:text-primary-800">
-                                            {{ post.comments|length }} دیدگاه
+                                            {{ post.comments|length|persian_number }} دیدگاه
                                         </a>
                                     </div>
                                 </div>
@@ -235,13 +235,29 @@
         {% if posts|length > 0 %}
             <div class="mt-8 flex justify-center">
                 <nav class="inline-flex rounded">
-                    <a href="#"
-                       class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50">قبلی</a>
-                    <a href="#" class="px-3 py-2 text-white bg-primary-600 border border-primary-600">1</a>
-                    <a href="#" class="px-3 py-2 text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">2</a>
-                    <a href="#" class="px-3 py-2 text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">3</a>
-                    <a href="#"
-                       class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50">بعدی</a>
+                    {% if pagination.has_previous %}
+                        <a href="{{ path('app_home', {'filter': filter, 'page': pagination.previous_page}) }}"
+                           class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50">قبلی</a>
+                    {% else %}
+                        <span class="px-3 py-2 text-gray-400 bg-white border border-gray-300 rounded-r-md cursor-not-allowed">قبلی</span>
+                    {% endif %}
+
+                    {% for i in 1..pagination.last_page %}
+                        {% if i == pagination.current_page %}
+                            <a href="{{ path('app_home', {'filter': filter, 'page': i}) }}"
+                               class="px-3 py-2 text-white bg-primary-600 border border-primary-600">{{ i|persian_number }}</a>
+                        {% else %}
+                            <a href="{{ path('app_home', {'filter': filter, 'page': i}) }}"
+                               class="px-3 py-2 text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">{{ i|persian_number }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if pagination.has_next %}
+                        <a href="{{ path('app_home', {'filter': filter, 'page': pagination.next_page}) }}"
+                           class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50">بعدی</a>
+                    {% else %}
+                        <span class="px-3 py-2 text-gray-400 bg-white border border-gray-300 rounded-l-md cursor-not-allowed">بعدی</span>
+                    {% endif %}
                 </nav>
             </div>
         {% endif %}

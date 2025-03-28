@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\DiscordService;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -26,5 +27,13 @@ class DiscordController extends AbstractController
         // This route is handled by the DiscordAuthenticator
         // Will not be called unless authentication fails
         return $this->redirectToRoute('app_home');
+    }
+
+    #[Route('/redirect/invite', name: 'redirect_invite')]
+    public function redirectToDiscord(DiscordService $discordService): RedirectResponse
+    {
+        $info = $discordService->fetchWidgetData();
+
+        return $this->redirect($info['invitation_link']);
     }
 }
