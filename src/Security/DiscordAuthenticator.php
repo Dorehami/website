@@ -121,7 +121,7 @@ class DiscordAuthenticator extends OAuth2Authenticator implements Authentication
         return new Response($message, Response::HTTP_FORBIDDEN);
     }
 
-    public function start(Request $request, AuthenticationException $authException = null): Response
+    public function start(Request $request, ?AuthenticationException $authException = null): Response
     {
         return new RedirectResponse(
             $this->router->generate('app_login'),
