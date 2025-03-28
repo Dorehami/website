@@ -40,14 +40,13 @@ services:
 
   database:
     <<: *net-opts
-    image: postgis/postgis:16-3.4-alpine
+    image: postgres:16-alpine3.21
     ports:
       - "5432:5432"
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-app}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
       POSTGRES_USER: ${POSTGRES_USER:-app}
-      POSTGRES_MULTIPLE_DATABASES: ${POSTGRES_DB:-app}
     healthcheck:
       test: [ "CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}" ]
       timeout: 5s
