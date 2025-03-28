@@ -1,1 +1,20 @@
+@import "../fonts/estedad/stylesheet.css";
+
 @import 'tailwindcss';
+
+@theme {
+    --color-primary-50: #fceaf2;
+    --color-primary-100: #f8d0e2;
+    --color-primary-200: #f3a6c4;
+    --color-primary-300: #ee7ba7;
+    --color-primary-400: #e84f8a;
+    --color-primary-500: #b33771;
+    --color-primary-600: #8d2a57;
+    --color-primary-700: #681f40;
+    --color-primary-800: #441329;
+    --color-primary-900: #220914;
+    --color-primary-950: #11040a;
+
+    --font-sans: 'Estedad';
+    --font-script: 'Estedad';
+}
