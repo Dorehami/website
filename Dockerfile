@@ -38,7 +38,7 @@ RUN cp .env.dev .env.local \
 
 RUN chown -R www-data:www-data /var/www
 
-EXPOSE 8080
+EXPOSE 80
 
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
