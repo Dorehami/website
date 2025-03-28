@@ -192,12 +192,7 @@
                     {% for post in posts %}
                         <li class="py-4 px-4 hover:bg-gray-50 transition">
                             <div class="flex">
-                                <!-- Post number -->
-                                <div class="ml-4 text-gray-500 font-mono">{{ loop.index }}.</div>
-
-                                <!-- Post content -->
                                 <div class="flex-1">
-                                    <!-- Title and domain -->
                                     <div class="flex flex-col md:flex-row md:items-baseline">
                                         <a href="{{ path('app_post_show', {'id': post.id}) }}"
                                            class="text-lg font-medium text-gray-900 hover:text-primary-600">
@@ -207,22 +202,13 @@
                                     </div>
 
                                     <!-- Meta information -->
-                                    <div class="mt-1 text-xs text-gray-500">
+                                    <div class="mt-1 text-xs text-gray-500 flex">
                                         <span>{{ post.points }} امتیاز</span>
                                         <span class="mx-1">•</span>
                                         <span>{{ post.author.displayName }}</span>
                                         <span class="mx-1">•</span>
                                         <span>
-                                            {% set diff = date().diff(post.createdAt) %}
-                                            {% if diff.days > 0 %}
-                                                {{ diff.days }} روز پیش
-                                            {% elseif diff.h > 0 %}
-                                                {{ diff.h }} ساعت پیش
-                                            {% elseif diff.i > 0 %}
-                                                {{ diff.i }} دقیقه پیش
-                                            {% else %}
-                                                لحظاتی پیش
-                                            {% endif %}
+                                            {{ post.createdAt|persian_ago }}
                                         </span>
                                         <span class="mx-1">•</span>
                                         <a href="{{ path('app_post_show', {'id': post.id}) }}"
@@ -246,7 +232,6 @@
             </ul>
         </div>
 
-        <!-- Pagination (to be implemented later) -->
         {% if posts|length > 0 %}
             <div class="mt-8 flex justify-center">
                 <nav class="inline-flex rounded">
