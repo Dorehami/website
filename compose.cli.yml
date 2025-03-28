@@ -1,0 +1,34 @@
+include:
+  - compose.yml
+
+x-network: &net-opts
+  networks:
+    - dorehami-net
+
+services:
+  php:
+    <<: *net-opts
+    depends_on:
+      database:
+        condition: service_healthy
+    build:
+      context: ./docker/images/php
+    volumes:
+      - ".:/opt/project"
+      - "composer-cache:/.composer/cache"
+
+  database:
+    extends:
+      file: compose.yml
+      service: database
+
+  node:
+    extends:
+      file: compose.yml
+      service: node
+
+volumes:
+  composer-cache:
+
+networks:
+  dorehami-net:

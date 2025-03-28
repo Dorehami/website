@@ -1,0 +1,71 @@
+name: dorehami-website
+
+x-network: &net-opts
+  networks:
+    - dorehami-net
+    
+services:
+  nginx:
+    <<: *net-opts
+    build:
+      context: ./docker/images/nginx
+    volumes:
+      - ./:/var/www/project/:cached
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      fpm:
+        condition: service_healthy
+
+  fpm:
+    <<: *net-opts
+    build:
+      context: ./docker/images/fpm
+      args:
+        - BUILD_ENV=dev
+    volumes:
+      - ./:/var/www/project/:cached
+    ports:
+      - "9003"
+    healthcheck:
+      test: [ "CMD", "php-fpm", "-t" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    <<: *net-opts
+    image: postgis/postgis:16-3.4-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+      POSTGRES_MULTIPLE_DATABASES: ${POSTGRES_DB:-app}
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}" ]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    volumes:
+      - ./var/db/data:/var/lib/postgresql/data:rw
+
+  node:
+    <<: *net-opts
+    depends_on:
+      database:
+        condition: service_healthy
+    image: node:22.11.0-alpine3.20
+    command: yarn watch
+    working_dir: /app
+    volumes:
+      - ".:/app"
+
+networks:
+  dorehami-net:

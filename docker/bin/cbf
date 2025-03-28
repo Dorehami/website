@@ -1,0 +1,10 @@
+#!/bin/bash
+
+docker compose -f compose.cli.yml run \
+  -e XDEBUG_MODE=off \
+  --user "$(id -u):$(id -g)" \
+  --rm \
+  php ./vendor/bin/phpcbf \
+    -p \
+    --ignore=*/var/*,*/vendor/*,*/node_modules/* \
+    "$@"
