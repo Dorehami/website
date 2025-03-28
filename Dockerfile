@@ -47,4 +47,3 @@ RUN apt-get update && apt-get install -y nginx
 COPY docker/images/nginx/server.conf /etc/nginx/http.d/default.conf
 
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["nginx", "-g", "daemon off;"]
