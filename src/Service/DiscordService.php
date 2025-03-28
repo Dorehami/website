@@ -16,8 +16,7 @@ class DiscordService
 
     public function __construct(
         private readonly ParameterBagInterface $params
-    )
-    {
+    ) {
         $this->httpClient = new Client();
         $this->guildId = $params->get('app.discord_guild_id');
         $this->discordToken = $params->get('app.discord_token');

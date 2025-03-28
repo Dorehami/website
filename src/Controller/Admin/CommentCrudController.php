@@ -22,8 +22,7 @@ class CommentCrudController extends AbstractCrudController
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly AdminUrlGenerator $adminUrlGenerator
-    )
-    {
+    ) {
     }
 
     public static function getEntityFqcn(): string

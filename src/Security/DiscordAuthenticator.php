@@ -27,8 +27,7 @@ class DiscordAuthenticator extends OAuth2Authenticator implements Authentication
         private readonly RouterInterface $router,
         private readonly UserRepository $userRepository,
         private readonly BannedUserChecker $bannedUserChecker
-    )
-    {
+    ) {
     }
 
     public function supports(Request $request): ?bool

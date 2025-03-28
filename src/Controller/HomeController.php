@@ -16,8 +16,7 @@ class HomeController extends AbstractController
         Request $request,
         PostRepository $postRepository,
         DiscordService $discordService,
-    ): Response
-    {
+    ): Response {
         $filter = $request->query->get('filter', 'newest');
         $page = max(1, (int)$request->query->get('page', 1));
 
