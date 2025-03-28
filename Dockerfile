@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_pgsql pgsql gd opcache zip intl \
+    && docker-php-ext-install pdo_pgsql pgsql gd opcache zip intl
 
 RUN echo "date.timezone = \"Europe/Berlin\"" > /usr/local/etc/php/conf.d/timezone.ini
 
