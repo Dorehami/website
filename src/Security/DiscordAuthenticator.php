@@ -26,7 +26,8 @@ class DiscordAuthenticator extends OAuth2Authenticator implements Authentication
         private readonly ClientRegistry $clientRegistry,
         private readonly EntityManagerInterface $entityManager,
         private readonly RouterInterface $router,
-        private readonly UserRepository $userRepository
+        private readonly UserRepository    $userRepository,
+        private readonly BannedUserChecker $bannedUserChecker
     ) {}
 
     public function supports(Request $request): ?bool
@@ -48,6 +49,7 @@ class DiscordAuthenticator extends OAuth2Authenticator implements Authentication
                 $existingUser = $this->userRepository->findOneByDiscordId($discordUser->getId());
 
                 if ($existingUser) {
+                    $this->bannedUserChecker->checkPreAuth($existingUser);
                     $existingUser->setDiscordUsername($discordUser->getUsername());
                     if ($discordUser->getAvatarHash()) {
                         $existingUser->setAvatarUrl('https://cdn.discordapp.com/avatars/' . $discordUser->getId() . '/' . $discordUser->getAvatarHash() . '.png');
@@ -65,6 +67,7 @@ class DiscordAuthenticator extends OAuth2Authenticator implements Authentication
                 if ($email) {
                     $userWithEmail = $this->userRepository->findOneByEmail($email);
                     if ($userWithEmail) {
+                        $this->bannedUserChecker->checkPreAuth($userWithEmail);
                         // Connect discord to existing account
                         $userWithEmail->setDiscordId($discordUser->getId());
                         $userWithEmail->setDiscordUsername($discordUser->getUsername());

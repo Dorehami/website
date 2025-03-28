@@ -16,6 +16,7 @@ class CommentController extends AbstractController
 {
     #[Route('/post/{postId}', name: 'app_comment_new', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
+    #[IsGranted('user_action')]
     public function new(int $postId, Request $request, EntityManagerInterface $entityManager, PostRepository $postRepository): Response
     {
         $post = $postRepository->find($postId);

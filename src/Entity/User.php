@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -47,6 +48,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: PostVote::class)]
     private Collection $postVotes;
+
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private ?bool $banned = false;
+
+    #[ORM\Column(nullable: true)]
+    private ?DateTimeImmutable $bannedAt = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $banReason = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $bannedBy = null;
 
     public function __construct()
     {
@@ -256,8 +270,61 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function isBanned(): ?bool
+    {
+        return $this->banned;
+    }
+
+    public function setBanned(bool $banned): static
+    {
+        $this->banned = $banned;
+
+        return $this;
+    }
+
+    public function getBannedAt(): ?DateTimeImmutable
+    {
+        return $this->bannedAt;
+    }
+
+    public function setBannedAt(?DateTimeImmutable $bannedAt): static
+    {
+        $this->bannedAt = $bannedAt;
+
+        return $this;
+    }
+
+    public function getBanReason(): ?string
+    {
+        return $this->banReason;
+    }
+
+    public function setBanReason(?string $banReason): static
+    {
+        $this->banReason = $banReason;
+
+        return $this;
+    }
+
+    public function getBannedBy(): ?User
+    {
+        return $this->bannedBy;
+    }
+
+    public function setBannedBy(?User $bannedBy): static
+    {
+        $this->bannedBy = $bannedBy;
+
+        return $this;
+    }
+
     public function getDisplayName(): string
     {
         return $this->discordUsername ?? $this->email ?? 'کاربر';
+    }
+
+    public function __toString(): string
+    {
+        return $this->getDisplayName();
     }
 }

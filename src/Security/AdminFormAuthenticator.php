@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,9 @@ class AdminFormAuthenticator extends AbstractLoginFormAuthenticator
     public const LOGIN_ROUTE = 'app_login';
 
     public function __construct(
-        private readonly UrlGeneratorInterface $urlGenerator
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly BannedUserChecker     $bannedUserChecker,
+        private readonly UserRepository        $userRepository,
     )
     {
     }
@@ -36,9 +39,17 @@ class AdminFormAuthenticator extends AbstractLoginFormAuthenticator
     public function authenticate(Request $request): Passport
     {
         $email = $request->request->get('email', '');
-        
+
         return new Passport(
-            new UserBadge($email),
+            new UserBadge($email, function (string $userIdentifier) {
+                $user = $this->userRepository->findOneByEmail($userIdentifier);
+
+                if ($user) {
+                    $this->bannedUserChecker->checkPreAuth($user);
+                }
+
+                return $user;
+            }),
             new PasswordCredentials($request->request->get('password', '')),
             [
                 new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),

@@ -76,9 +76,9 @@
                 </div>
             {% endif %}
 
-            {% if post.comments|length > 0 %}
+            {% if post.comments|filter(c => (c.visible is null or c.visible))|length > 0 %}
                 <div class="space-y-6">
-                    {% for comment in post.comments %}
+                    {% for comment in post.comments|filter(c => (c.visible is null or c.visible)) %}
                         <div class="border-b border-gray-200 pb-6 last:border-0">
                             <div class="flex items-center mb-2">
                                 {% if comment.author.avatarUrl %}

@@ -203,4 +203,9 @@ class Post
 
         return false;
     }
+
+    public function __toString(): string
+    {
+        return $this->title . ' - ' . $this->author->getDisplayName() . ' - ' . $this->url;
+    }
 }
