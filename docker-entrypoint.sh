@@ -8,5 +8,3 @@ php bin/console cache:warmup --env=prod --no-debug
 
 # Start PHP-FPM
 php-fpm -D
-
-nginx -g "daemon off;"
