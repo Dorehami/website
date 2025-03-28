@@ -25,10 +25,11 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserCrudController extends AbstractCrudController
 {
-
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher
-    ) {}
+    )
+    {
+    }
     public static function getEntityFqcn(): string
     {
         return User::class;
@@ -87,7 +88,7 @@ class UserCrudController extends AbstractCrudController
             ->displayIf(static function ($entity) {
                 return $entity->isBanned();
             });
-        
+
         return $actions
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
             ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {

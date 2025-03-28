@@ -13,7 +13,7 @@ class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
     public function index(
-        Request        $request,
+        Request $request,
         PostRepository $postRepository,
         DiscordService $discordService,
     ): Response

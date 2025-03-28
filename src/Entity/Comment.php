@@ -1,4 +1,5 @@
 <?php
+
 // src/Entity/Comment.php
 
 namespace App\Entity;
@@ -15,35 +16,26 @@ class Comment
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
     #[ORM\Column(type: 'text')]
     #[Assert\NotBlank]
     private ?string $content = null;
-
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
-
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Post $post = null;
-
     #[ORM\Column]
     private ?DateTimeImmutable $createdAt = null;
-
     #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $visible = true;
-
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $moderationReason = null;
-
     #[ORM\Column(nullable: true)]
     private ?DateTimeImmutable $moderatedAt = null;
-
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: true)]
     private ?User $moderatedBy = null;
-
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
@@ -62,7 +54,6 @@ class Comment
     public function setContent(string $content): static
     {
         $this->content = $content;
-
         return $this;
     }
 
@@ -74,7 +65,6 @@ class Comment
     public function setAuthor(?User $author): static
     {
         $this->author = $author;
-
         return $this;
     }
 
@@ -86,7 +76,6 @@ class Comment
     public function setPost(?Post $post): static
     {
         $this->post = $post;
-
         return $this;
     }
 
@@ -98,7 +87,6 @@ class Comment
     public function setCreatedAt(DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
@@ -110,7 +98,6 @@ class Comment
     public function setVisible(bool $visible): static
     {
         $this->visible = $visible;
-
         return $this;
     }
 
@@ -122,7 +109,6 @@ class Comment
     public function setModerationReason(?string $moderationReason): static
     {
         $this->moderationReason = $moderationReason;
-
         return $this;
     }
 
@@ -134,7 +120,6 @@ class Comment
     public function setModeratedAt(?DateTimeImmutable $moderatedAt): static
     {
         $this->moderatedAt = $moderatedAt;
-
         return $this;
     }
 
@@ -146,7 +131,6 @@ class Comment
     public function setModeratedBy(?User $moderatedBy): static
     {
         $this->moderatedBy = $moderatedBy;
-
         return $this;
     }
 }

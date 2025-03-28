@@ -21,14 +21,15 @@ use Wohali\OAuth2\Client\Provider\DiscordResourceOwner;
 
 class DiscordAuthenticator extends OAuth2Authenticator implements AuthenticationEntryPointInterface
 {
-
     public function __construct(
         private readonly ClientRegistry $clientRegistry,
         private readonly EntityManagerInterface $entityManager,
         private readonly RouterInterface $router,
-        private readonly UserRepository    $userRepository,
+        private readonly UserRepository $userRepository,
         private readonly BannedUserChecker $bannedUserChecker
-    ) {}
+    )
+    {
+    }
 
     public function supports(Request $request): ?bool
     {

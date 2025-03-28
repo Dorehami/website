@@ -24,8 +24,8 @@ class AdminFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly BannedUserChecker     $bannedUserChecker,
-        private readonly UserRepository        $userRepository,
+        private readonly BannedUserChecker $bannedUserChecker,
+        private readonly UserRepository    $userRepository,
     )
     {
     }

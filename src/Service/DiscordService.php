@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -96,7 +95,8 @@ class DiscordService
             return [];
         }
 
-        $response = $this->httpClient->request('GET',
+        $response = $this->httpClient->request(
+            'GET',
             "{$this->apiUrl}/invites/{$inviteCode}?with_counts=true&with_expiration=true"
         );
 
