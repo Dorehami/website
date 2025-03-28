@@ -4,6 +4,15 @@
 
 {% block body %}
     <div class="max-w-4xl mx-auto">
+        <!-- Flash messages -->
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="mb-4 p-4 rounded-md {% if type == 'success' %}bg-green-50 text-green-800{% else %}bg-red-50 text-red-800{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
         <!-- Discord stats -->
         <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -13,12 +22,12 @@
                 </div>
                 <div class="flex flex-col items-center">
                     <div class="flex items-center mb-2">
-                        <svg class="w-5 h-5 text-primary-600 mr-2" xmlns="http://www.w3.org/2000/svg"
+                        <svg class="w-5 h-5 text-primary-600 ml-2" xmlns="http://www.w3.org/2000/svg"
                              viewBox="0 0 24 24" fill="currentColor">
                             <path d="M8.25 4.5a3.75 3.75 0 117.5 0v8.25a3.75 3.75 0 11-7.5 0V4.5z"/>
                             <path d="M6 10.5a.75.75 0 01.75.75v1.5a5.25 5.25 0 1010.5 0v-1.5a.75.75 0 011.5 0v1.5a6.751 6.751 0 01-6 6.709v2.291h3a.75.75 0 010 1.5h-7.5a.75.75 0 010-1.5h3v-2.291a6.751 6.751 0 01-6-6.709v-1.5A.75.75 0 016 10.5z"/>
                         </svg>
-                        <span class="text-2xl font-bold text-gray-800">{{ discord_users ?? 2500 }}</span>
+                        <span class="text-2xl font-bold text-gray-800">{{ discord_users }}</span>
                         <span class="text-gray-500 mr-2">کاربر</span>
                     </div>
                     <a href="https://discord.gg/your-invite"
@@ -35,168 +44,100 @@
         <!-- Post list header -->
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-bold">مطالب جدید</h1>
-            <div class="flex space-x-2 space-x-reverse">
-                <a href="#" class="px-3 py-1 rounded text-sm text-primary-600 hover:bg-gray-100 transition">جدیدترین</a>
-                <a href="#" class="px-3 py-1 rounded text-sm text-gray-600 hover:bg-gray-100 transition">محبوب‌ترین</a>
-                <a href="#" class="px-3 py-1 rounded text-sm text-gray-600 hover:bg-gray-100 transition">داغ‌ترین</a>
+            <div class="flex space-x-2 space-x-reverse items-center gap-2">
+                <a href="{{ path('app_home', {'filter': 'newest'}) }}"
+                   class="px-3 py-1 rounded text-sm {% if filter == 'newest' %}text-primary-600 bg-primary-50{% else %}text-gray-600 hover:bg-gray-100{% endif %} transition">جدیدترین</a>
+                <a href="{{ path('app_home', {'filter': 'popular'}) }}"
+                   class="px-3 py-1 rounded text-sm {% if filter == 'popular' %}text-primary-600 bg-primary-50{% else %}text-gray-600 hover:bg-gray-100{% endif %} transition">محبوب‌ترین</a>
+                {% if is_granted('ROLE_USER') %}
+                    <a href="{{ path('app_post_new') }}"
+                       class="inline-flex items-center py-1 px-2 rounded bg-primary-600 text-white text-sm hover:bg-primary-700 transition duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20"
+                             fill="currentColor">
+                            <path fill-rule="evenodd"
+                                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+                        ارسال مطلب جدید
+                    </a>
+                {% endif %}
             </div>
         </div>
 
-        <!-- Post listing (HackerNews style) -->
-        <div class="bg-white">
+        <!-- Post listing -->
+        <div class="bg-white rounded-lg">
             <ul class="divide-y divide-gray-200">
-                {% set posts = [
-                    {
-                        'id': 1,
-                        'title': 'معرفی فریمورک جدید برای توسعه بک‌اند در پایتون',
-                        'url': 'https://example.com/article1',
-                        'domain': 'example.com',
-                        'points': 120,
-                        'author': 'محمد',
-                        'time': '3 ساعت پیش',
-                        'comments': 42
-                    },
-                    {
-                        'id': 2,
-                        'title': 'مقایسه React و Vue.js در سال 2025',
-                        'url': 'https://techblog.ir/react-vs-vue-2025',
-                        'domain': 'techblog.ir',
-                        'points': 98,
-                        'author': 'علی',
-                        'time': '6 ساعت پیش',
-                        'comments': 37
-                    },
-                    {
-                        'id': 3,
-                        'title': 'چرا PostgreSQL بهتر از MySQL است؟',
-                        'url': 'https://dbmag.ir/postgresql-vs-mysql',
-                        'domain': 'dbmag.ir',
-                        'points': 72,
-                        'author': 'سارا',
-                        'time': '10 ساعت پیش',
-                        'comments': 23
-                    },
-                    {
-                        'id': 4,
-                        'title': 'معرفی 10 کتابخانه‌ی ضروری جاواسکریپت در سال 2025',
-                        'url': 'https://jsmag.ir/essential-libraries-2025',
-                        'domain': 'jsmag.ir',
-                        'points': 65,
-                        'author': 'امیر',
-                        'time': '12 ساعت پیش',
-                        'comments': 19
-                    },
-                    {
-                        'id': 5,
-                        'title': 'آینده هوش مصنوعی و تاثیر آن بر برنامه‌نویسی',
-                        'url': 'https://aiblog.ir/future-of-ai-programming',
-                        'domain': 'aiblog.ir',
-                        'points': 134,
-                        'author': 'نازنین',
-                        'time': '1 روز پیش',
-                        'comments': 51
-                    },
-                    {
-                        'id': 6,
-                        'title': 'چگونه یک API امن طراحی کنیم؟',
-                        'url': 'https://securityblog.ir/secure-api-design',
-                        'domain': 'securityblog.ir',
-                        'points': 87,
-                        'author': 'رضا',
-                        'time': '1 روز پیش',
-                        'comments': 31
-                    },
-                    {
-                        'id': 7,
-                        'title': 'تسلط بر Git: ترفندهای پیشرفته برای توسعه‌دهندگان',
-                        'url': 'https://gitblog.ir/advanced-git-tricks',
-                        'domain': 'gitblog.ir',
-                        'points': 109,
-                        'author': 'مهدی',
-                        'time': '2 روز پیش',
-                        'comments': 28
-                    },
-                    {
-                        'id': 8,
-                        'title': 'آینده Cloud Computing و تاثیر آن بر صنعت نرم‌افزار',
-                        'url': 'https://cloudmag.ir/future-of-cloud-computing',
-                        'domain': 'cloudmag.ir',
-                        'points': 76,
-                        'author': 'زهرا',
-                        'time': '2 روز پیش',
-                        'comments': 22
-                    },
-                    {
-                        'id': 9,
-                        'title': 'راهنمای کامل Kubernetes برای توسعه‌دهندگان',
-                        'url': 'https://devops.ir/kubernetes-guide',
-                        'domain': 'devops.ir',
-                        'points': 95,
-                        'author': 'آرش',
-                        'time': '3 روز پیش',
-                        'comments': 33
-                    },
-                    {
-                        'id': 10,
-                        'title': 'چگونه TDD را در پروژه‌های خود پیاده‌سازی کنیم؟',
-                        'url': 'https://testingblog.ir/tdd-implementation',
-                        'domain': 'testingblog.ir',
-                        'points': 82,
-                        'author': 'نیما',
-                        'time': '3 روز پیش',
-                        'comments': 27
-                    }
-                ] %}
+                {% if posts|length > 0 %}
+                    {% for post in posts %}
+                        <li class="py-4 px-4 hover:bg-gray-50 transition">
+                            <div class="flex">
+                                <!-- Post number -->
+                                <div class="ml-4 text-gray-500 font-mono">{{ loop.index }}.</div>
 
-                {% for post in posts %}
-                    <li class="py-4 hover:bg-gray-50 transition">
-                        <div class="flex">
-                            <!-- Post number -->
-                            <div class="mr-4 text-gray-500 font-mono">{{ loop.index }}.</div>
+                                <!-- Post content -->
+                                <div class="flex-1">
+                                    <!-- Title and domain -->
+                                    <div class="flex flex-col md:flex-row md:items-baseline">
+                                        <a href="{{ path('app_post_show', {'id': post.id}) }}"
+                                           class="text-lg font-medium text-gray-900 hover:text-primary-600">
+                                            {{ post.title }}
+                                        </a>
+                                        <span class="text-xs text-gray-500 md:mr-2">({{ post.domain }})</span>
+                                    </div>
 
-                            <!-- Post content -->
-                            <div class="flex-1">
-                                <!-- Title and domain -->
-                                <div class="flex flex-col md:flex-row md:items-baseline">
-                                    <a href="{{ post.url }}"
-                                       class="text-lg font-medium text-gray-900 hover:text-primary-600">
-                                        {{ post.title }}
-                                    </a>
-                                    <span class="text-xs text-gray-500 md:mr-2">({{ post.domain }})</span>
-                                </div>
-
-                                <!-- Meta information -->
-                                <div class="mt-1 text-xs text-gray-500">
-                                    <span>{{ post.points }} امتیاز</span>
-                                    <span class="mx-1">•</span>
-                                    <span>{{ post.author }}</span>
-                                    <span class="mx-1">•</span>
-                                    <span>{{ post.time }}</span>
-                                    <span class="mx-1">•</span>
-                                    <a href="#" class="text-primary-600 hover:text-primary-800">
-                                        {{ post.comments }} دیدگاه
-                                    </a>
+                                    <!-- Meta information -->
+                                    <div class="mt-1 text-xs text-gray-500">
+                                        <span>{{ post.points }} امتیاز</span>
+                                        <span class="mx-1">•</span>
+                                        <span>{{ post.author.displayName }}</span>
+                                        <span class="mx-1">•</span>
+                                        <span>
+                                            {% set diff = date().diff(post.createdAt) %}
+                                            {% if diff.days > 0 %}
+                                                {{ diff.days }} روز پیش
+                                            {% elseif diff.h > 0 %}
+                                                {{ diff.h }} ساعت پیش
+                                            {% elseif diff.i > 0 %}
+                                                {{ diff.i }} دقیقه پیش
+                                            {% else %}
+                                                لحظاتی پیش
+                                            {% endif %}
+                                        </span>
+                                        <span class="mx-1">•</span>
+                                        <a href="{{ path('app_post_show', {'id': post.id}) }}"
+                                           class="text-primary-600 hover:text-primary-800">
+                                            {{ post.comments|length }} دیدگاه
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <li class="py-8 text-center text-gray-500">
+                        هنوز مطلبی ارسال نشده است.
+                        {% if is_granted('ROLE_USER') %}
+                            <a href="{{ path('app_post_new') }}" class="text-primary-600 hover:text-primary-800">اولین
+                                مطلب را ارسال کنید!</a>
+                        {% endif %}
                     </li>
-                {% endfor %}
+                {% endif %}
             </ul>
         </div>
 
-        <!-- Pagination -->
-        <div class="mt-8 flex justify-center">
-            <nav class="inline-flex rounded shadow-sm">
-                <a href="#"
-                   class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50">قبلی</a>
-                <a href="#" class="px-3 py-2 text-white bg-primary-600 border border-primary-600">1</a>
-                <a href="#" class="px-3 py-2 text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">2</a>
-                <a href="#" class="px-3 py-2 text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">3</a>
-                <a href="#" class="px-3 py-2 text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">4</a>
-                <a href="#" class="px-3 py-2 text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">5</a>
-                <a href="#"
-                   class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50">بعدی</a>
-            </nav>
-        </div>
+        <!-- Pagination (to be implemented later) -->
+        {% if posts|length > 0 %}
+            <div class="mt-8 flex justify-center">
+                <nav class="inline-flex rounded">
+                    <a href="#"
+                       class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50">قبلی</a>
+                    <a href="#" class="px-3 py-2 text-white bg-primary-600 border border-primary-600">1</a>
+                    <a href="#" class="px-3 py-2 text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">2</a>
+                    <a href="#" class="px-3 py-2 text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">3</a>
+                    <a href="#"
+                       class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50">بعدی</a>
+                </nav>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

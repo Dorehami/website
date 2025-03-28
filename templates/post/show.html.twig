@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.title }} | دورهمی{% endblock %}
+
+{% block body %}
+    <div class="max-w-4xl mx-auto">
+        <!-- Flash messages -->
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="mb-4 p-4 rounded-md {% if type == 'success' %}bg-green-50 text-green-800{% else %}bg-red-50 text-red-800{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <!-- Post details -->
+        <div class="bg-white p-6 rounded-lg mb-8">
+            <h1 class="text-2xl font-bold text-gray-900 mb-2">{{ post.title }}</h1>
+            <div class="flex items-center text-sm text-gray-500 mb-4">
+                <a href="{{ post.url }}" target="_blank" rel="noopener noreferrer"
+                   class="text-primary-600 hover:text-primary-800">
+                    {{ post.url }}
+                </a>
+                <span class="mx-2">({{ post.domain }})</span>
+            </div>
+            <div class="flex items-center text-sm text-gray-600">
+                <span>{{ post.points }} امتیاز</span>
+                <span class="mx-2">•</span>
+                <span>توسط {{ post.author.displayName }}</span>
+                <span class="mx-2">•</span>
+                <time>{{ post.createdAt|date('Y-m-d H:i:s') }}</time>
+            </div>
+
+            {% if is_granted('ROLE_USER') and not post.hasVotedBy(app.user) %}
+                <div class="mt-4">
+                    <form action="{{ path('app_post_vote', {'id': post.id}) }}" method="post">
+                        <button type="submit"
+                                class="inline-flex items-center px-3 py-1 border border-primary-600 text-primary-600 rounded hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20"
+                                 fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v9a1 1 0 11-2 0V4a1 1 0 011-1z"
+                                      clip-rule="evenodd"/>
+                                <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                            امتیاز دادن
+                        </button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Comments section -->
+        <div class="bg-white p-6 rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">دیدگاه‌ها ({{ post.comments|length }})</h2>
+
+            {% if is_granted('ROLE_USER') %}
+                <!-- Comment form -->
+                <form action="{{ path('app_comment_new', {'postId': post.id}) }}" method="post" class="mb-8">
+                    <div class="mb-4">
+                        <label for="comment_content" class="block text-gray-700 font-semibold mb-2">دیدگاه شما</label>
+                        <textarea name="content" id="comment_content" rows="4"
+                                  class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                  placeholder="دیدگاه خود را بنویسید..."></textarea>
+                    </div>
+                    <div>
+                        <button type="submit"
+                                class="py-2 px-4 bg-primary-600 text-white rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+                            ارسال دیدگاه
+                        </button>
+                    </div>
+                </form>
+            {% else %}
+                <div class="bg-gray-50 p-4 rounded mb-8">
+                    <p class="text-gray-600">برای ارسال دیدگاه باید <a href="{{ path('app_login') }}"
+                                                                       class="text-primary-600 hover:text-primary-800">وارد
+                            سایت</a> شوید.</p>
+                </div>
+            {% endif %}
+
+            <!-- Comments list -->
+            {% if post.comments|length > 0 %}
+                <div class="space-y-6">
+                    {% for comment in post.comments %}
+                        <div class="border-b border-gray-200 pb-6 last:border-0">
+                            <div class="flex items-center mb-2">
+                                {% if comment.author.avatarUrl %}
+                                    <img src="{{ comment.author.avatarUrl }}" alt="Avatar"
+                                         class="w-8 h-8 rounded-full ml-2">
+                                {% endif %}
+                                <span class="font-semibold">{{ comment.author.displayName }}</span>
+                                <span class="mx-2 text-gray-500">•</span>
+                                <time class="text-sm text-gray-500">{{ comment.createdAt|date('Y-m-d H:i:s') }}</time>
+                            </div>
+                            <div class="text-gray-800 whitespace-pre-line">
+                                {{ comment.content|nl2br }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-gray-500 italic">هنوز دیدگاهی ثبت نشده است.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
