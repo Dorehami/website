@@ -19,10 +19,8 @@ class HomeController extends AbstractController
             'popular' => $postRepository->findMostPopular(10),
             default => $postRepository->findNewest(10)
         };
-
-        // Note: In a real application, you'd want to use a Discord API 
-        // to get the actual number of users in your Discord server.
-        $discordUsers = 2500; // Placeholder
+        
+        $discordUsers = 2500;
 
         return $this->render('home/index.html.twig', [
             'posts' => $posts,

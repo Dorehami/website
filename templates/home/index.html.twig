@@ -4,7 +4,6 @@
 
 {% block body %}
     <div class="max-w-4xl mx-auto">
-        <!-- Flash messages -->
         {% for type, messages in app.flashes %}
             {% for message in messages %}
                 <div class="mb-4 p-4 rounded-md {% if type == 'success' %}bg-green-50 text-green-800{% else %}bg-red-50 text-red-800{% endif %}">
@@ -13,7 +12,16 @@
             {% endfor %}
         {% endfor %}
 
-        <!-- Discord stats -->
+        <section class="py-12">
+            <div class="text-center">
+                <h1 class="text-4xl font-bold mb-4">دورهمی، برای برنامه‌نویس‌ها</h1>
+                <p class="text-lg max-w-3xl mx-auto mb-8">
+                    یه جامعه‌ی کوچیک از برنامه‌نویس‌های فارسی زبان تو دیسکورد. یه جایی که میتونی، بر عکس کانال‌های
+                    تلگرامی، سریع و راحت جواب همه‌ی سوالاتت رو پیدا کنی و با بقیه برنامه‌نویس‌های فارسی زبان آشنا بشی.
+                </p>
+            </div>
+        </section>
+
         <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-4 md:mb-0">
@@ -41,8 +49,122 @@
             </div>
         </div>
 
-        <!-- Post list header -->
-        <div class="flex justify-between items-center mb-4">
+        <section class="py-12">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl font-bold mb-2">دورهمی چیه؟ کجاست؟</h2>
+                <h3 class="text-lg mb-4">یه جامعه‌ی کوچیک در حال رشد از برنامه‌نویس‌های ایرانی</h3>
+                <p class="max-w-4xl mx-auto text-sm">
+                    دورهمی با این ایده تشکیل شده، که بتونه به عنوان یک <strong>شبکه‌ی اجتماعی ساده</strong>،
+                    برنامه‌نویس‌های ایرانی رو از همه‌ی جای دنیا گرد هم بیاره، فضای مشارکتی و گروهی رو فراهم کنه و تا
+                    جایی که ممکنه به برنامه‌نویس‌های تازه‌کار کمک کنه به منابع مفید و بروز دسترسی پیدا کنن. و همه‌ی
+                    اینها رو توی <strong>یکجا</strong> کنار هم بیاره.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg p-6">
+                    <div class="mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-primary-600 mx-auto" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">سوالات فنی</h3>
+                    <p class="text-sm">
+                        سوالی برات پیش اومده؟ جایی به مشکل خوردی و نمیتونی حلش کنی؟ به جای اینکه توی تلگرام پیام بذاری
+                        تا شاید کسی جواب بده، تو دورهمی میتونی از متخصص‌ها سریع جواب بگیری، و تو جواب‌های قبلی به سادگی
+                        جست‌وجو کنی!
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6">
+                    <div class="mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-primary-600 mx-auto" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">رویدادهای مختلف</h3>
+                    <p class="text-sm">
+                        از رویدادهای مختلف برنامه‌نویس عقب نمون! اگر جایی جلسه‌ای باشه، یه رویدادی تو یه جای ایران و
+                        دنیا بخواد برگزار بشه، تو یه نقطه‌ی شهر بچه‌ها بخوان دور هم جمع بشن و در مورد یه تکنولوژی یا
+                        چیزی صحبت کنن، تو هم میتونی بخشی ازش باشی.
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6">
+                    <div class="mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-primary-600 mx-auto" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">پروموشن پست‌‌های بلاگ</h3>
+                    <p class="text-sm">
+                        تو هم علاقه به مطلب نوشتن داری؟ دنبال یه جایی میگردی که مطالبت رو به دست خواننده‌ها برسونی؟
+                        دورهمی بهترین جا برای توست! تو دورهمی یه کانال مجزا فقط برای پروموت کردن نوشته‌های بروبچه‌های
+                        وبلاگ‌دار گذاشته شده که بتونن ساده پست‌هاشون رو به اشتراک بذارن و خواننده جمع کنن.
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6">
+                    <div class="mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-primary-600 mx-auto" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Pair Programming</h3>
+                    <p class="text-sm">
+                        دنبال کسی هستی تا کنارش بتونی کد بزنی؟ دوست داری به چند نفر آموزش بدی؟ به جای اینکه تو چندین
+                        پلتفرم مختلف بری و عضو بشی، کافیه توی دورهمی یه اتاق رزرو کنی و از ۲ تا ۱۰ نفر رو کنار هم جمع
+                        کنی! میتونی با بقیه کد بزنی، سخنرانی کنی و با دوستاتون بازی کنی!
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6">
+                    <div class="mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-primary-600 mx-auto" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">موقعیت‌های شغلی</h3>
+                    <p class="text-sm">
+                        دنبال کار هستی یا یه پوزیشن خالی داری؟ چه جایی بهتر از یه جامعه پر از برنامه‌نویس‌های خوب و
+                        علاقمند به کار شرکت‌هایی که دقیقا دنبال کسایی مثل تو میگردن؟ چه جایی بهتر از یه دورهمی
+                        برنامه‌نویسی؟
+                    </p>
+                </div>
+
+                <div class="bg-primary-600 rounded-lg p-6 text-white">
+                    <div class="mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white mx-auto" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">به ما بپیوندید</h3>
+                    <p class="mb-4 text-sm">
+                        همین الان به جامعه برنامه‌نویسی دورهمی بپیوندید و از مزایای آن بهره‌مند شوید!
+                    </p>
+                    <div class="text-center">
+                        <a href="{{ path('connect_discord') }}"
+                           class="inline-block bg-white text-primary-600 hover:bg-gray-100 px-6 py-3 rounded-md font-bold">
+                            ورود با دیسکورد
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="flex justify-between items-center mb-4 mt-8">
             <h1 class="text-2xl font-bold">مطالب جدید</h1>
             <div class="flex space-x-2 space-x-reverse items-center gap-2">
                 <a href="{{ path('app_home', {'filter': 'newest'}) }}"
@@ -64,7 +186,6 @@
             </div>
         </div>
 
-        <!-- Post listing -->
         <div class="bg-white rounded-lg">
             <ul class="divide-y divide-gray-200">
                 {% if posts|length > 0 %}
