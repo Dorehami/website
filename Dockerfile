@@ -27,7 +27,7 @@ WORKDIR /var/www
 
 COPY . /var/www
 
-RUN composer install --prefer-dist --no-dev --no-interaction --no-progress --optimize-autoloader
+RUN composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
 RUN yarn install && yarn build
 
