@@ -43,7 +43,7 @@ EXPOSE 8080
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-RUN apk add --no-cache nginx
+RUN apt-get update && apt-get install -y nginx
 COPY docker/images/nginx/server.conf /etc/nginx/http.d/default.conf
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
