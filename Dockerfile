@@ -1,22 +1,23 @@
 FROM php:8.4-fpm
 
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
-    postgresql-dev \
-    libpng-dev \
+    zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev \
+    libxml2-dev \
     libzip-dev \
-    zip \
-    unzip \
-    nodejs \
-    npm \
+    libpq-dev \
+    libicu-dev \
+    vim curl debconf subversion git apt-transport-https apt-utils \
+    build-essential locales acl mailutils wget nodejs zip unzip \
+    gnupg gnupg1 gnupg2 \
+    sudo \
+    ssh \
     yarn \
     $PHPIZE_DEPS
 
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_pgsql pgsql gd opcache zip intl \
-    && pecl install mongodb \
-    && docker-php-ext-enable mongodb
 
 RUN echo "date.timezone = \"Europe/Berlin\"" > /usr/local/etc/php/conf.d/timezone.ini
 
