@@ -1,5 +1,5 @@
-{% if value %}
-    <img src="{{ value }}" style="max-width: 50px; max-height: 50px; border-radius: 50%;" alt="User avatar">
+{% if field.value is defined and field.value is not null %}
+    <img src="{{ field.value }}" style="max-width: 50px; max-height: 50px; border-radius: 50%;" alt="User avatar">
 {% else %}
     <span class="badge badge-secondary">No avatar</span>
 {% endif %}
