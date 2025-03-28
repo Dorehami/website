@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     libicu-dev \
     vim curl debconf subversion git apt-transport-https apt-utils \
-    build-essential locales acl mailutils wget nodejs zip unzip \
+    build-essential locales acl mailutils wget nodejs npm zip unzip \
     gnupg gnupg1 gnupg2 \
     sudo \
     ssh \
