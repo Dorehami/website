@@ -12,7 +12,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gnupg gnupg1 gnupg2 \
     sudo \
     ssh \
-    yarn \
     $PHPIZE_DEPS
 
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
@@ -28,6 +27,8 @@ WORKDIR /var/www
 COPY . /var/www
 
 RUN composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
+
+RUN npm i -g yarn
 
 RUN yarn install && yarn build
 
