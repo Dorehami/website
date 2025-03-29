@@ -33,7 +33,7 @@
 
 {% block body %}
     <div class="max-w-6xl mx-auto">
-        <!-- Flash messages -->
+        
         {% for type, messages in app.flashes %}
             {% for message in messages %}
                 <div class="mb-4 p-4 rounded-md {% if type == 'success' %}bg-green-50 text-green-800{% else %}bg-red-50 text-red-800{% endif %}">
@@ -42,7 +42,7 @@
             {% endfor %}
         {% endfor %}
 
-        <!-- Post details -->
+        
         <div class="bg-white p-6 rounded-lg mb-8">
             <div class="flex items-center mb-4 justify-between">
                 <h1 class="text-2xl font-bold text-gray-900">{{ post.title }}</h1>

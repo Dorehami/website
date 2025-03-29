@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl" class="font-sans">
-<!-- In templates/base.html.twig, update the head section -->
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -90,7 +90,7 @@
                 {% endif %}
             </div>
 
-            <!-- Mobile Menu Button -->
+            
             <div class="md:hidden">
                 <button type="button" class="text-gray-800 hover:text-primary-600" x-data="{}"
                         @click="$dispatch('toggle-mobile-menu')">
@@ -103,24 +103,24 @@
             </div>
         </nav>
 
-        <!-- Mobile Menu (hidden by default) -->
+        
         <div class="md:hidden hidden" x-data="{ open: false }" @toggle-mobile-menu.window="open = !open" x-show="open"
              x-transition>
             <div class="py-3 space-y-3">
                 <a href="{{ path('app_home') }}"
                    class="block py-2 text-gray-800 hover:text-primary-600 transition duration-200">صفحه اصلی</a>
-                <!-- Add more mobile navigation links as needed -->
+                
             </div>
         </div>
     </div>
 </header>
 
-<!-- Main Content -->
+
 <main class="flex-grow container mx-auto px-4 py-8">
     {% block body %}{% endblock %}
 </main>
 
-<!-- Footer -->
+
 <footer class="border-t border-gray-200 py-6">
     <div class="container mx-auto px-4">
         <div class="flex flex-col md:flex-row justify-between items-center">
