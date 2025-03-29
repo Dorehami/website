@@ -20,6 +20,9 @@
             {{ form_label(form.url, null, {'label_attr': {'class': 'block text-gray-700 font-semibold mb-2'}}) }}
             {{ form_widget(form.url) }}
             <p class="text-gray-500 text-sm mt-1">آدرس مقاله یا خبر را وارد کنید.</p>
+            <p class="text-gray-500 text-sm mt-1">
+                اگر این لینک قبلاً ارسال شده باشد، به صفحه آن مطلب هدایت خواهید شد.
+            </p>
             {{ form_errors(form.url) }}
         </div>
 

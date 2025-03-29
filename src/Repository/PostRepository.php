@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -72,5 +73,23 @@ class PostRepository extends ServiceEntityRepository
                 'next_page' => $page < $lastPage ? $page + 1 : null,
             ]
         ];
+    }
+
+    /**
+     * Find a post by its URL within a specific time window (e.g., 365 days)
+     */
+    public function findRecentByNormalizedUrl(string $normalizedUrl, int $daysWindow = 365): ?Post
+    {
+        $dateThreshold = new DateTimeImmutable("-{$daysWindow} days");
+
+        return $this->createQueryBuilder('p')
+            ->where('p.normalizedUrl = :url')
+            ->andWhere('p.createdAt > :threshold')
+            ->setParameter('normalizedUrl', $normalizedUrl)
+            ->setParameter('threshold', $dateThreshold)
+            ->orderBy('p.createdAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

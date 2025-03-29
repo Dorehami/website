@@ -43,6 +43,9 @@ class Post
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: PostVote::class, orphanRemoval: true)]
     private Collection $votes;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $normalizedUrl = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -202,6 +205,17 @@ class Post
         }
 
         return false;
+    }
+
+    public function getNormalizedUrl(): ?string
+    {
+        return $this->normalizedUrl;
+    }
+
+    public function setNormalizedUrl(?string $normalizedUrl): static
+    {
+        $this->normalizedUrl = $normalizedUrl;
+        return $this;
     }
 
     public function __toString(): string

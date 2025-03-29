@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Entity\PostVote;
 use App\Form\PostType;
+use App\Repository\PostRepository;
+use App\Service\UrlNormalizerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,13 +19,27 @@ class PostController extends AbstractController
 {
     #[Route('/new', name: 'app_post_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        PostRepository $postRepository,
+        UrlNormalizerService $urlNormalizer
+    ): Response
     {
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $existingPost = $postRepository->findRecentByNormalizedUrl($post->getUrl());
+
+            if ($existingPost) {
+                $this->addFlash('info', 'این لینک قبلاً ارسال شده است. به صفحه مطلب قبلی هدایت می‌شوید.');
+                return $this->redirectToRoute('app_post_show', ['id' => $existingPost->getId()]);
+            }
+
+            $normalizedUrl = $urlNormalizer->normalize($post->getUrl());
+            $post->setNormalizedUrl($normalizedUrl);
             $post->setAuthor($this->getUser());
             $entityManager->persist($post);
             $entityManager->flush();
