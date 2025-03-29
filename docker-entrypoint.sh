@@ -29,10 +29,6 @@ php-fpm -D
 echo "Checking PHP-FPM status..."
 ps aux | grep php-fpm
 
-# Check if the socket is listening
-echo "Checking PHP-FPM socket..."
-netstat -tuln | grep 9000
-
 echo "Starting Nginx..."
 # Run nginx in the foreground
 exec nginx -g "daemon off;"
