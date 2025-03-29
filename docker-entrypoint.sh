@@ -17,10 +17,22 @@ mkdir -p /var/log/nginx
 # Ensure proper upstream configuration
 echo "upstream php-upstream { server 127.0.0.1:9000; }" > /etc/nginx/conf.d/upstream.conf
 
+# Test nginx configuration
+echo "Testing Nginx configuration..."
+nginx -t
+
 # Start PHP-FPM with debug logging
 echo "Starting PHP-FPM..."
 php-fpm -D
 
+# Check if PHP-FPM is running
+echo "Checking PHP-FPM status..."
+ps aux | grep php-fpm
+
+# Check if the socket is listening
+echo "Checking PHP-FPM socket..."
+netstat -tuln | grep 9000
+
 echo "Starting Nginx..."
 # Run nginx in the foreground
-nginx -g "daemon off;"
+exec nginx -g "daemon off;"
