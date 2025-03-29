@@ -1,6 +1,35 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ post.title }} | دورهمی{% endblock %}
+{% block meta_description %}{{ post.title }} - ارسال شده توسط {{ post.author.displayName }} - {{ post.comments|length }} دیدگاه{% endblock %}
+{% block meta_keywords %}{{ post.title|lower|replace({' ': ', '}) }}, دورهمی, توسعه‌دهندگان نرم‌افزار{% endblock %}
+{% block og_type %}article{% endblock %}
+
+{% block structured_data %}
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "DiscussionForumPosting",
+            "headline": "{{ post.title }}",
+    "url": "{{ app.request.schemeAndHttpHost ~ path('app_post_show', {'id': post.id}) }}",
+    "datePublished": "{{ post.createdAt|date('c') }}",
+    "author": {
+        "@type": "Person",
+        "name": "{{ post.author.displayName }}"
+    },
+    "interactionStatistic": {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/CommentAction",
+        "userInteractionCount": "{{ post.comments|length }}"
+    },
+    "commentCount": "{{ post.comments|length }}",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ app.request.schemeAndHttpHost ~ path('app_post_show', {'id': post.id}) }}"
+    }
+}
+    </script>
+{% endblock %}
 
 {% block body %}
     <div class="max-w-6xl mx-auto">

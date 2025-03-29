@@ -1,11 +1,24 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl" class="font-sans">
+<!-- In templates/base.html.twig, update the head section -->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}دورهمی{% endblock %}</title>
-    <meta name="description" content="A community for Persian software developers">
-    <link rel="icon" href="/favicon.ico">
+    <meta name="description"
+          content="{% block meta_description %}جامعه توسعه‌دهندگان نرم‌افزار ایرانی - یک پلتفرم برای تبادل دانش و ارتباط برنامه‌نویسان فارسی‌زبان{% endblock %}">
+    <meta name="keywords"
+          content="{% block meta_keywords %}برنامه‌نویسی, توسعه نرم‌افزار, ایران, پرسش و پاسخ, دیسکورد, برنامه‌نویسان{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}{{ block('title') }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ block('meta_description') }}{% endblock %}">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:url"
+          content="{% block og_url %}{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}{% endblock %}">
+    <meta property="og:site_name" content="دورهمی">
+    <meta name="twitter:card" content="summary">
+    <link rel="canonical"
+          href="{% block canonical_url %}{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}{% endblock %}">
+    <link rel="icon" href="{{ asset('images/logo-minimal.png') }}">
 
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
@@ -132,5 +145,7 @@
         </div>
     </div>
 </footer>
+
+{% block structured_data %}{% endblock %}
 </body>
 </html>

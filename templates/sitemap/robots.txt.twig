@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: {{ url('app_sitemap')|replace({'http:': 'https:', '/sitemap.xml': ''}) }}/sitemap.xml
+
+Disallow: /admin/
+Disallow: /login
+Disallow: /logout

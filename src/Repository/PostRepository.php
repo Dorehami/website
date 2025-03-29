@@ -83,7 +83,7 @@ class PostRepository extends ServiceEntityRepository
         $dateThreshold = new DateTimeImmutable("-{$daysWindow} days");
 
         return $this->createQueryBuilder('p')
-            ->where('p.normalizedUrl = :url')
+            ->where('p.normalizedUrl = :normalizedUrl')
             ->andWhere('p.createdAt > :threshold')
             ->setParameter('normalizedUrl', $normalizedUrl)
             ->setParameter('threshold', $dateThreshold)
@@ -91,5 +91,21 @@ class PostRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    /**
+     * Find recent posts within a specific time window (e.g., 365 days)
+     * @return Post[]
+     */
+    public function findRecent(int $daysWindow = 365): array
+    {
+        $dateThreshold = new DateTimeImmutable("-{$daysWindow} days");
+
+        return $this->createQueryBuilder('p')
+            ->where('p.createdAt > :threshold')
+            ->setParameter('threshold', $dateThreshold)
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 }
