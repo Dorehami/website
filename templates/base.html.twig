@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl" class="font-sans">
+<html lang="fa" dir="rtl" class="font-sans scroll-smooth">
 
 <head>
     <meta charset="utf-8">
@@ -35,54 +35,77 @@
         }</script>
 </head>
 
-<body class="min-h-screen flex flex-col bg-white text-gray-900">
-<header class="shadow shadow-2xl">
-    <div class="container mx-auto px-4 py-2">
-        <nav class="flex items-center justify-between">
-            <div class="flex items-center">
-                <a href="{{ path('app_home') }}" class="text-xl font-bold text-primary-800">دورهمی</a>
-                <span class="mx-2 text-sm text-gray-600">|</span>
-                <span class="text-sm text-gray-600">جامعه توسعه‌دهندگان نرم‌افزار</span>
-            </div>
+<body class="min-h-screen flex flex-col bg-gray-50 text-gray-900">
 
-            <div class="hidden md:flex items-center space-x-6 space-x-reverse gap-4">
-                <a href="{{ path('app_home') }}" class="text-gray-800 hover:text-primary-600 transition duration-200">صفحه
-                    اصلی</a>
-                {% if is_granted('ROLE_USER') %}
-                    <a href="{{ path('app_post_new') }}"
-                       class="text-gray-800 hover:text-primary-600 transition duration-200">ارسال مطلب</a>
-                {% else %}
-                    <a href="{{ path('connect_discord') }}"
-                       class="text-gray-800 hover:text-primary-600 transition duration-200">ارسال مطلب</a>
-                {% endif %}
-            </div>
-
-            <div class="flex items-center space-x-4 space-x-reverse gap-4">
-                {% if is_granted('ROLE_USER') %}
-                    <div class="flex items-center gap-4">
-                        {% if app.user.avatarUrl %}
-                            <img src="{{ app.user.avatarUrl }}" alt="Avatar" class="w-8 h-8 rounded-full mr-2">
-                        {% endif %}
-                        <span class="text-sm text-gray-800 hidden md:inline-block">{{ app.user.email }}</span>
-
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <a href="{{ path('admin') }}"
-                               class="ml-4 text-primary-600 hover:text-primary-800 transition duration-200">
-                                پنل مدیریت
-                            </a>
-                        {% endif %}
-
-                        <a href="{{ path('app_logout') }}"
-                           class="ml-4 text-primary-600 hover:text-primary-800 transition duration-200">
-                            خروج
+<header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+    <div class="container mx-auto px-4 py-3">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4 divide-x divide-gray-300">
+                <div class="pl-4 flex items-center space-x-4 space-x-reverse">
+                    <a href="{{ path('app_home') }}" class="flex items-center">
+                        <span class="text-xl font-bold text-primary-600">دورهمی</span>
+                    </a>
+                    <div class="hidden md:flex items-center text-sm text-gray-500">
+                        <span class="mx-2">|</span>
+                        <span>جامعه توسعه‌دهندگان نرم‌افزار</span>
+                    </div>
+                </div>
+                <nav class="hidden md:flex items-center space-x-4 space-x-reverse gap-4">
+                    <a href="{{ path('app_home') }}"
+                       class="text-gray-600 hover:text-primary-600 py-2 transition-colors duration-200">
+                        صفحه اصلی
+                    </a>
+                    {% if is_granted('ROLE_USER') %}
+                        <a href="{{ path('app_post_new') }}"
+                           class="text-gray-600 hover:text-primary-600 py-2 transition-colors duration-200">
+                            ارسال مطلب
                         </a>
+                    {% else %}
+                        <a href="{{ path('connect_discord') }}"
+                           class="text-gray-600 hover:text-primary-600 py-2 transition-colors duration-200">
+                            ارسال مطلب
+                        </a>
+                    {% endif %}
+                </nav>
+            </div>
+            
+            <div class="flex items-center gap-2 md:gap-4">
+                {% if is_granted('ROLE_USER') %}
+                    <div class="flex items-center gap-2 md:gap-4 relative group">
+                        <button type="button" class="flex items-center focus:outline-none">
+                            {% if app.user.avatarUrl %}
+                                <img src="{{ app.user.avatarUrl }}" alt="Avatar" class="w-8 h-8 rounded-full">
+                            {% else %}
+                                <div class="w-8 h-8 rounded-full bg-primary-200 flex items-center justify-center text-primary-600">
+                                    {{ app.user.email|first|upper }}
+                                </div>
+                            {% endif %}
+                            <span class="hidden md:inline-block ml-2 text-sm text-gray-700">{{ app.user.displayName }}</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        
+                        <div class="absolute right-0 mt-2 top-full w-48 bg-white rounded-md shadow-lg py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-150 ease-in-out z-50">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('admin') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    پنل مدیریت
+                                </a>
+                            {% endif %}
+                            <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                خروج
+                            </a>
+                        </div>
                     </div>
                 {% else %}
                     <a href="{{ path('app_login') }}"
-                       class="text-primary-600 hover:text-primary-800 transition duration-200">ورود</a>
+                       class="text-primary-600 hover:text-primary-800 transition-colors duration-200 text-sm">
+                        ورود
+                    </a>
                     <a href="{{ path('connect_discord') }}"
-                       class="flex items-center py-2 px-4 rounded bg-primary-600 text-white text-sm hover:bg-primary-700 transition duration-200">
-                        <svg class="h-5 w-5 ml-2" fill="currentColor" viewBox="0 0 24 24">
+                       class="flex items-center py-1.5 px-3 rounded-md bg-primary-600 text-white text-sm hover:bg-primary-700 transition-colors duration-200 shadow-sm">
+                        <svg class="h-4 w-4 ml-1.5" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
                         </svg>
                         <span>ورود با دیسکورد</span>
@@ -91,56 +114,90 @@
             </div>
 
             
-            <div class="md:hidden">
-                <button type="button" class="text-gray-800 hover:text-primary-600" x-data="{}"
-                        @click="$dispatch('toggle-mobile-menu')">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                         stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M4 6h16M4 12h16M4 18h16"/>
-                    </svg>
-                </button>
-            </div>
-        </nav>
+            <button type="button" class="md:hidden p-2 rounded-md text-gray-600 hover:text-primary-600 hover:bg-gray-100 focus:outline-none"
+                    x-data="{}" @click="$dispatch('toggle-mobile-menu')">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
 
         
         <div class="md:hidden hidden" x-data="{ open: false }" @toggle-mobile-menu.window="open = !open" x-show="open"
-             x-transition>
-            <div class="py-3 space-y-3">
-                <a href="{{ path('app_home') }}"
-                   class="block py-2 text-gray-800 hover:text-primary-600 transition duration-200">صفحه اصلی</a>
-                
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 transform scale-95"
+             x-transition:enter-end="opacity-100 transform scale-100"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 transform scale-100"
+             x-transition:leave-end="opacity-0 transform scale-95">
+            <div class="pt-2 pb-4 space-y-1 border-t border-gray-200 mt-3">
+                <a href="{{ path('app_home') }}" class="block py-2 px-4 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-primary-600 rounded-md">
+                    صفحه اصلی
+                </a>
+                {% if is_granted('ROLE_USER') %}
+                    <a href="{{ path('app_post_new') }}" class="block py-2 px-4 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-primary-600 rounded-md">
+                        ارسال مطلب
+                    </a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('admin') }}" class="block py-2 px-4 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-primary-600 rounded-md">
+                            پنل مدیریت
+                        </a>
+                    {% endif %}
+                    <a href="{{ path('app_logout') }}" class="block py-2 px-4 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-primary-600 rounded-md">
+                        خروج
+                    </a>
+                {% else %}
+                    <a href="{{ path('connect_discord') }}" class="block py-2 px-4 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-primary-600 rounded-md">
+                        ارسال مطلب
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>
 </header>
 
 
-<main class="flex-grow container mx-auto px-4 py-8">
+<div class="container mx-auto px-4 pt-4">
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="mb-4 p-4 rounded-lg transition-all duration-500 ease-in-out {% if type == 'success' %}bg-green-50 border border-green-200 text-green-800{% elseif type == 'error' %}bg-red-50 border border-red-200 text-red-800{% elseif type == 'info' %}bg-blue-50 border border-blue-200 text-blue-800{% else %}bg-yellow-50 border border-yellow-200 text-yellow-800{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+
+
+<main class="flex-grow container mx-auto px-4 py-6">
     {% block body %}{% endblock %}
 </main>
 
 
-<footer class="border-t border-gray-200 py-6">
+<footer class="bg-white border-t border-gray-200 py-8 mt-12">
     <div class="container mx-auto px-4">
         <div class="flex flex-col md:flex-row justify-between items-center">
-            <div class="mb-4 md:mb-0">
-                <p class="text-gray-600 text-sm">&copy; {{ "now"|date("Y")|persian_number }} دورهمی. تمامی حقوق محفوظ
-                    است.</p>
+            <div class="mb-6 md:mb-0">
+                <a href="{{ path('app_home') }}" class="font-bold text-xl text-primary-600">دورهمی</a>
+                <p class="text-gray-500 text-sm mt-2">&copy; {{ "now"|date("Y")|persian_number }} دورهمی. تمامی حقوق محفوظ است.</p>
             </div>
-            <div class="flex items-center space-x-4 space-x-reverse gap-4">
-                <a href="https://github.com/Dorehami" target="_blank"
-                   class="text-gray-600 hover:text-primary-600 transition duration-200">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                </a>
-                <a href="{{ path('redirect_invite') }}"
-                   class="text-gray-600 hover:text-primary-600 transition duration-200">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
-                    </svg>
-                </a>
+
+            <div class="flex flex-col items-center md:items-end">
+                <div class="flex space-x-4 space-x-reverse mb-4 gap-2">
+                    <a href="https://github.com/Dorehami" target="_blank" rel="noopener"
+                       class="text-gray-500 hover:text-gray-900 transition-colors duration-200">
+                        <span class="sr-only">GitHub</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="{{ path('redirect_invite') }}" target="_blank" rel="noopener"
+                       class="text-gray-500 hover:text-gray-900 transition-colors duration-200">
+                        <span class="sr-only">Discord</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
+                        </svg>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
