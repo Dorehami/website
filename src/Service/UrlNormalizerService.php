@@ -14,7 +14,7 @@ class UrlNormalizerService
         $url = rtrim($url, '/');
         $url = preg_replace('/^https?:\/\//', '', $url);
         $url = preg_replace('/^www\./', '', $url);
-        
+
         return $url;
     }
 }

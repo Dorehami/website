@@ -24,8 +24,7 @@ class PostController extends AbstractController
         EntityManagerInterface $entityManager,
         PostRepository $postRepository,
         UrlNormalizerService $urlNormalizer
-    ): Response
-    {
+    ): Response {
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);

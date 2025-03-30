@@ -1,4 +1,5 @@
 <?php
+
 // src/Controller/SitemapController.php
 
 namespace App\Controller;

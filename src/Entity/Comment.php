@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Comment
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\Column]
     private ?int $id = null;
     #[ORM\Column(type: 'text')]
