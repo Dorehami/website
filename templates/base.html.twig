@@ -41,28 +41,29 @@
     <div class="container mx-auto px-4 py-3">
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-4 divide-x divide-gray-300">
-                <div class="pl-4 flex items-center space-x-4 space-x-reverse">
+                <div class="pl-8 flex items-center space-x-4 space-x-reverse">
                     <a href="{{ path('app_home') }}" class="flex items-center">
                         <span class="text-xl font-bold text-primary-600">دورهمی</span>
                     </a>
                     <div class="hidden md:flex items-center text-sm text-gray-500">
-                        <span class="mx-2">|</span>
+                        <span class="mx-2"></span>
                         <span>جامعه توسعه‌دهندگان نرم‌افزار</span>
                     </div>
                 </div>
-                <nav class="hidden md:flex items-center space-x-4 space-x-reverse gap-4">
+                <nav class="hidden md:flex items-center gap-4">
                     <a href="{{ path('app_home') }}"
-                       class="text-gray-600 hover:text-primary-600 py-2 transition-colors duration-200">
+                       class="text-gray-600 hover:text-primary-600 transition-colors duration-200">
                         صفحه اصلی
                     </a>
+                    <a href="{{ path('app_rules') }}" class="text-gray-800 hover:text-primary-600 transition duration-200">قوانین</a>
                     {% if is_granted('ROLE_USER') %}
                         <a href="{{ path('app_post_new') }}"
-                           class="text-gray-600 hover:text-primary-600 py-2 transition-colors duration-200">
+                           class="text-gray-600 hover:text-primary-600 transition-colors duration-200">
                             ارسال مطلب
                         </a>
                     {% else %}
                         <a href="{{ path('connect_discord') }}"
-                           class="text-gray-600 hover:text-primary-600 py-2 transition-colors duration-200">
+                           class="text-gray-600 hover:text-primary-600 transition-colors duration-200">
                             ارسال مطلب
                         </a>
                     {% endif %}
@@ -122,34 +123,18 @@
             </button>
         </div>
 
-        
+
+        <!-- Modify the mobile menu section in base.html.twig -->
         <div class="md:hidden hidden" x-data="{ open: false }" @toggle-mobile-menu.window="open = !open" x-show="open"
-             x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0 transform scale-95"
-             x-transition:enter-end="opacity-100 transform scale-100"
-             x-transition:leave="transition ease-in duration-150"
-             x-transition:leave-start="opacity-100 transform scale-100"
-             x-transition:leave-end="opacity-0 transform scale-95">
-            <div class="pt-2 pb-4 space-y-1 border-t border-gray-200 mt-3">
-                <a href="{{ path('app_home') }}" class="block py-2 px-4 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-primary-600 rounded-md">
-                    صفحه اصلی
-                </a>
+             x-transition>
+            <div class="py-3 space-y-3">
+                <a href="{{ path('app_home') }}"
+                   class="block py-2 text-gray-800 hover:text-primary-600 transition duration-200">صفحه اصلی</a>
+                <a href="{{ path('app_rules') }}"
+                   class="block py-2 text-gray-800 hover:text-primary-600 transition duration-200">قوانین</a>
                 {% if is_granted('ROLE_USER') %}
-                    <a href="{{ path('app_post_new') }}" class="block py-2 px-4 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-primary-600 rounded-md">
-                        ارسال مطلب
-                    </a>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('admin') }}" class="block py-2 px-4 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-primary-600 rounded-md">
-                            پنل مدیریت
-                        </a>
-                    {% endif %}
-                    <a href="{{ path('app_logout') }}" class="block py-2 px-4 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-primary-600 rounded-md">
-                        خروج
-                    </a>
-                {% else %}
-                    <a href="{{ path('connect_discord') }}" class="block py-2 px-4 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-primary-600 rounded-md">
-                        ارسال مطلب
-                    </a>
+                    <a href="{{ path('app_post_new') }}"
+                       class="block py-2 text-gray-800 hover:text-primary-600 transition duration-200">ارسال مطلب</a>
                 {% endif %}
             </div>
         </div>
@@ -182,7 +167,7 @@
             </div>
 
             <div class="flex flex-col items-center md:items-end">
-                <div class="flex space-x-4 space-x-reverse mb-4 gap-2 items-center justify-center">
+                <div class="flex mb-4 gap-4 items-center justify-center">
                     <a href="https://github.com/Dorehami" target="_blank" rel="noopener"
                        class="text-gray-500 hover:text-gray-900 transition-colors duration-200">
                         <span class="sr-only">GitHub</span>

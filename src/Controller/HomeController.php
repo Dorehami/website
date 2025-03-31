@@ -34,4 +34,10 @@ class HomeController extends AbstractController
             'filter' => $filter
         ]);
     }
+
+    #[Route('/rules', name: 'app_rules')]
+    public function rules()
+    {
+        return $this->render('home/rules.html.twig');
+    }
 }
