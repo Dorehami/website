@@ -95,6 +95,7 @@ class DiscordAuthenticator extends OAuth2Authenticator implements Authentication
                     $user->setAvatarUrl('https://cdn.discordapp.com/avatars/' . $discordUser->getId() . '/' . $discordUser->getAvatarHash() . '.png');
                 }
                 // Use a blank password since login is via Discord
+                // @TODO: security concern?
                 $user->setPassword('');
                 $user->setRoles(['ROLE_USER']);
 

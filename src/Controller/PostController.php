@@ -18,6 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class PostController extends AbstractController
 {
     #[Route('/new', name: 'app_post_new', methods: ['GET', 'POST'])]
+    #[IsGranted('user_action')]
     #[IsGranted('ROLE_USER')]
     public function new(
         Request $request,
@@ -62,6 +63,7 @@ class PostController extends AbstractController
     }
 
     #[Route('/{id}/vote', name: 'app_post_vote', methods: ['POST'])]
+    #[IsGranted('user_action')]
     #[IsGranted('ROLE_USER')]
     public function vote(Post $post, Request $request, EntityManagerInterface $entityManager): Response
     {
