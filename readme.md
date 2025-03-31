@@ -90,7 +90,12 @@ docker compose up -d
 ./docker/bin/console doctrine:migrations:migrate
 ```
 
-7. دسترسی به وب‌سایت در آدرس http://localhost:8080
+7. اضافه کردن داده‌های نمونه (اختیاری):
+```bash
+./docker/bin/console doctrine:fixtures:load
+```
+
+8. دسترسی به وب‌سایت در آدرس http://localhost:8080
 
 ## جریان کار توسعه
 
