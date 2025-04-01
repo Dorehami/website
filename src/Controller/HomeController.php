@@ -17,21 +17,12 @@ class HomeController extends AbstractController
         PostRepository $postRepository,
         DiscordService $discordService,
     ): Response {
-        $filter = $request->query->get('filter', 'newest');
-        $page = max(1, (int)$request->query->get('page', 1));
-
-        $result = match ($filter) {
-            'popular' => $postRepository->findMostPopular(10, $page),
-            default => $postRepository->findNewest(10, $page)
-        };
-
         $discordInfo = $discordService->fetchWidgetData();
+        $discordEvents = $discordService->fetchUpcomingEvents();
 
         return $this->render('home/index.html.twig', [
-            'posts' => $result['posts'],
-            'pagination' => $result['pagination'],
             'discord_info' => $discordInfo,
-            'filter' => $filter
+            'discord_events' => $discordEvents,
         ]);
     }
 

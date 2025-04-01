@@ -55,16 +55,12 @@
                        class="text-gray-600 hover:text-primary-600 transition-colors duration-200">
                         صفحه اصلی
                     </a>
-                    <a href="{{ path('app_rules') }}" class="text-gray-800 hover:text-primary-600 transition duration-200">قوانین</a>
+                    <a href="{{ path('app_rules') }}" class="text-gray-600 hover:text-primary-600 transition duration-200">قوانین</a>
+                    <a href="{{ path('app_posts') }}" class="text-gray-600 hover:text-primary-600 transition duration-200">مقالات و منابع</a>
                     {% if is_granted('ROLE_USER') %}
                         <a href="{{ path('app_post_new') }}"
                            class="text-gray-600 hover:text-primary-600 transition-colors duration-200">
-                            ارسال مطلب
-                        </a>
-                    {% else %}
-                        <a href="{{ path('connect_discord') }}"
-                           class="text-gray-600 hover:text-primary-600 transition-colors duration-200">
-                            ارسال مطلب
+                            ارسال مقاله
                         </a>
                     {% endif %}
                 </nav>
@@ -132,6 +128,8 @@
                    class="block py-2 text-gray-800 hover:text-primary-600 transition duration-200">صفحه اصلی</a>
                 <a href="{{ path('app_rules') }}"
                    class="block py-2 text-gray-800 hover:text-primary-600 transition duration-200">قوانین</a>
+                <a href="{{ path('app_posts') }}"
+                   class="block py-2 text-gray-800 hover:text-primary-600 transition duration-200">مقاله‌ها</a>
                 {% if is_granted('ROLE_USER') %}
                     <a href="{{ path('app_post_new') }}"
                        class="block py-2 text-gray-800 hover:text-primary-600 transition duration-200">ارسال مطلب</a>

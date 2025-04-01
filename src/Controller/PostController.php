@@ -34,7 +34,7 @@ class PostController extends AbstractController
             $existingPost = $postRepository->findRecentByNormalizedUrl($post->getUrl());
 
             if ($existingPost) {
-                $this->addFlash('info', 'این لینک قبلاً ارسال شده است. به صفحه مطلب قبلی هدایت می‌شوید.');
+                $this->addFlash('info', 'این لینک قبلاً ارسال شده است. به صفحه مقاله قبلی هدایت می‌شوید.');
                 return $this->redirectToRoute('app_post_show', ['id' => $existingPost->getId()]);
             }
 
@@ -44,7 +44,7 @@ class PostController extends AbstractController
             $entityManager->persist($post);
             $entityManager->flush();
 
-            $this->addFlash('success', 'مطلب شما با موفقیت ارسال شد.');
+            $this->addFlash('success', 'مقاله شما با موفقیت ارسال شد.');
             return $this->redirectToRoute('app_home');
         }
 
@@ -69,7 +69,7 @@ class PostController extends AbstractController
     {
         // Check if the user has already voted
         if ($post->hasVotedBy($this->getUser())) {
-            $this->addFlash('error', 'شما قبلاً به این مطلب رأی داده‌اید.');
+            $this->addFlash('error', 'شما قبلاً به این مقاله رأی داده‌اید.');
             return $this->redirectToRoute('app_post_show', ['id' => $post->getId()]);
         }
 
@@ -83,5 +83,25 @@ class PostController extends AbstractController
 
         $this->addFlash('success', 'رأی شما با موفقیت ثبت شد.');
         return $this->redirectToRoute('app_post_show', ['id' => $post->getId()]);
+    }
+
+    #[Route('/', name: 'app_posts')]
+    public function index(
+        Request $request,
+        PostRepository $postRepository,
+    ): Response {
+        $filter = $request->query->get('filter', 'newest');
+        $page = max(1, (int)$request->query->get('page', 1));
+
+        $result = match ($filter) {
+            'popular' => $postRepository->findMostPopular(10, $page),
+            default => $postRepository->findNewest(10, $page)
+        };
+
+        return $this->render('post/index.html.twig', [
+            'posts' => $result['posts'],
+            'pagination' => $result['pagination'],
+            'filter' => $filter
+        ]);
     }
 }

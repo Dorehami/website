@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -104,5 +105,34 @@ class DiscordService
         }
 
         return json_decode($response->getBody()->getContents(), true);
+    }
+
+    /**
+     * Fetch upcoming Discord events
+     */
+    public function fetchUpcomingEvents(): array
+    {
+        try {
+            $response = $this->httpClient->request('GET', "{$this->guildUrl}/scheduled-events", [
+                'headers' => [
+                    'Authorization' => "Bot {$this->discordToken}",
+                    'Content-Type' => 'application/json',
+                ]
+            ]);
+
+            if ($response->getStatusCode() !== 200) {
+                return [];
+            }
+
+            $events = json_decode($response->getBody()->getContents(), true);
+
+            usort($events, function ($a, $b) {
+                return strtotime($a['scheduled_start_time']) - strtotime($b['scheduled_start_time']);
+            });
+
+            return $events;
+        } catch (Exception $e) {
+            return [];
+        }
     }
 }

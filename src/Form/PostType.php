@@ -17,7 +17,7 @@ class PostType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'عنوان',
                 'attr' => [
-                    'placeholder' => 'عنوان مطلب را وارد کنید',
+                    'placeholder' => 'عنوان مقاله را وارد کنید',
                     'class' => 'w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500'
                 ],
                 'row_attr' => [
@@ -27,7 +27,7 @@ class PostType extends AbstractType
             ->add('url', UrlType::class, [
                 'label' => 'آدرس',
                 'attr' => [
-                    'placeholder' => 'آدرس اینترنتی مطلب را وارد کنید',
+                    'placeholder' => 'آدرس اینترنتی مقاله را وارد کنید',
                     'class' => 'w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500'
                 ],
                 'row_attr' => [
