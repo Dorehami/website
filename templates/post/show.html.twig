@@ -32,7 +32,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-6xl mx-auto">
         <!-- Post Content Card -->
         <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
             <!-- Post Header -->
@@ -215,7 +215,7 @@
                                         <span class="font-medium text-gray-900">{{ comment.author.displayName }}</span>
                                         <span class="inline-block px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full">{{ comment.createdAt|persian_ago }}</span>
                                     </div>
-                                    <div class="text-gray-700 prose-sm whitespace-pre-line max-w-none">
+                                    <div class="text-gray-700 text-sm prose-sm whitespace-pre-line max-w-none">
                                         {{ comment.content|nl2br }}
                                     </div>
                                 </div>

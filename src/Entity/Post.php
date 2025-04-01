@@ -38,6 +38,7 @@ class Post
     private ?DateTimeImmutable $createdAt = null;
 
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class, orphanRemoval: true)]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private Collection $comments;
 
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: PostVote::class, orphanRemoval: true)]
