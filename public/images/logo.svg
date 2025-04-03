@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <!-- Gradients -->
+    <defs>
+        <linearGradient id="primary-gradient" x1="15%" y1="0%" x2="85%" y2="100%">
+            <stop offset="0%" stop-color="#4F46E5"/>
+            <stop offset="50%" stop-color="#4338CA"/>
+            <stop offset="100%" stop-color="#3730A3"/>
+        </linearGradient>
+
+        <linearGradient id="secondary-gradient" x1="75%" y1="10%" x2="25%" y2="90%">
+            <stop offset="0%" stop-color="#818CF8"/>
+            <stop offset="60%" stop-color="#6366F1"/>
+            <stop offset="100%" stop-color="#4F46E5"/>
+        </linearGradient>
+
+        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+            <feOffset dx="0" dy="2" result="offsetblur"/>
+            <feComponentTransfer>
+                <feFuncA type="linear" slope="0.3"/>
+            </feComponentTransfer>
+            <feMerge>
+                <feMergeNode/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+
+    <!-- Interlocking community concept shapes -->
+    <g transform="translate(30, 30)">
+        <!-- Bottom left section -->
+        <path fill="url(#primary-gradient)" d="M30,80 C13.4,80 0,66.6 0,50 C0,33.4 13.4,20 30,20 C46.6,20 60,33.4 60,50 L45,50 C45,41.7 38.3,35 30,35 C21.7,35 15,41.7 15,50 C15,58.3 21.7,65 30,65 L30,80 Z" />
+
+        <!-- Top right section -->
+        <path fill="url(#secondary-gradient)" d="M110,60 C126.6,60 140,73.4 140,90 C140,106.6 126.6,120 110,120 C93.4,120 80,106.6 80,90 L95,90 C95,98.3 101.7,105 110,105 C118.3,105 125,98.3 125,90 C125,81.7 118.3,75 110,75 L110,60 Z" />
+
+        <!-- Top left section -->
+        <path fill="#4338CA" d="M55,45 C55,22.9 72.9,5 95,5 C117.1,5 135,22.9 135,45 L120,45 C120,31.2 108.8,20 95,20 C81.2,20 70,31.2 70,45 L55,45 Z" />
+
+        <!-- Bottom right section -->
+        <path fill="#6366F1" d="M85,95 C85,117.1 67.1,135 45,135 C22.9,135 5,117.1 5,95 L20,95 C20,108.8 31.2,120 45,120 C58.8,120 70,108.8 70,95 L85,95 Z" />
+
+        <!-- Central connecting element -->
+        <circle cx="70" cy="70" r="15" fill="#818CF8" />
+    </g>
+</svg>

@@ -84,24 +84,4 @@ class PostController extends AbstractController
         $this->addFlash('success', 'رأی شما با موفقیت ثبت شد.');
         return $this->redirectToRoute('app_post_show', ['id' => $post->getId()]);
     }
-
-    #[Route('/', name: 'app_posts')]
-    public function index(
-        Request $request,
-        PostRepository $postRepository,
-    ): Response {
-        $filter = $request->query->get('filter', 'newest');
-        $page = max(1, (int)$request->query->get('page', 1));
-
-        $result = match ($filter) {
-            'popular' => $postRepository->findMostPopular(10, $page),
-            default => $postRepository->findNewest(10, $page)
-        };
-
-        return $this->render('post/index.html.twig', [
-            'posts' => $result['posts'],
-            'pagination' => $result['pagination'],
-            'filter' => $filter
-        ]);
-    }
 }

@@ -1,20 +1,77 @@
-@import "../fonts/estedad/stylesheet.css";
+@import './additional-styles/custom-fonts.css';
 
 @import 'tailwindcss';
 
-@theme {
-    --color-primary-50: #ecfccb;
-    --color-primary-100: #d9fa98;
-    --color-primary-200: #c0f761;
-    --color-primary-300: #a6f43a;
-    --color-primary-400: #89f336;
-    --color-primary-500: #6ec529;
-    --color-primary-600: #54991f;
-    --color-primary-700: #3c7015;
-    --color-primary-800: #26490c;
-    --color-primary-900: #132405;
-    --color-primary-950: #091202;
+@import './additional-styles/utility-patterns.css' layer(components);
+@import './additional-styles/range-slider.css' layer(components);
+@import './additional-styles/toggle-switch.css' layer(components);
+@import './additional-styles/theme.css';
 
-    --font-sans: 'Estedad';
-    --font-script: 'Estedad';
+@plugin "@tailwindcss/forms" {
+    strategy: base;
+}
+
+@theme {
+    --font-inter: Inter, sans-serif;
+    --font-estedad: Estedad, sans-serif;
+    --font-badkhat: Badkhat, sans-serif;
+
+    --text-xs: 0.75rem;
+    --text-xs--line-height: 1.5;
+    --text-sm: 0.875rem;
+    --text-sm--line-height: 1.5715;
+    --text-base: 1rem;
+    --text-base--line-height: 1.5;
+    --text-base--letter-spacing: -0.01em;
+    --text-lg: 1.125rem;
+    --text-lg--line-height: 1.5;
+    --text-lg--letter-spacing: -0.01em;
+    --text-xl: 1.25rem;
+    --text-xl--line-height: 1.5;
+    --text-xl--letter-spacing: -0.01em;
+    --text-2xl: 1.5rem;
+    --text-2xl--line-height: 1.415;
+    --text-2xl--letter-spacing: -0.01em;
+    --text-3xl: 1.875rem;
+    --text-3xl--line-height: 1.333;
+    --text-3xl--letter-spacing: -0.01em;
+    --text-4xl: 2.25rem;
+    --text-4xl--line-height: 1.277;
+    --text-4xl--letter-spacing: -0.01em;
+    --text-5xl: 3rem;
+    --text-5xl--line-height: 1;
+    --text-5xl--letter-spacing: -0.01em;
+    --text-6xl: 3.75rem;
+    --text-6xl--line-height: 1;
+    --text-6xl--letter-spacing: -0.01em;
+    --text-7xl: 4.5rem;
+    --text-7xl--line-height: 1;
+    --text-7xl--letter-spacing: -0.01em;
+
+    --tracking-tighter: -0.02em;
+    --tracking-tight: -0.01em;
+    --tracking-normal: 0;
+    --tracking-wide: 0.01em;
+    --tracking-wider: 0.02em;
+    --tracking-widest: 0.4em;
+}
+
+
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+}
+
+@utility rtl {
+    direction: rtl;
+}
+
+/* See Alpine.js: https://github.com/alpinejs/alpine#x-cloak */
+[x-cloak=""] {
+    display: none;
 }

@@ -5,6 +5,9 @@ namespace App\DataFixtures;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Service\UrlNormalizerService;
+use DateInterval;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -28,11 +31,14 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
 
             for ($j = 1; $j <= self::NUM_POSTS_PER_USER; $j++) {
                 $post = new Post();
+                
+                $randHour = rand(1, 48);
+                $createdDateTime = (new DateTime())->sub(new DateInterval("PT{$randHour}H"));
 
                 $post->setAuthor($author);
                 $post->setTitle($faker->realText(20));
                 $post->setUrl($faker->url);
-                $post->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime));
+                $post->setCreatedAt(DateTimeImmutable::createFromMutable($createdDateTime));
                 $post->setNormalizedUrl(
                     $this->urlNormalizer->normalize($post->getUrl())
                 );

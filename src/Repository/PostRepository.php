@@ -33,6 +33,25 @@ class PostRepository extends ServiceEntityRepository
     /**
      * @return array Returns an array with posts and pagination info sorted by most popular (most votes)
      */
+    public function findMostPopularLastDay(int $limit = 5): array
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->leftJoin('p.votes', 'v')
+            ->leftJoin('p.comments', 'c')
+            ->groupBy('p.id')
+            ->orderBy('COUNT(v.id)', 'DESC')
+            ->addOrderBy('p.createdAt', 'DESC')
+            ->where('p.createdAt > :date')
+            ->setParameter('date', new DateTimeImmutable('-1 day'))
+            ->setMaxResults($limit)
+        ;
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    /**
+     * @return array Returns an array with posts and pagination info sorted by most popular (most votes)
+     */
     public function findMostPopular(int $limit = 10, int $page = 1): array
     {
         $queryBuilder = $this->createQueryBuilder('p')

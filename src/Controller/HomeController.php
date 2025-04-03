@@ -19,15 +19,40 @@ class HomeController extends AbstractController
     ): Response {
         $discordInfo = $discordService->fetchWidgetData();
         $discordEvents = $discordService->fetchUpcomingEvents();
+        $mostPopularPosts = $postRepository->findMostPopularLastDay();
 
+        $filter = $request->query->get('filter', 'newest');
+        $page = max(1, (int)$request->query->get('page', 1));
+
+        $result = match ($filter) {
+            'popular' => $postRepository->findMostPopular(10, $page),
+            default => $postRepository->findNewest(10, $page)
+        };
+        
         return $this->render('home/index.html.twig', [
             'discord_info' => $discordInfo,
             'discord_events' => $discordEvents,
+            'most_popular_posts' => $mostPopularPosts,
+            'posts' => $result['posts'],
+            'pagination' => $result['pagination'],
+            'filter' => $filter
         ]);
     }
 
     #[Route('/rules', name: 'app_rules')]
-    public function rules()
+    public function rules(): Response
+    {
+        return $this->render('home/rules.html.twig');
+    }
+
+    #[Route('/about', name: 'app_about')]
+    public function about(): Response
+    {
+        return $this->render('home/rules.html.twig');
+    }
+
+    #[Route('/faq', name: 'app_faq')]
+    public function faq(): Response
     {
         return $this->render('home/rules.html.twig');
     }

@@ -24,6 +24,10 @@ class DiscordService
         $this->guildUrl = "https://discord.com/api/guilds/{$this->guildId}";
         $this->apiUrl = "https://discord.com/api/v9";
     }
+    
+    public function getDiscordGuildId(): string {
+        return $this->guildId;
+    }
 
     /**
      * Get channels with their information including user counts
@@ -113,7 +117,7 @@ class DiscordService
     public function fetchUpcomingEvents(): array
     {
         try {
-            $response = $this->httpClient->request('GET', "{$this->guildUrl}/scheduled-events", [
+            $response = $this->httpClient->request('GET', "{$this->guildUrl}/scheduled-events?with_user_count=true", [
                 'headers' => [
                     'Authorization' => "Bot {$this->discordToken}",
                     'Content-Type' => 'application/json',

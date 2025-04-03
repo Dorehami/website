@@ -17,37 +17,47 @@ class TimeAgoExtension extends AbstractExtension
         ];
     }
 
-    public function formatTimeAgo(DateTimeInterface $dateTime): string
+    public function formatTimeAgo(DateTimeInterface|string $dateTime): string
     {
+        if (is_string($dateTime)) {
+            $dt = new DateTime($dateTime);
+        } else {
+            $dt = $dateTime;
+        }
+        
         $now = new DateTime();
-        $diff = $now->getTimestamp() - $dateTime->getTimestamp();
+        $diff = $now->getTimestamp() - $dt->getTimestamp();
+        
+        $prefix = $diff > 1 ? 'پیش' : 'دیگر';
+        
+        $diff = abs($diff);
 
         if ($diff < 60) {
-            return 'چند لحظه پیش';
+            return "چند لحظه $prefix";
         }
 
         if ($diff < 3600) {
             $minutes = floor($diff / 60);
-            return $this->formatPersianNumber($minutes) . ' دقیقه پیش';
+            return $this->formatPersianNumber($minutes) . "$prefix دقیقه ";
         }
 
         if ($diff < 86400) {
             $hours = floor($diff / 3600);
-            return $this->formatPersianNumber($hours) . ' ساعت پیش';
+            return $this->formatPersianNumber($hours) . " ساعت $prefix";
         }
 
         if ($diff < 2592000) {
             $days = floor($diff / 86400);
-            return $this->formatPersianNumber($days) . ' روز پیش';
+            return $this->formatPersianNumber($days) . " روز $prefix";
         }
 
         if ($diff < 31536000) {
             $months = floor($diff / 2592000);
-            return $this->formatPersianNumber($months) . ' ماه پیش';
+            return $this->formatPersianNumber($months) . " $prefix ماه ";
         }
 
         $years = floor($diff / 31536000);
-        return $this->formatPersianNumber($years) . ' سال پیش';
+        return $this->formatPersianNumber($years) . " سال $prefix";
     }
 
     public function formatPersianNumber(int $number): string
