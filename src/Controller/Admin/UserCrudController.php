@@ -29,6 +29,7 @@ class UserCrudController extends AbstractCrudController
         private readonly UserPasswordHasherInterface $passwordHasher
     ) {
     }
+
     public static function getEntityFqcn(): string
     {
         return User::class;
@@ -112,15 +113,6 @@ class UserCrudController extends AbstractCrudController
     }
 
     /**
-     * @param User $entityInstance
-     */
-    public function updateEntity($entityFqcn, $entityInstance): void
-    {
-        $this->hashPassword($entityInstance);
-        parent::updateEntity($entityFqcn, $entityInstance);
-    }
-
-    /**
      * @param User $user
      */
     private function hashPassword(User $user): void
@@ -135,6 +127,15 @@ class UserCrudController extends AbstractCrudController
         );
 
         $user->setPassword($hashedPassword);
+    }
+
+    /**
+     * @param User $entityInstance
+     */
+    public function updateEntity($entityFqcn, $entityInstance): void
+    {
+        $this->hashPassword($entityInstance);
+        parent::updateEntity($entityFqcn, $entityInstance);
     }
 
     public function banUser(AdminUrlGenerator $adminUrlGenerator, EntityManagerInterface $entityManager): Response

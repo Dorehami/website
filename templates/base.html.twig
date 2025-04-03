@@ -43,19 +43,29 @@
             <div class="flex items-center justify-between h-16 md:h-20">
                 <div class="shrink-0 mr-4">
                     <a class="block group" href="{{ path('app_home') }}" aria-label="Dorehami">
-                        <img src="{{ asset('images/logo.svg') }}" width="32" height="32" alt="جامعه‌ی دورهمی" />
+                        <img src="{{ asset('images/logo.svg') }}" width="32" height="32" alt="جامعه‌ی دورهمی"/>
                     </a>
                 </div>
 
-                <!-- Desktop navigation -->
                 <nav class="flex grow">
                     <ul class="flex grow justify-end flex-wrap items-center">
                         <li>
-                            <a class="text-sm font-medium text-slate-400 hover:text-slate-200 px-3 lg:px-5 py-2 flex items-center transition duration-150 ease-in-out" href="{{ path('app_login') }}">ورود</a>
+                            {% if is_granted('ROLE_USER') %}
+                                <div class="flex gap-1 px-3 lg:px-5 py-2 ">
+                                    <img src="{{ app.user.avatarUrl }}" alt="{{ app.user.displayName }}" class="w-8 h-8 rounded-full">
+                                    <span class="text-sm font-medium text-slate-400 flex items-center">{{ app.user.displayName }}</span>
+                                </div>
+                            {% else %}
+                                <a class="text-sm font-medium text-slate-400 hover:text-slate-200 px-3 lg:px-5 py-2 flex items-center transition duration-150 ease-in-out"
+                                   href="{{ path('app_login') }}">ورود</a>
+                            {% endif %}
                         </li>
-                        <li class="ml-3">
-                            <a class="btn-sm text-white bg-indigo-500 hover:bg-indigo-600 w-full" href="{{ path('connect_discord') }}">پیوستن به جامعه</a>
-                        </li>
+                        {% if not is_granted('ROLE_USER') %}
+                            <li class="ml-3">
+                                <a class="btn-sm text-white bg-indigo-500 hover:bg-indigo-600 w-full"
+                                   href="{{ path('connect_discord') }}">پیوستن به جامعه</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </nav>
             </div>
@@ -65,29 +75,33 @@
     <main class="grow">
         {% block body %}{% endblock %}
     </main>
-    
+
     <footer class="border-t border-slate-800">
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
             <div class="py-8">
                 <div class="flex flex-col md:flex-row items-center justify-center md:justify-between mb-4">
                     <div class="shrink-0 ml-4">
                         <a class="inline-flex group mb-8 md:mb-0" href="{{ path('app_home') }}" aria-label="Dorehami">
-                            <img src="{{ asset('images/logo.svg') }}" width="32" height="32" alt="جامعه‌ی دورهمی" />
+                            <img src="{{ asset('images/logo.svg') }}" width="32" height="32" alt="جامعه‌ی دورهمی"/>
                         </a>
                     </div>
                     <div class="text-sm font-medium md:order-1 mb-2 md:mb-0">
                         <ul class="inline-flex flex-wrap text-sm space-x-6">
                             <li>
-                                <a class="text-slate-500 underline hover:no-underline" href="{{ path('app_about') }}">درباره جامعه</a>
+                                <a class="text-slate-500 underline hover:no-underline" href="{{ path('app_about') }}">درباره
+                                    جامعه</a>
                             </li>
                             <li>
-                                <a class="text-slate-500 underline hover:no-underline" href="{{ path('app_rules') }}">قوائد و قوانین</a>
+                                <a class="text-slate-500 underline hover:no-underline" href="{{ path('app_rules') }}">قوانین
+                                    و مقررات</a>
                             </li>
                             <li>
-                                <a class="text-slate-500 underline hover:no-underline" href="{{ path('app_faq') }}">سوالات متداول</a>
+                                <a class="text-slate-500 underline hover:no-underline" href="{{ path('app_faq') }}">سوالات
+                                    متداول</a>
                             </li>
                             <li>
-                                <a class="text-slate-500 underline hover:no-underline" href="#0">ارتباطات</a>
+                                <a class="text-slate-500 underline hover:no-underline"
+                                   href="{{ path('redirect_invite') }}">پیوستن به دیسکورد</a>
                             </li>
                         </ul>
                     </div>
@@ -96,35 +110,35 @@
                 <div class="text-center md:flex md:items-center md:justify-between">
                     <ul class="inline-flex mb-4 md:order-1 md:mr-4 md:mb-0 space-x-2">
                         <li>
-                            <a class="flex justify-center items-center text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out" href="#0" aria-label="Twitter">
-                                <svg class="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="m13.063 9 3.495 4.475L20.601 9h2.454l-5.359 5.931L24 23h-4.938l-3.866-4.893L10.771 23H8.316l5.735-6.342L8 9h5.063Zm-.74 1.347h-1.457l8.875 11.232h1.36l-8.778-11.232Z"></path>
+                            <a class="flex justify-center items-center text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out"
+                               href="{{ path('redirect_invite') }}" aria-label="Discord">
+                                <svg class="w-8 h-8 fill-current" viewBox="0 0 32 32"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M24.242 9.115c-2.865-2.144-5.61-2.084-5.61-2.084l-.28.321c3.406.944 4.985 2.3 4.985 2.3-1.508-.824-2.955-1.375-4.323-1.568-.999-.135-1.96-.103-2.8.024l-.238.032c-.477.054-1.631.222-3.091.87l-.801.404s1.65-1.436 5.261-2.39l-.202-.25s-2.744-.06-5.61 2.082c0 0-2.865 5.189-2.865 11.595 0 0 1.672 2.886 6.067 3.025 0 0 .736-.89 1.33-1.648-2.522-.758-3.476-2.351-3.476-2.351s.199.141.556.342c.02 0 .039.02.058.039.045.032.09.046.136.077.377.214.754.381 1.102.517.618.238 1.357.476 2.216.639 1.131.214 2.455.293 3.899.017.708-.135 1.435-.341 2.201-.639.53-.214 1.122-.517 1.734-.954 0 0-.994 1.633-3.588 2.371.595.757 1.311 1.629 1.311 1.629 4.395-.139 6.086-3.025 6.086-3.025 0-6.406-2.865-11.595-2.865-11.595zM10.909 19.07c-1.122 0-2.034-1.036-2.034-2.309 0-1.274.893-2.31 2.034-2.31 1.15 0 2.063 1.036 2.044 2.31 0 1.273-.893 2.309-2.044 2.309zm7.304 0c-1.122 0-2.034-1.036-2.034-2.309 0-1.274.912-2.31 2.034-2.31 1.15 0 2.063 1.036 2.044 2.31 0 1.273-.893 2.309-2.044 2.309z"/>
                                 </svg>
                             </a>
                         </li>
                         <li>
-                            <a class="flex justify-center items-center text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out" href="#0" aria-label="YouTube">
-                                <svg class="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M23.8 12.8c-.2-1.3-.8-2.2-2.2-2.4C19.4 10 16 10 16 10s-3.4 0-5.6.4c-1.4.2-2.1 1.1-2.2 2.4C8 14.1 8 16 8 16s0 1.9.2 3.2c.2 1.3.8 2.2 2.2 2.4 2.2.4 5.6.4 5.6.4s3.4 0 5.6-.4c1.4-.3 2-1.1 2.2-2.4.2-1.3.2-3.2.2-3.2s0-1.9-.2-3.2ZM14 19v-6l5 3-5 3Z"></path>
-                                </svg>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="flex justify-center items-center text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out" href="#0" aria-label="Github">
-                                <svg class="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                            <a class="flex justify-center items-center text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out"
+                               href="https://github.com/Dorehami" target="_blank" rel="noopener" aria-label="Github">
+                                <svg class="w-8 h-8 fill-current" viewBox="0 0 32 32"
+                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M16 8.2c-4.4 0-8 3.6-8 8 0 3.5 2.3 6.5 5.5 7.6.4.1.5-.2.5-.4V22c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.3.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8.6-.2 1.3-.3 2-.3s1.4.1 2 .3c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.1 0 3.1-1.9 3.7-3.7 3.9.3.4.6.9.6 1.6v2.2c0 .2.1.5.6.4 3.2-1.1 5.5-4.1 5.5-7.6-.1-4.4-3.7-8-8.1-8z"></path>
                                 </svg>
                             </a>
                         </li>
                         <li>
-                            <a class="flex justify-center items-center text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out" href="#0" aria-label="Telegram">
-                                <svg class="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M22.968 10.276a.338.338 0 0 0-.232-.253 1.192 1.192 0 0 0-.63.045s-14.019 5.038-14.82 5.596c-.172.121-.23.19-.259.272-.138.4.293.573.293.573l3.613 1.177a.388.388 0 0 0 .183-.011c.822-.519 8.27-5.222 8.7-5.38.068-.02.118 0 .1.049-.172.6-6.606 6.319-6.64 6.354a.138.138 0 0 0-.05.118l-.337 3.528s-.142 1.1.956 0a30.66 30.66 0 0 1 1.9-1.738c1.242.858 2.58 1.806 3.156 2.3a1 1 0 0 0 .732.283.825.825 0 0 0 .7-.622s2.561-10.275 2.646-11.658c.008-.135.021-.217.021-.317a1.177 1.177 0 0 0-.032-.316Z"></path>
+                            <a class="flex justify-center items-center text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out"
+                               href="https://www.linkedin.com/company/%D8%AF%D9%88%D8%B1%D9%87%D9%85%DB%8C-dorehami"
+                               target="_blank" rel="noopener" aria-label="LinkedIn">
+                                <svg class="w-8 h-8 fill-current" viewBox="0 0 32 32"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M23.3 8H8.7C8.3 8 8 8.3 8 8.7v14.7c0 .3.3.6.7.6h14.7c.4 0 .7-.3.7-.7V8.7c-.1-.4-.4-.7-.8-.7zM12.7 21.6h-2.3V14h2.4v7.6h-.1zM11.6 13.1c-.8 0-1.4-.7-1.4-1.4 0-.8.6-1.4 1.4-1.4.8 0 1.4.6 1.4 1.4-.1.7-.7 1.4-1.4 1.4zm10 8.5h-2.4v-3.7c0-.9 0-2-1.2-2s-1.4 1-1.4 2v3.8h-2.4V14h2.3v1c.3-.6 1.1-1.2 2.2-1.2 2.4 0 2.8 1.6 2.8 3.6v4.2h.1z"/>
                                 </svg>
                             </a>
                         </li>
                     </ul>
-                    <div class="text-sm text-slate-600">تمامی حقوق برای دورهمی محفوظ است.</div>
+                    <div class="text-sm text-slate-600">تمامی حقوق برای دورهمی محفوظ است. &copy; ۱۴۰۴</div>
                 </div>
             </div>
         </div>

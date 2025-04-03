@@ -6,6 +6,7 @@ use App\Entity\Post;
 use App\Entity\PostVote;
 use App\Form\PostType;
 use App\Repository\PostRepository;
+use App\Service\DiscordService;
 use App\Service\UrlNormalizerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,10 +56,18 @@ class PostController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_post_show', methods: ['GET'])]
-    public function show(Post $post): Response
-    {
+    public function show(
+        Post $post,
+        PostRepository $postRepository,
+        DiscordService $discordService,
+    ): Response {
+        $discordEvents = $discordService->fetchUpcomingEvents();
+        $mostPopularPosts = $postRepository->findMostPopularLastDay();
+
         return $this->render('post/show.html.twig', [
             'post' => $post,
+            'discord_events' => $discordEvents,
+            'most_popular_posts' => $mostPopularPosts,
         ]);
     }
 

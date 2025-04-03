@@ -41,7 +41,7 @@ class DiscordController extends AbstractController
     public function redirectToEvent(DiscordService $discordService, string $eventId): RedirectResponse
     {
         $guild = $discordService->getDiscordGuildId();
-        
+
         return $this->redirect("https://discord.com/events/$guild/$eventId");
     }
 }

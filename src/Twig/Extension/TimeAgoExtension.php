@@ -24,12 +24,12 @@ class TimeAgoExtension extends AbstractExtension
         } else {
             $dt = $dateTime;
         }
-        
+
         $now = new DateTime();
         $diff = $now->getTimestamp() - $dt->getTimestamp();
-        
+
         $prefix = $diff > 1 ? 'پیش' : 'دیگر';
-        
+
         $diff = abs($diff);
 
         if ($diff < 60) {

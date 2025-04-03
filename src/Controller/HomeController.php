@@ -28,7 +28,7 @@ class HomeController extends AbstractController
             'popular' => $postRepository->findMostPopular(10, $page),
             default => $postRepository->findNewest(10, $page)
         };
-        
+
         return $this->render('home/index.html.twig', [
             'discord_info' => $discordInfo,
             'discord_events' => $discordEvents,
@@ -48,12 +48,12 @@ class HomeController extends AbstractController
     #[Route('/about', name: 'app_about')]
     public function about(): Response
     {
-        return $this->render('home/rules.html.twig');
+        return $this->render('home/about.html.twig');
     }
 
     #[Route('/faq', name: 'app_faq')]
     public function faq(): Response
     {
-        return $this->render('home/rules.html.twig');
+        return $this->render('home/faq.html.twig');
     }
 }

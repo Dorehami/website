@@ -36,6 +36,7 @@ class Comment
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: true)]
     private ?User $moderatedBy = null;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();

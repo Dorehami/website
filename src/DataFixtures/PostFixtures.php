@@ -31,7 +31,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
 
             for ($j = 1; $j <= self::NUM_POSTS_PER_USER; $j++) {
                 $post = new Post();
-                
+
                 $randHour = rand(1, 48);
                 $createdDateTime = (new DateTime())->sub(new DateInterval("PT{$randHour}H"));
 

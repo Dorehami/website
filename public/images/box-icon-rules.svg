@@ -9,8 +9,7 @@
     <g fill="none" fill-rule="evenodd">
         <rect width="39" height="39" x=".5" y=".5" fill="#6366F1" fill-opacity=".16" stroke="url(#a)" rx="19.5"/>
         <rect width="27" height="27" x="6.5" y="6.5" fill="#6366F1" fill-opacity=".16" stroke="url(#a)" opacity=".32" rx="13.5"/>
-        <!-- Rules symbol (document with lines) -->
-        <rect x="15" y="13" width="10" height="14" rx="1" stroke="#818CF8" stroke-width="1.5" />
+                <rect x="15" y="13" width="10" height="14" rx="1" stroke="#818CF8" stroke-width="1.5" />
         <line x1="17" y1="16.5" x2="23" y2="16.5" stroke="#818CF8" stroke-width="1.5" stroke-linecap="round" />
         <line x1="17" y1="19.5" x2="23" y2="19.5" stroke="#818CF8" stroke-width="1.5" stroke-linecap="round" />
         <line x1="17" y1="22.5" x2="23" y2="22.5" stroke="#818CF8" stroke-width="1.5" stroke-linecap="round" />

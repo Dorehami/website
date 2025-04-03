@@ -4,236 +4,6 @@
 {% block meta_description %}دورهمی، جایی برای گردهمایی توسعه‌دهندگان نرم‌افزار ایرانی. به جامعه ما در دیسکورد بپیوندید و از منابع آموزشی، پرسش و پاسخ، و فرصت‌های شغلی بهره‌مند شوید.{% endblock %}
 {% block meta_keywords %}برنامه‌نویسی, توسعه نرم‌افزار, جامعه برنامه‌نویسان, دیسکورد, پرسش و پاسخ فنی{% endblock %}
 
-{#
-{% block body %}
-    <div class="max-w-6xl mx-auto">
-        {% for type, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="mb-4 p-4 rounded-md {% if type == 'success' %}bg-green-50 text-green-800{% else %}bg-red-50 text-red-800{% endif %}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endfor %}
-
-        <section class="py-12">
-            <div class="text-center">
-                <h1 class="text-4xl font-bold mb-4">دورهمی، برای برنامه‌نویس‌ها</h1>
-                <p class="text-lg max-w-3xl mx-auto mb-8">
-                    یه جامعه از برنامه‌نویس‌های فارسی زبان تو دیسکورد. یه جایی که میتونی، بر عکس کانال‌های
-                    تلگرامی، سریع و راحت جواب همه‌ی سوالاتت رو پیدا کنی و با بقیه برنامه‌نویس‌های فارسی زبان آشنا بشی.
-                </p>
-            </div>
-        </section>
-
-        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-8">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <h2 class="text-xl font-semibold text-primary-800 mb-2">جامعه دیسکورد و گیت‌هاب دورهمی</h2>
-                    <p class="text-gray-600">محیطی برای گفتگو و یادگیری توسعه نرم‌افزار</p>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="flex items-center mb-2">
-                        <svg class="w-5 h-5 text-primary-600 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none"
-                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/>
-                        </svg>
-                        <span class="text-2xl font-bold text-primary-800">{{ discord_info.total_members|persian_number }}</span>
-                        <span class="text-primary-500 mr-2">کاربر</span>
-                    </div>
-                    <div class="flex gap-2">
-                        <a href="{{ path('redirect_invite') }}"
-                           class="text-sm inline-flex items-center py-2 px-4 rounded bg-[#5865F2] text-white hover:bg-[#4752C4] transition duration-200">
-                            <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
-                            </svg>
-                            پیوستن به دیسکورد
-                        </a>
-                        <a href="https://github.com/Dorehami" target="_blank"
-                           class="text-sm inline-flex items-center py-2 px-4 rounded bg-[#24292E] text-white hover:bg-[#3A3A3A] transition duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" fill="currentColor"
-                                 viewBox="0 0 24 24">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                            </svg>
-                            پیوستن به گیت‌هاب
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <section class="my-12">
-            <h2 class="text-2xl font-bold mb-6 text-center">رویدادهای آینده</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {% for event in discord_events %}
-                    <div class="bg-white rounded-lg shadow overflow-hidden">
-                        {% if event.image %}
-                            <div class="h-36 bg-cover bg-center"
-                                 style="background-image: url('{{ event.image }}')"></div>
-                        {% else %}
-                            <div class="h-36 bg-primary-100 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-primary-400" fill="none"
-                                     viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                </svg>
-                            </div>
-                        {% endif %}
-                        <div class="p-4">
-                            <h3 class="text-lg font-bold mb-2">{{ event.name }}</h3>
-                            {% if event.description %}
-                                <p class="text-sm text-gray-600 mb-4">{{ event.description|length > 100 ? event.description|slice(0, 100) ~ '...' : event.description }}</p>
-                            {% endif %}
-                            <div class="flex justify-between items-center text-sm text-gray-500">
-                                <div class="flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none"
-                                         viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                    </svg>
-                                    <span>{{ event.scheduled_start_time|date('Y-m-d H:i') }}</span>
-                                </div>
-                                {% if event.creator %}
-                                    <div>
-                                        <span>توسط: {{ event.creator.username }}</span>
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-            <div class="mt-6 text-center">
-                <a href="{{ path('redirect_invite') }}"
-                   class="inline-flex items-center text-primary-600 hover:text-primary-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20"
-                         fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                    <span>مشاهده همه رویدادها در دیسکورد</span>
-                </a>
-            </div>
-        </section>
-
-        <section class="py-12">
-            <div class="text-center mb-12">
-                <h2 class="text-2xl font-bold mb-2">دورهمی چیه؟ کجاست؟</h2>
-                <h3 class="text-lg mb-4">یه جامعه‌ی در حال رشد از برنامه‌نویس‌های ایرانی</h3>
-                <p class="max-w-4xl mx-auto text-sm">
-                    دورهمی با این ایده تشکیل شده، که بتونه به عنوان یک <strong>شبکه‌ی اجتماعی ساده</strong>،
-                    برنامه‌نویس‌های ایرانی رو از همه‌ی جای دنیا گرد هم بیاره، فضای مشارکتی و گروهی رو فراهم کنه و تا
-                    جایی که ممکنه به برنامه‌نویس‌های تازه‌کار کمک کنه به منابع مفید و بروز دسترسی پیدا کنن. و همه‌ی
-                    اینها رو توی <strong>یکجا</strong> کنار هم بیاره.
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white rounded-lg p-6">
-                    <div class="mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-primary-600" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-lg font-bold mb-2">سوالات فنی</h3>
-                    <p class="text-sm">
-                        سوالی برات پیش اومده؟ جایی به مشکل خوردی و نمیتونی حلش کنی؟ به جای اینکه توی تلگرام پیام بذاری
-                        تا شاید کسی جواب بده، تو دورهمی میتونی از متخصص‌ها سریع جواب بگیری، و تو جواب‌های قبلی به سادگی
-                        جست‌وجو کنی!
-                    </p>
-                </div>
-
-                <div class="bg-white rounded-lg p-6">
-                    <div class="mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-primary-600" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-lg font-bold mb-2">رویدادهای مختلف</h3>
-                    <p class="text-sm">
-                        از رویدادهای مختلف برنامه‌نویس عقب نمون! اگر جایی جلسه‌ای باشه، یه رویدادی تو یه جای ایران و
-                        دنیا بخواد برگزار بشه، تو یه نقطه‌ی شهر بچه‌ها بخوان دور هم جمع بشن و در مورد یه تکنولوژی یا
-                        چیزی صحبت کنن، تو هم میتونی بخشی ازش باشی.
-                    </p>
-                </div>
-
-                <div class="bg-white rounded-lg p-6">
-                    <div class="mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-primary-600" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-lg font-bold mb-2">پروموشن پست‌‌های بلاگ</h3>
-                    <p class="text-sm">
-                        تو هم علاقه به مطلب و مقاله نوشتن داری؟ دنبال یه جایی میگردی که مطالب و مقالاتت رو به دست خواننده‌ها برسونی؟
-                        دورهمی بهترین جا برای توست! تو دورهمی یه کانال مجزا فقط برای پروموت کردن نوشته‌های بروبچه‌های
-                        وبلاگ‌دار گذاشته شده که بتونن ساده پست‌هاشون رو به اشتراک بذارن و خواننده جمع کنن.
-                    </p>
-                </div>
-
-                <div class="bg-white rounded-lg p-6">
-                    <div class="mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-primary-600" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-lg font-bold mb-2">Pair Programming</h3>
-                    <p class="text-sm">
-                        دنبال کسی هستی تا کنارش بتونی کد بزنی؟ دوست داری به چند نفر آموزش بدی؟ به جای اینکه تو چندین
-                        پلتفرم مختلف بری و عضو بشی، کافیه توی دورهمی یه اتاق رزرو کنی و از ۲ تا ۱۰ نفر رو کنار هم جمع
-                        کنی! میتونی با بقیه کد بزنی، سخنرانی کنی و با دوستاتون بازی کنی!
-                    </p>
-                </div>
-
-                <div class="bg-white rounded-lg p-6">
-                    <div class="mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-primary-600" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-lg font-bold mb-2">موقعیت‌های شغلی</h3>
-                    <p class="text-sm">
-                        دنبال کار هستی یا یه پوزیشن خالی داری؟ چه جایی بهتر از یه جامعه پر از برنامه‌نویس‌های خوب و
-                        علاقمند به کار شرکت‌هایی که دقیقا دنبال کسایی مثل تو میگردن؟ چه جایی بهتر از یه دورهمی
-                        برنامه‌نویسی؟
-                    </p>
-                </div>
-
-                <div class="bg-gradient-to-br from-primary-600 to-primary-700 rounded-xl p-6 shadow-md text-white">
-                    <div class="bg-white/20 w-14 h-14 rounded-lg flex items-center justify-center mb-5">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white mx-auto" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-lg font-bold mb-2">به ما بپیوندید</h3>
-                    <p class="mb-4 text-sm">
-                        همین الان به جامعه برنامه‌نویسی دورهمی بپیوندید و از مزایای آن بهره‌مند شوید!
-                    </p>
-                    <div class="text-center">
-                        <a href="{{ path('redirect_invite') }}"
-                           class="inline-block bg-white text-primary-600 hover:bg-gray-100 px-6 py-3 rounded-md font-bold">
-                            پیوستن به دیسکورد
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-{% endblock %} #}
-
 {% block body %}
     <section class="relative overflow-hidden">
         <div class="absolute inset-0 bg-linear-to-t from-slate-800/60 pointer-events-none -z-10"
@@ -248,7 +18,7 @@
                 <div class="relative max-w-xl mx-auto md:max-w-none text-center md:text-right flex flex-col md:flex-row">
                     <div class="md:w-[48rem]">
                         <div class="md:pl-32">
-                            <h1 class="h2 font-badkhat bg-clip-text text-transparent bg-linear-to-tr from-indigo-500 via-sky-300 to-slate-200 pb-6">
+                            <h1 class="h2 font-badkhat bg-clip-text text-transparent bg-linear-to-tr from-indigo-500 via-sky-300 to-slate-200 px-6">
                                 جامعه‌ی دورهمی، جامعه‌ی برنامه‌نویس‌ها و توسعه‌دهندگان نرم‌افزار</h1>
                             <p class="text-lg text-slate-400 mb-8">یه جامعه پویا از برنامه‌نویس‌های فارسی زبان در
                                 دیسکورد. فضایی برای یادگیری، همکاری، پرسش و پاسخ، و ارتباط با دیگر توسعه‌دهندگان. </p>
@@ -270,10 +40,10 @@
                             </div>
                         </div> #}
 
-                        <div class="max-w-sm mx-auto md:max-w-none md:absolute md:right-[42rem] lg:right-[48rem] mt-12 md:mt-0 md:top-1/2 md:-translate-y-1/2">
+                        {#<div class="max-w-sm mx-auto md:max-w-none md:absolute md:right-[42rem] lg:right-[48rem] mt-12 md:mt-0 md:top-1/2 md:-translate-y-1/2">
                             <img src="{{ asset('images/hero-image.png') }}" class="md:max-w-none mx-auto" width="332"
                                  height="298" alt="اعضای جامعه‌ی دورهمی"/>
-                        </div>
+                        </div>#}
                     </div>
                 </div>
             </div>
@@ -386,8 +156,7 @@
                                             </div>
                                         </div>
                                     {% endfor %}
-                                    {# <!-- Sponsored item -->
-                                    <div class="px-5 py-3 -order-1 mb-3">
+                                    {#                                     <div class="px-5 py-3 -order-1 mb-3">
                                         <div class="flex items-center space-x-4">
                                             <img class="shrink-0 w-14 h-14 rounded-full" src="./images/sponsor.png"
                                                  width="56" height="56" alt="Sponsor"/>
@@ -401,15 +170,17 @@
                                         </div>
                                     </div> #}
                                 </div>
-                                
+
                                 <div class="flex gap-12 justify-between items-center space-x-2">
                                     {% set paginationBtnClass = "flex gap-8 btn-sm py-1.5 h-8 text-indigo-500 border border-slate-700 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 hover:bg-slate-800" %}
                                     {% if pagination.has_previous %}
                                         <div class="text-right">
                                             <a href="{{ path('app_home', {'filter': filter, 'page': pagination.previous_page}) }}"
                                                class="{{ paginationBtnClass }}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor" class="w-4">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
                                                 </svg>
                                                 <span>صفحه‌ی قبل</span>
                                             </a>
@@ -417,9 +188,10 @@
                                     {% endif %}
 
                                     <div class="text-center">
-                                        <p class="{{ paginationBtnClass }} hover:none">صفحه‌ی {{ pagination.current_page|persian_number }}</p>
+                                        <p class="{{ paginationBtnClass }} hover:none">
+                                            صفحه‌ی {{ pagination.current_page|persian_number }}</p>
                                     </div>
-                                    
+
                                     {% if pagination.has_next %}
                                         <div class="text-right">
                                             <a href="{{ path('app_home', {'filter': filter, 'page': pagination.next_page}) }}"
@@ -442,16 +214,20 @@
                                      aria-hidden="true"></div>
                                 <div class="h-full flex flex-col">
                                     <div class="grow mb-1">
-                                        <img class="mb-3" src="{{ asset('images/box-icon-about-us.svg') }}" width="40" height="40"
+                                        <img class="mb-3" src="{{ asset('images/box-icon-about-us.svg') }}" width="40"
+                                             height="40"
                                              alt="Resources icon"/>
                                         <h3 class="text-slate-200 font-semibold mb-1">درباره‌ی دورهمی</h3>
-                                        <p class="text-sm text-slate-500">درباره‌ی جامعه‌ی دورهمی و فلسفه‌ی شکل‌گیری اون بیشتر مطالعه و کسب اطلاعات کنید.</p>
+                                        <p class="text-sm text-slate-500">درباره‌ی جامعه‌ی دورهمی و فلسفه‌ی شکل‌گیری اون
+                                            بیشتر مطالعه و کسب اطلاعات کنید.</p>
                                     </div>
                                     <div class="text-right">
                                         <a class="flex gap-2 text-sm font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out"
                                            href="{{ path('app_about') }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor" class="w-4">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                             </svg>
                                             <span>مطالعه‌ی بیشتر</span>
                                         </a>
@@ -463,7 +239,8 @@
                                      aria-hidden="true"></div>
                                 <div class="h-full flex flex-col">
                                     <div class="grow mb-1">
-                                        <img class="mb-3" src="{{ asset('images/box-icon-rules.svg') }}" width="40" height="40"
+                                        <img class="mb-3" src="{{ asset('images/box-icon-rules.svg') }}" width="40"
+                                             height="40"
                                              alt="News icon"/>
                                         <h3 class="text-slate-200 font-semibold mb-1">قوانین و مقررات</h3>
                                         <p class="text-sm text-slate-500">
@@ -473,8 +250,10 @@
                                     <div class="text-right">
                                         <a class="flex gap-2 text-sm font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out"
                                            href="{{ path('app_rules') }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor" class="w-4">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                             </svg>
                                             <span>مطالعه‌ی بیشتر</span>
                                         </a>
@@ -485,137 +264,7 @@
                     </div>
                 </div>
 
-                <aside class="md:w-64 lg:w-80 md:shrink-0 pt-6 pb-12 md:pb-20">
-                    <div class="md:pr-6 lg:pr-10">
-                        <div class="space-y-6">
-                            {# <form>
-                                <div class="flex flex-wrap">
-                                    <div class="w-full">
-                                        <label class="block text-sm sr-only" for="search">Search</label>
-                                        <div class="relative flex items-center">
-                                            <input id="search" type="search"
-                                                   class="form-input py-1 w-full pl-10 rounded-full"/>
-                                            <div class="absolute inset-0 right-auto flex items-center justify-center">
-                                                <svg class="w-4 h-4 shrink-0 mx-3" viewBox="0 0 16 16"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <path class="fill-slate-600"
-                                                          d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5zm8.707 12.293a.999.999 0 11-1.414 1.414L11.9 13.314a8.019 8.019 0 001.414-1.414l2.393 2.393z"/>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form> #}
-                            <div>
-                                <div class="text-xs uppercase text-slate-600 font-semibold mb-4">رویدادهای پیش رو</div>
-                                <ul class="space-y-6">
-                                    {% for event in discord_events %}
-                                        <li>
-                                            <div class="flex items-center mb-1">
-                                                <img class="rounded-full ml-2"
-                                                     src="https://cdn.discordapp.com/avatars/{{ event.creator.id }}/{{ event.creator.avatar }}.png"
-                                                     width="16" height="16" alt="User 06"/>
-                                                <div class="text-xs">
-                                                    <span class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">{{ event.creator.username }}</span>
-                                                </div>
-                                            </div>
-                                            <h3 class="text-sm mb-2">
-                                                <a class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out"
-                                                   href="{{ path('redirect_event', {'eventId': event.id}) }}">{{ event.name }}</a>
-                                                <p class="text-slate-400 text-xs">{{ event.description|nl2br }}</p>
-                                            </h3>
-                                            <div class="text-xs text-slate-600">
-                                                <span class="text-slate-500">{{ event.scheduled_start_time|persian_ago }}</span>
-                                                · <span
-                                                        class="text-slate-500">{{ event.user_count|persian_number }} شرکت‌کننده</span>
-                                            </div>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            {# <!-- Latest Jobs -->
-                            <div>
-                                <div class="text-xs uppercase text-slate-600 font-semibold mb-4">جدید‌ترین پوزیشن‌ها</div>
-                                <ul class="space-y-3">
-                                    <li>
-                                        <div class="flex items-center justify-between">
-                                            <div class="grow min-w-0 flex items-center ml-2">
-                                                <img class="shrink-0 ml-3" src="./images/startup-01.svg" width="32" height="32" alt="Startup 01" />
-                                                <h3 class="truncate text-sm">
-                                                    <a class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out" href="#0">Visual Studio X</a>
-                                                </h3>
-                                            </div>
-                                            <button class="text-xs text-indigo-500 inline-flex font-medium rounded-full text-center px-2 py-0.5 border border-slate-700 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 hover:bg-slate-800 transition duration-150 ease-in-out">اطلاعات بیشتر</button>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="flex items-center justify-between">
-                                            <div class="grow min-w-0 flex items-center ml-2">
-                                                <img class="shrink-0 ml-3" src="./images/startup-02.svg" width="32" height="32" alt="Startup 02" />
-                                                <h3 class="truncate text-sm">
-                                                    <a class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out" href="#0">Gymp DevTools</a>
-                                                </h3>
-                                            </div>
-                                            <button class="text-xs text-indigo-500 inline-flex font-medium rounded-full text-center px-2 py-0.5 border border-slate-700 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 hover:bg-slate-800 transition duration-150 ease-in-out">اطلاعات بیشتر</button>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="flex items-center justify-between">
-                                            <div class="grow min-w-0 flex items-center ml-2">
-                                                <img class="shrink-0 ml-3" src="./images/startup-03.svg" width="32" height="32" alt="Startup 03" />
-                                                <h3 class="truncate text-sm">
-                                                    <a class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out" href="#0">Paytable Inc</a>
-                                                </h3>
-                                            </div>
-                                            <button class="text-xs text-indigo-500 inline-flex font-medium rounded-full text-center px-2 py-0.5 border border-slate-700 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 hover:bg-slate-800 transition duration-150 ease-in-out">اطلاعات بیشتر</button>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div> #}
-                            <div>
-                                <div class="text-xs uppercase text-slate-600 font-semibold mb-4">محبوبترین لینک‌های ۲۴
-                                    ساعت گذشته
-                                </div>
-                                <ul class="space-y-6">
-                                    {% for post in most_popular_posts %}
-                                        <li>
-                                            <div class="flex items-center mb-1">
-                                                <img class="rounded-full ml-2" src="https://placehold.co/16x16"
-                                                     width="16" height="16" alt="User 06"/>
-                                                <div class="text-xs">
-                                                    <span class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">{{ post.author.displayName }}</span>
-                                                </div>
-                                            </div>
-                                            <h3 class="text-sm mb-1">
-                                                <a class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out"
-                                                   href="{{ path('app_post_show', {'id': post.id}) }}">{{ post.title }}</a>
-                                            </h3>
-                                            <div class="text-xs text-slate-600">
-                                                <span class="text-slate-500">{{ post.createdAt|persian_ago }}</span> ·
-                                                <span class="text-slate-500">{{ post.votes|length|persian_number }} امتیاز</span>
-                                            </div>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            <div class="-rotate-1">
-                                <div class="relative p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20">
-                                    <div class="absolute inset-0 -m-px pointer-events-none -z-10 before:absolute before:inset-0 before:bg-linear-to-t before:from-slate-700 before:to-slate-800 after:absolute after:inset-0 after:bg-slate-900 after:m-px"
-                                         aria-hidden="true"></div>
-                                    <div class="font-badkhat text-2xl text-center bg-clip-text text-transparent bg-linear-to-tr from-indigo-500 via-sky-300 to-slate-200 mb-3">
-                                        شما هم بخشی از این جامعه بشید
-                                    </div>
-
-                                    <div class="w-full">
-                                        <a href="{{ path('redirect_invite') }}"
-                                           class="btn-sm text-white bg-indigo-500 hover:bg-indigo-600 w-full">روی این
-                                            لینک کلیک کنید</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </aside>
+                {% include 'components/sidebar.html.twig' %}
             </div>
         </div>
     </section>

@@ -1,0 +1,130 @@
+<aside class="md:w-64 lg:w-80 md:shrink-0 pt-6 pb-12 md:pb-20">
+    <div class="md:pr-6 lg:pr-10">
+        <div class="space-y-6">
+            {# <form>
+                                <div class="flex flex-wrap">
+                                    <div class="w-full">
+                                        <label class="block text-sm sr-only" for="search">Search</label>
+                                        <div class="relative flex items-center">
+                                            <input id="search" type="search"
+                                                   class="form-input py-1 w-full pl-10 rounded-full"/>
+                                            <div class="absolute inset-0 right-auto flex items-center justify-center">
+                                                <svg class="w-4 h-4 shrink-0 mx-3" viewBox="0 0 16 16"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path class="fill-slate-600"
+                                                          d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5zm8.707 12.293a.999.999 0 11-1.414 1.414L11.9 13.314a8.019 8.019 0 001.414-1.414l2.393 2.393z"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form> #}
+            <div>
+                <div class="text-xs uppercase text-slate-600 font-semibold mb-4">رویدادهای پیش رو</div>
+                <ul class="space-y-6">
+                    {% for event in discord_events %}
+                        <li>
+                            <div class="flex items-center mb-1">
+                                <img class="rounded-full ml-2"
+                                     src="https://cdn.discordapp.com/avatars/{{ event.creator.id }}/{{ event.creator.avatar }}.png"
+                                     width="16" height="16" alt="User 06"/>
+                                <div class="text-xs">
+                                    <span class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">{{ event.creator.username }}</span>
+                                </div>
+                            </div>
+                            <h3 class="text-sm mb-2">
+                                <a class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out"
+                                   href="{{ path('redirect_event', {'eventId': event.id}) }}">{{ event.name }}</a>
+                                <p class="text-slate-400 text-xs">{{ event.description|nl2br }}</p>
+                            </h3>
+                            <div class="text-xs text-slate-600">
+                                <span class="text-slate-500">{{ event.scheduled_start_time|persian_ago }}</span>
+                                · <span
+                                        class="text-slate-500">{{ event.user_count|persian_number }} شرکت‌کننده</span>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {#                             <div>
+                                <div class="text-xs uppercase text-slate-600 font-semibold mb-4">جدید‌ترین پوزیشن‌ها</div>
+                                <ul class="space-y-3">
+                                    <li>
+                                        <div class="flex items-center justify-between">
+                                            <div class="grow min-w-0 flex items-center ml-2">
+                                                <img class="shrink-0 ml-3" src="./images/startup-01.svg" width="32" height="32" alt="Startup 01" />
+                                                <h3 class="truncate text-sm">
+                                                    <a class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out" href="#0">Visual Studio X</a>
+                                                </h3>
+                                            </div>
+                                            <button class="text-xs text-indigo-500 inline-flex font-medium rounded-full text-center px-2 py-0.5 border border-slate-700 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 hover:bg-slate-800 transition duration-150 ease-in-out">اطلاعات بیشتر</button>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="flex items-center justify-between">
+                                            <div class="grow min-w-0 flex items-center ml-2">
+                                                <img class="shrink-0 ml-3" src="./images/startup-02.svg" width="32" height="32" alt="Startup 02" />
+                                                <h3 class="truncate text-sm">
+                                                    <a class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out" href="#0">Gymp DevTools</a>
+                                                </h3>
+                                            </div>
+                                            <button class="text-xs text-indigo-500 inline-flex font-medium rounded-full text-center px-2 py-0.5 border border-slate-700 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 hover:bg-slate-800 transition duration-150 ease-in-out">اطلاعات بیشتر</button>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="flex items-center justify-between">
+                                            <div class="grow min-w-0 flex items-center ml-2">
+                                                <img class="shrink-0 ml-3" src="./images/startup-03.svg" width="32" height="32" alt="Startup 03" />
+                                                <h3 class="truncate text-sm">
+                                                    <a class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out" href="#0">Paytable Inc</a>
+                                                </h3>
+                                            </div>
+                                            <button class="text-xs text-indigo-500 inline-flex font-medium rounded-full text-center px-2 py-0.5 border border-slate-700 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 hover:bg-slate-800 transition duration-150 ease-in-out">اطلاعات بیشتر</button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div> #}
+            <div>
+                <div class="text-xs uppercase text-slate-600 font-semibold mb-4">محبوبترین لینک‌های ۲۴
+                    ساعت گذشته
+                </div>
+                <ul class="space-y-6">
+                    {% for post in most_popular_posts %}
+                        <li>
+                            <div class="flex items-center mb-1">
+                                <img class="rounded-full ml-2" src="https://placehold.co/16x16"
+                                     width="16" height="16" alt="User 06"/>
+                                <div class="text-xs">
+                                    <span class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">{{ post.author.displayName }}</span>
+                                </div>
+                            </div>
+                            <h3 class="text-sm mb-1">
+                                <a class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out"
+                                   href="{{ path('app_post_show', {'id': post.id}) }}">{{ post.title }}</a>
+                            </h3>
+                            <div class="text-xs text-slate-600">
+                                <span class="text-slate-500">{{ post.createdAt|persian_ago }}</span> ·
+                                <span class="text-slate-500">{{ post.votes|length|persian_number }} امتیاز</span>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="-rotate-1">
+                <div class="relative p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20">
+                    <div class="absolute inset-0 -m-px pointer-events-none -z-10 before:absolute before:inset-0 before:bg-linear-to-t before:from-slate-700 before:to-slate-800 after:absolute after:inset-0 after:bg-slate-900 after:m-px"
+                         aria-hidden="true"></div>
+                    <div class="font-badkhat text-2xl text-center bg-clip-text text-transparent bg-linear-to-tr from-indigo-500 via-sky-300 to-slate-200 mb-3">
+                        شما هم بخشی از این جامعه بشید
+                    </div>
+
+                    <div class="w-full">
+                        <a href="{{ path('redirect_invite') }}"
+                           class="btn-sm text-white bg-indigo-500 hover:bg-indigo-600 w-full">روی این
+                            لینک کلیک کنید</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>

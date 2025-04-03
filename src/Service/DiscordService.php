@@ -24,8 +24,9 @@ class DiscordService
         $this->guildUrl = "https://discord.com/api/guilds/{$this->guildId}";
         $this->apiUrl = "https://discord.com/api/v9";
     }
-    
-    public function getDiscordGuildId(): string {
+
+    public function getDiscordGuildId(): string
+    {
         return $this->guildId;
     }
 
