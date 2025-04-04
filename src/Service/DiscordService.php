@@ -6,6 +6,7 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class DiscordService
 {
@@ -16,7 +17,8 @@ class DiscordService
     private ClientInterface $httpClient;
 
     public function __construct(
-        private readonly ParameterBagInterface $params
+        ParameterBagInterface $params,
+        private readonly CacheInterface $cache,
     ) {
         $this->httpClient = new Client();
         $this->guildId = $params->get('app.discord_guild_id');
@@ -28,39 +30,6 @@ class DiscordService
     public function getDiscordGuildId(): string
     {
         return $this->guildId;
-    }
-
-    /**
-     * Get channels with their information including user counts
-     */
-    public function getChannels(): array
-    {
-        $response = $this->httpClient->request('GET', "{$this->guildUrl}/channels", [
-            'headers' => [
-                'Authorization' => "Bot {$this->discordToken}",
-                'Content-Type' => 'application/json',
-            ]
-        ]);
-
-        if ($response->getStatusCode() !== 200) {
-            return [];
-        }
-
-        return json_decode($response->getBody()->getContents(), true);
-    }
-
-    /**
-     * Get the total number of Discord members and online members
-     */
-    public function getMemberCount(): array
-    {
-        $widgetData = $this->fetchWidgetData();
-
-        return [
-            'total' => $widgetData['total_members'],
-            'online' => $widgetData['members_online'],
-            'invitation_link' => $widgetData['invitation_link']
-        ];
     }
 
     /**
@@ -117,27 +86,34 @@ class DiscordService
      */
     public function fetchUpcomingEvents(): array
     {
-        try {
-            $response = $this->httpClient->request('GET', "{$this->guildUrl}/scheduled-events?with_user_count=true", [
-                'headers' => [
-                    'Authorization' => "Bot {$this->discordToken}",
-                    'Content-Type' => 'application/json',
-                ]
-            ]);
+        $cacheKey = 'discord_upcoming_events';
+        $cacheTtl = 300;
 
-            if ($response->getStatusCode() !== 200) {
+        $cachedEvents = $this->cache->get($cacheKey, function () use ($cacheTtl) {
+            try {
+                $response = $this->httpClient->request('GET', "{$this->guildUrl}/scheduled-events?with_user_count=true", [
+                    'headers' => [
+                        'Authorization' => "Bot {$this->discordToken}",
+                        'Content-Type' => 'application/json',
+                    ]
+                ]);
+
+                if ($response->getStatusCode() !== 200) {
+                    return [];
+                }
+
+                $events = json_decode($response->getBody()->getContents(), true);
+
+                usort($events, function ($a, $b) {
+                    return strtotime($a['scheduled_start_time']) - strtotime($b['scheduled_start_time']);
+                });
+
+                return $events;
+            } catch (Exception $e) {
                 return [];
             }
+        }, $cacheTtl);
 
-            $events = json_decode($response->getBody()->getContents(), true);
-
-            usort($events, function ($a, $b) {
-                return strtotime($a['scheduled_start_time']) - strtotime($b['scheduled_start_time']);
-            });
-
-            return $events;
-        } catch (Exception $e) {
-            return [];
-        }
+        return $cachedEvents ?: [];
     }
 }
