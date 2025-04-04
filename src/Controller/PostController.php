@@ -61,11 +61,13 @@ class PostController extends AbstractController
         PostRepository $postRepository,
         DiscordService $discordService,
     ): Response {
+        $discordInfo = $discordService->fetchWidgetData();
         $discordEvents = $discordService->fetchUpcomingEvents();
         $mostPopularPosts = $postRepository->findMostPopularLastDay();
 
         return $this->render('post/show.html.twig', [
             'post' => $post,
+            'discord_info' => $discordInfo,
             'discord_events' => $discordEvents,
             'most_popular_posts' => $mostPopularPosts,
         ]);

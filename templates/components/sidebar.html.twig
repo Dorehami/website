@@ -20,6 +20,23 @@
                                 </div>
                             </form> #}
             <div>
+                <div class="text-xs uppercase text-slate-600 font-semibold mb-4">آمار جامعه</div>
+                <ul class="space-y-6">
+                    <li>
+                        <h3 class="text-sm mb-2">
+                            <span class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out">کاربران آنلاین</span>
+                            <p class="text-slate-400 text-xs">{{ discord_info.members_online|persian_number }} تن</p>
+                        </h3>
+                    </li>
+                    <li>
+                        <h3 class="text-sm mb-2">
+                            <span class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out">کل کاربران</span>
+                            <p class="text-slate-400 text-xs">{{ discord_info.total_members|persian_number }} تن</p>
+                        </h3>
+                    </li>
+                </ul>
+            </div>
+            <div>
                 <div class="text-xs uppercase text-slate-600 font-semibold mb-4">رویدادهای پیش رو</div>
                 <ul class="space-y-6">
                     {% for event in discord_events %}
@@ -92,8 +109,8 @@
                     {% for post in most_popular_posts %}
                         <li>
                             <div class="flex items-center mb-1">
-                                <img class="rounded-full ml-2" src="https://placehold.co/16x16"
-                                     width="16" height="16" alt="User 06"/>
+                                <img class="rounded-full ml-2" src="{{ post.author.avatarUrl }}"
+                                     width="16" height="16" alt="{{ post.author.displayName }}"/>
                                 <div class="text-xs">
                                     <span class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">{{ post.author.displayName }}</span>
                                 </div>
@@ -115,7 +132,7 @@
                     <div class="absolute inset-0 -m-px pointer-events-none -z-10 before:absolute before:inset-0 before:bg-linear-to-t before:from-slate-700 before:to-slate-800 after:absolute after:inset-0 after:bg-slate-900 after:m-px"
                          aria-hidden="true"></div>
                     <div class="font-badkhat text-2xl text-center bg-clip-text text-transparent bg-linear-to-tr from-indigo-500 via-sky-300 to-slate-200 mb-3">
-                        شما هم بخشی از این جامعه بشید
+                        شما هم بخشی از این جامعه‌ی {{ discord_info.total_members }} نفره بشید
                     </div>
 
                     <div class="w-full">

@@ -30,12 +30,12 @@ class HomeController extends AbstractController
         };
 
         return $this->render('home/index.html.twig', [
+            'filter' => $filter,
+            'posts' => $result['posts'],
             'discord_info' => $discordInfo,
             'discord_events' => $discordEvents,
-            'most_popular_posts' => $mostPopularPosts,
-            'posts' => $result['posts'],
             'pagination' => $result['pagination'],
-            'filter' => $filter
+            'most_popular_posts' => $mostPopularPosts,
         ]);
     }
 
