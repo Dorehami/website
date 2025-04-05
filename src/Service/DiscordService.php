@@ -40,7 +40,7 @@ class DiscordService
         $response = $this->httpClient->request('GET', "{$this->guildUrl}/widget.json");
 
         if ($response->getStatusCode() !== 200) {
-            return ['members_online' => 0, 'invitation_link' => '#'];
+            return ['members' => [], 'invitation_link' => '#', 'total_members' => 0];
         }
 
         $data = json_decode($response->getBody()->getContents(), true);
@@ -53,10 +53,14 @@ class DiscordService
         }
 
         return [
-            'members_online' => $data['presence_count'] ?? 0,
             'invitation_link' => $data['instant_invite'] ?? '#',
             'total_members' => $inviteData['approximate_member_count'] ?? 0,
-            'invite_code' => $inviteCode
+            'invite_code' => $inviteCode,
+            'members' => array_map(fn (mixed $item) => [
+                'avatar_url' => $item['avatar_url'],
+                'id' => (int) $item['id'],
+                'username' => $item['username'],
+            ], $data['members'] ?? []),
         ];
     }
 

@@ -20,21 +20,24 @@
                                 </div>
                             </form> #}
             <div>
-                <div class="text-xs uppercase text-slate-600 font-semibold mb-4">آمار جامعه</div>
-                <ul class="space-y-6">
-                    <li>
-                        <h3 class="text-sm mb-2">
-                            <span class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out">کاربران آنلاین</span>
-                            <p class="text-slate-400 text-xs">{{ discord_info.members_online|persian_number }} تن</p>
-                        </h3>
-                    </li>
-                    <li>
-                        <h3 class="text-sm mb-2">
-                            <span class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out">کل کاربران</span>
-                            <p class="text-slate-400 text-xs">{{ discord_info.total_members|persian_number }} تن</p>
-                        </h3>
-                    </li>
-                </ul>
+                {% set max_members = 50 %}
+                {% set reset_members = (discord_info.members|length) - max_members %}
+                
+                <div class="text-xs uppercase text-slate-600 font-semibold mb-4">کاربران آنلاین</div>
+                <div class="flex -space-x-1.5 mt-2">
+                    {% for member in (discord_info.members|slice(0, max_members)) %}
+                        <img
+                                class="ring-background rounded-full ring-2 ring-indigo-500 w-8 h-8"
+                                src="{{ member.avatar_url }}"
+                                alt="{{ member.username }}"
+                        />
+                    {% endfor %}
+                </div>
+                {% if reset_members > 0 %}
+                    <p class="text-muted-foreground px-2 text-xs">
+                        و <strong class="text-foreground font-medium">{{ reset_members|persian_number }}</strong>  تن دیگر
+                    </p>
+                {% endif %}
             </div>
             <div>
                 <div class="text-xs uppercase text-slate-600 font-semibold mb-4">رویدادهای پیش رو</div>
