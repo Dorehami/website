@@ -324,19 +324,20 @@
                                     {% endif %}
 
                                     <div class="w-full mb-5">
+                                        {% set visible_comment = post.comments|filter(c => c.visible) %}
                                         {% if is_granted('ROLE_USER') %}
-                                            <h4 class="font-bold text-slate-200 mb-2">{{ post.comments|length|persian_number }}
+                                            <h4 class="font-bold text-slate-200 mb-2">{{ visible_comment|length|persian_number }}
                                                 دیدگاه</h4>
                                         {% else %}
                                             <div class="flex items-center justify-between mb-2">
-                                                <h4 class="font-bold text-slate-200">{{ post.comments|length|persian_number }}
+                                                <h4 class="font-bold text-slate-200">{{ visible_comment|length|persian_number }}
                                                     دیدگاه</h4>
                                                 <a class="btn-sm text-white bg-indigo-500 hover:bg-indigo-600"
                                                    href="{{ path('connect_discord') }}">برای ثبت دیدگاه عضو دورهمی بشید</a>
                                             </div>
                                         {% endif %}
                                         <ul class="w-full">
-                                            {% for comment in post.comments %}
+                                            {% for comment in visible_comment %}
                                                 <li class="p-4 mb-4 bg-slate-800 border border-slate-700 w-full">
                                                     <div class="flex items-center mb-1">
                                                         <img class="rounded-full ml-2 w-6 h-6"
