@@ -56,9 +56,9 @@ class DiscordService
             'invitation_link' => $data['instant_invite'] ?? '#',
             'total_members' => $inviteData['approximate_member_count'] ?? 0,
             'invite_code' => $inviteCode,
-            'members' => array_map(fn (mixed $item) => [
+            'members' => array_map(fn(mixed $item) => [
                 'avatar_url' => $item['avatar_url'],
-                'id' => (int) $item['id'],
+                'id' => (int)$item['id'],
                 'username' => $item['username'],
             ], $data['members'] ?? []),
         ];

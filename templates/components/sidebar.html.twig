@@ -22,7 +22,7 @@
             <div>
                 {% set max_members = 50 %}
                 {% set reset_members = (discord_info.members|length) - max_members %}
-                
+
                 <div class="text-xs uppercase text-slate-600 font-semibold mb-4">کاربران آنلاین</div>
                 <div class="flex -space-x-1.5 mt-2">
                     {% for member in (discord_info.members|slice(0, max_members)) %}
@@ -35,7 +35,8 @@
                 </div>
                 {% if reset_members > 0 %}
                     <p class="text-muted-foreground px-2 text-xs">
-                        و <strong class="text-foreground font-medium">{{ reset_members|persian_number }}</strong>  تن دیگر
+                        و <strong class="text-foreground font-medium">{{ reset_members|persian_number }}</strong> تن
+                        دیگر
                     </p>
                 {% endif %}
             </div>

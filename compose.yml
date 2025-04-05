@@ -3,7 +3,7 @@ name: dorehami-website
 x-network: &net-opts
   networks:
     - dorehami-net
-    
+
 services:
   nginx:
     <<: *net-opts

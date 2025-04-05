@@ -52,7 +52,8 @@
                         <li>
                             {% if is_granted('ROLE_USER') %}
                                 <div class="flex gap-1 px-3 lg:px-5 py-2 ">
-                                    <img src="{{ app.user.avatarUrl }}" alt="{{ app.user.displayName }}" class="w-8 h-8 rounded-full">
+                                    <img src="{{ app.user.avatarUrl }}" alt="{{ app.user.displayName }}"
+                                         class="w-8 h-8 rounded-full">
                                     <span class="text-sm font-medium text-slate-400 flex items-center">{{ app.user.displayName }}</span>
                                 </div>
                             {% else %}

@@ -15,14 +15,23 @@
     @apply text-2xl font-bold;
 }
 
-@media (width >= theme(--breakpoint-md)) {
-    .h1 {
-        @apply text-6xl;
-    }
+@media (width >=
 
-    .h2 {
-        @apply text-5xl;
-    }
+theme
+(
+--breakpoint-md
+
+)
+)
+{
+.h1 {
+    @apply text-6xl;
+}
+
+.h2 {
+    @apply text-5xl;
+}
+
 }
 
 /* Buttons */
@@ -44,7 +53,7 @@ input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration {
-  -webkit-appearance: none;
+    -webkit-appearance: none;
 }
 
 .form-input,
