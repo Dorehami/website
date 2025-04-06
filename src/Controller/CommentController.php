@@ -60,8 +60,13 @@ class CommentController extends AbstractController
         ReportRepository $reportRepository,
     ): Response
     {
-        $reporter = $this->getUser();
+        $isAlreadyReported = $reportRepository->isAlreadyReported($comment);
         
+        if ($isAlreadyReported) {
+            return $this->redirectToRoute('app_post_show', ['id' => $comment->getPost()->getId()]);
+        }
+        
+        $reporter = $this->getUser();
         $report = $reportRepository->report($comment, $reporter);
         
         return $this->json($comment);

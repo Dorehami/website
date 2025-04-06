@@ -49,4 +49,23 @@ class ReportRepository extends ServiceEntityRepository
         
         return $report;
     }
+    
+    public function isAlreadyReported(
+        mixed $entity,
+    ): bool
+    {
+        $entityClass = get_class($entity);
+        $entityId = $entity->getId();
+        
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('r')
+            ->from(Report::class, 'r')
+            ->where('r.entityId = :entityId AND r.entityType = :entityType')
+            ->setParameter('entityId', $entityId)
+            ->setParameter('entityType', $entityClass)
+            ->setMaxResults(1);
+        
+        $result = $qb->getQuery()->getOneOrNullResult();
+        return !empty($result);
+    }
 }
