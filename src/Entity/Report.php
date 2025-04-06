@@ -39,6 +39,11 @@ class Report
     {
         return $this->id;
     }
+    
+    public function getEntity(): void
+    {
+        return;
+    }
 
     public function getEntityType(): ?string
     {
