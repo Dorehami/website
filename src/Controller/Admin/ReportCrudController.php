@@ -70,7 +70,7 @@ class ReportCrudController extends AbstractCrudController
             })
             ->setVirtual(true)
             ->onlyOnIndex();
-        
+
         yield AssociationField::new('reportedBy');
         yield BooleanField::new('aiFlagged');
         yield BooleanField::new('reportProcessed');
