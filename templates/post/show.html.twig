@@ -353,14 +353,22 @@
                                                     <div class="text-sm text-slate-400 space-y-4 mb-1">
                                                         {{ comment.content }}
                                                     </div>
-                                                    <div class="text-xs text-slate-600 flex gap-1 mt-2">
-                                                        {% if comment.author is not same as app.user %}
-                                                            <a class="font-medium text-slate-500 hover:text-slate-200 transition duration-150 ease-in-out"
-                                                               href="#">گزارش</a>
-                                                        {% endif %}
-                                                        {# <span>·</span>
+                                                    {% if is_granted('ROLE_USER') %}
+                                                        <div class="text-xs text-slate-600 flex gap-1 mt-2">
+                                                            {% if  comment.author is not same as app.user %}
+                                                                <form action="{{ path('app_comment_moderate', {'id': comment.id}) }}"
+                                                                      method="post">
+                                                                    <button
+                                                                            type="submit"
+                                                                            class="cursor-pointer font-medium text-slate-500 hover:text-slate-200 transition duration-150 ease-in-out">
+                                                                        گزارش
+                                                                    </button>
+                                                                </form>
+                                                            {% endif %}
+                                                            {# <span>·</span>
                                                         <a class="text-slate-200 underline hover:no-underline" href="#">Reply</a> #}
-                                                    </div>
+                                                        </div>
+                                                    {% endif %}
                                                 </li>
                                             {% endfor %}
                                         </ul>

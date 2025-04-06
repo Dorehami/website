@@ -28,12 +28,12 @@ class ReportRepository extends ServiceEntityRepository
     public function report(
         mixed $entity,
         UserInterface $by,
-    ): Report
-    {
+    ): Report {
         $report = new Report();
-        
+
         $report->setReportedBy($by);
         $report->setReportProcessed(false);
+        $report->setHumanProcessed(false);
         $report->setAiFlagged(false);
         $report->setAiResult([]);
 
@@ -42,21 +42,20 @@ class ReportRepository extends ServiceEntityRepository
 
         $entityId = $entity->getId();
         $report->setEntityId($entityId);
-        
+
         $em = $this->getEntityManager();
         $em->persist($report);
         $em->flush();
-        
+
         return $report;
     }
-    
+
     public function isAlreadyReported(
         mixed $entity,
-    ): bool
-    {
+    ): bool {
         $entityClass = get_class($entity);
         $entityId = $entity->getId();
-        
+
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('r')
             ->from(Report::class, 'r')
@@ -64,7 +63,7 @@ class ReportRepository extends ServiceEntityRepository
             ->setParameter('entityId', $entityId)
             ->setParameter('entityType', $entityClass)
             ->setMaxResults(1);
-        
+
         $result = $qb->getQuery()->getOneOrNullResult();
         return !empty($result);
     }

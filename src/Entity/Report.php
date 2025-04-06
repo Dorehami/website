@@ -32,6 +32,14 @@ class Report
     #[ORM\Column]
     private ?bool $reportProcessed = null;
 
+    #[ORM\Column]
+    private ?bool $humanProcessed = null;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     public function getEntityType(): ?string
     {
         return $this->entityType;
@@ -104,4 +112,15 @@ class Report
         return $this;
     }
 
+    public function isHumanProcessed(): ?bool
+    {
+        return $this->humanProcessed;
+    }
+
+    public function setHumanProcessed(bool $humanProcessed): static
+    {
+        $this->humanProcessed = $humanProcessed;
+
+        return $this;
+    }
 }
