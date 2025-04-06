@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Repository\PostRepository;
+use App\Repository\ReportRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,12 @@ class CommentController extends AbstractController
     #[Route('/post/{postId}', name: 'app_comment_new', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('user_action')]
-    public function new(int $postId, Request $request, EntityManagerInterface $entityManager, PostRepository $postRepository): Response
+    public function new(
+        int $postId,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        PostRepository $postRepository,
+    ): Response
     {
         $post = $postRepository->find($postId);
 
@@ -42,5 +48,22 @@ class CommentController extends AbstractController
 
         $this->addFlash('success', 'دیدگاه شما با موفقیت ثبت شد.');
         return $this->redirectToRoute('app_post_show', ['id' => $postId]);
+    }
+
+    #[Route('{id}/moderate', name: 'app_comment_moderate', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('user_action')]
+    public function moderate(
+        Comment $comment,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        ReportRepository $reportRepository,
+    ): Response
+    {
+        $reporter = $this->getUser();
+        
+        $report = $reportRepository->report($comment, $reporter);
+        
+        return $this->json($comment);
     }
 }

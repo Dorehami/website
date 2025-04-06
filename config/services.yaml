@@ -6,6 +6,7 @@
 parameters:
   app.discord_guild_id: '%env(DISCORD_GUILD_ID)%'
   app.discord_token: '%env(DISCORD_TOKEN)%'
+  app.openai_api_key: '%env(OPENAI_API_KEY)%'
 services:
   # default configuration for services in *this* file
   _defaults:
