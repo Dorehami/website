@@ -73,7 +73,9 @@ class PostRepository extends ServiceEntityRepository
             ->orderBy('COUNT(v.id)', 'DESC')
             ->addOrderBy('p.createdAt', 'DESC')
             ->where('p.createdAt > :date')
-            ->setParameter('date', new DateTimeImmutable('-1 day'))
+            // this will have to change later to -1 day.
+            // we just don't have enough posts right now
+            ->setParameter('date', new DateTimeImmutable('-30 days'))
             ->setMaxResults($limit);
 
         return $queryBuilder->getQuery()->getResult();
