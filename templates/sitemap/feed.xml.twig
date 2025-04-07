@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>دورهمی - جامعه توسعه‌دهندگان نرم‌افزار</title>
+        <link>{{ hostname }}</link>
+        <description>آخرین مقالات و منابع به اشتراک گذاشته شده توسط اعضای جامعه توسعه‌دهندگان نرم‌افزار دورهمی</description>
+        <language>fa-ir</language>
+        <pubDate>{{ lastBuildDate|date('r') }}</pubDate>
+        <lastBuildDate>{{ lastBuildDate|date('r') }}</lastBuildDate>
+        <atom:link href="{{ hostname }}{{ path('app_rss_feed') }}" rel="self" type="application/rss+xml" />
+        
+        {% for post in posts %}
+            <item>
+                <title>{{ post.title }}</title>
+                <link>{{ hostname }}{{ path('app_post_show', {'id': post.id}) }}</link>
+                <guid>{{ hostname }}{{ path('app_post_show', {'id': post.id}) }}</guid>
+                <pubDate>{{ post.createdAt|date('r') }}</pubDate>
+                <description>
+                    <![CDATA[
+                    <p>نویسنده: {{ post.author.displayName }}</p>
+                    <p>منبع اصلی: <a href="{{ post.url }}">{{ post.domain }}</a></p>
+					{%set visible_comments = post.comments|filter(c => c.isVisible)}
+                    {% if visible_comments|length > 0 %}
+                        <p>{{ visible_comments|length }} دیدگاه</p>
+                    {% endif %}
+                    ]]>
+                </description>
+                <author>{{ post.author.email|default('info@dorehami.dev') }}</author>
+            </item>
+        {% endfor %}
+    </channel>
+</rss>

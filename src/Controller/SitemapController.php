@@ -53,4 +53,24 @@ class SitemapController extends AbstractController
             ['Content-Type' => 'text/plain']
         );
     }
+
+    #[Route('/feed.xml', name: 'app_rss_feed', defaults: ['_format' => 'xml'])]
+    public function rssFeed(Request $request, PostRepository $postRepository): Response
+    {
+        $hostname = $request->getSchemeAndHttpHost();
+        $posts = $postRepository->findNewest(limit: 20)['posts'];
+        
+        $response = new Response(
+            $this->renderView('sitemap/feed.xml.twig', [
+                'posts' => $posts,
+                'hostname' => $hostname,
+                'lastBuildDate' => new \DateTime(),
+            ]),
+            Response::HTTP_OK
+        );
+        
+        $response->headers->set('Content-Type', 'application/rss+xml');
+        
+        return $response;
+    }
 }

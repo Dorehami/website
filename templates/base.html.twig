@@ -16,6 +16,7 @@
           content="{% block og_url %}{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}{% endblock %}">
     <meta property="og:site_name" content="دورهمی">
     <meta name="twitter:card" content="summary">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for Dorehami" href="{{ path('app_rss_feed') }}" />
     <link rel="canonical"
           href="{% block canonical_url %}{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}{% endblock %}">
     <link rel="icon" href="{{ asset('images/logo.svg') }}">
@@ -116,6 +117,10 @@
                             <li>
                                 <a class="text-slate-500 underline hover:no-underline"
                                    href="{{ path('redirect_invite') }}">پیوستن به دیسکورد</a>
+                            </li>
+                            <li>
+                                <a class="text-slate-500 underline hover:no-underline" 
+                                    href="{{ path('app_rss_feed') }}">RSS فید</a>
                             </li>
                         </ul>
                     </div>
