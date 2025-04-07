@@ -25,7 +25,7 @@
                     {% endif %}
                     ]]>
                 </description>
-                <author>{{ post.author.email|default('info@dorehami.dev') }}</author>
+                <author>{{ post.author.displayName|default('Dorehami') }}</author>
             </item>
         {% endfor %}
     </channel>
