@@ -14,7 +14,8 @@
 @theme {
     --font-inter: Inter, sans-serif;
     --font-estedad: Estedad, sans-serif;
-    --font-badkhat: Badkhat, sans-serif;
+    /*--font-badkhat: Badkhat, sans-serif;*/
+    --font-badkhat: Estedad, sans-serif;
 
     --text-xs: 0.75rem;
     --text-xs--line-height: 1.5;
