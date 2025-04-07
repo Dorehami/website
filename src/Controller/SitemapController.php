@@ -5,6 +5,7 @@
 namespace App\Controller;
 
 use App\Repository\PostRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,19 +59,19 @@ class SitemapController extends AbstractController
     public function rssFeed(Request $request, PostRepository $postRepository): Response
     {
         $hostname = $request->getSchemeAndHttpHost();
-        $posts = $postRepository->findNewest(limit: 20)['posts'];
-        
+        $posts = $postRepository->findRecent(daysWindow: 60);
+
         $response = new Response(
             $this->renderView('sitemap/feed.xml.twig', [
                 'posts' => $posts,
                 'hostname' => $hostname,
-                'lastBuildDate' => new \DateTime(),
+                'lastBuildDate' => new DateTime(),
             ]),
             Response::HTTP_OK
         );
-        
+
         $response->headers->set('Content-Type', 'application/rss+xml');
-        
+
         return $response;
     }
 }
