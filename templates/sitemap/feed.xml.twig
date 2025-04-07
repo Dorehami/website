@@ -19,9 +19,9 @@
                     <![CDATA[
                     <p>نویسنده: {{ post.author.displayName }}</p>
                     <p>منبع اصلی: <a href="{{ post.url }}">{{ post.domain }}</a></p>
-					{%set visible_comments = post.comments|filter(c => c.isVisible)}
+					{% set visible_comments = post.comments|filter(c => c.isVisible) %}
                     {% if visible_comments|length > 0 %}
-                        <p>{{ visible_comments|length }} دیدگاه</p>
+                        <p>{{ visible_comments|length|persian_number }} دیدگاه</p>
                     {% endif %}
                     ]]>
                 </description>
