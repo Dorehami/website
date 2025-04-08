@@ -31,226 +31,6 @@
     </script>
 {% endblock %}
 
-{#
-{% block body %}
-    <div class="max-w-6xl mx-auto">
-        <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
-            <div class="p-6 border-b border-gray-100">
-                <div class="flex items-start gap-4">
-                    <div class="hidden md:flex flex-col items-center p-2">
-                        {% if is_granted('ROLE_USER') %}
-                            {% if not post.hasVotedBy(app.user) %}
-                                <form action="{{ path('app_post_vote', {'id': post.id}) }}" method="post">
-                                    <button type="submit" aria-label="امتیاز دادن"
-                                            class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-50 hover:bg-primary-50 text-gray-500 hover:text-primary-600 transition-colors duration-200">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/>
-                                        </svg>
-                                    </button>
-                                </form>
-                            {% else %}
-                                <div class="w-10 h-10 flex items-center justify-center rounded-full bg-primary-100 text-primary-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/>
-                                    </svg>
-                                </div>
-                            {% endif %}
-                        {% endif %}
-                        <div class="font-bold text-lg my-2">{{ post.points|persian_number }}</div>
-                        <div class="text-xs text-gray-500">امتیاز</div>
-                    </div>
-
-                    <div class="flex-1">
-                        <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">{{ post.title }}</h1>
-                        <div class="flex md:items-center flex-col md:flex-row gap-2 md:gap-4 text-sm text-gray-500">
-                            <a href="{{ post.url }}" target="_blank" rel="noopener noreferrer"
-                               class="group flex items-center gap-1.5 text-primary-600 hover:text-primary-700 transition-colors break-all">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                     stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                                </svg>
-                                <span class="group-hover:underline">{{ post.domain }}</span>
-                            </a>
-
-                            <div class="flex md:hidden items-center gap-1.5">
-                                {% if is_granted('ROLE_USER') %}
-                                    {% if not post.hasVotedBy(app.user) %}
-                                        <form action="{{ path('app_post_vote', {'id': post.id}) }}" method="post">
-                                            <button type="submit"
-                                                    class="inline-flex gap-1 items-center px-3 py-1.5 border border-primary-600 text-primary-600 rounded-md hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                          d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"/>
-                                                </svg>
-                                                <span>امتیاز دادن <span
-                                                            class="font-bold">({{ post.points|persian_number }})</span></span>
-                                            </button>
-                                        </form>
-                                    {% else %}
-                                        <button type="button" disabled
-                                                class="inline-flex gap-1 items-center px-3 py-1.5 border border-primary-600 text-white rounded-md bg-primary-600 text-sm cursor-not-allowed opacity-80">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"/>
-                                            </svg>
-                                            <span>امتیاز داده شده <span
-                                                        class="font-bold">({{ post.points|persian_number }})</span></span>
-                                        </button>
-                                    {% endif %}
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-gray-50 px-6 py-3 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
-                <div class="flex items-center gap-2">
-                    {% if post.author.avatarUrl %}
-                        <img src="{{ post.author.avatarUrl }}" alt="{{ post.author.displayName }}"
-                             class="w-6 h-6 rounded-full">
-                    {% else %}
-                        <div class="w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 text-xs">
-                            {{ post.author.displayName|first|upper }}
-                        </div>
-                    {% endif %}
-                    <span class="text-gray-700">{{ post.author.displayName }}</span>
-                </div>
-
-                <div class="flex items-center gap-2 text-gray-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none"
-                         viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <time datetime="{{ post.createdAt|date('c') }}">{{ post.createdAt|persian_ago }}</time>
-                </div>
-
-                <div class="flex items-center gap-2 text-gray-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none"
-                         viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                    </svg>
-                    <span>{{ post.comments|length|persian_number }} دیدگاه</span>
-                </div>
-            </div>
-        </article>
-
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-            <div class="p-6 border-b border-gray-100">
-                <h2 class="text-xl font-bold flex items-center gap-2 text-gray-900">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-600" fill="none"
-                         viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
-                    </svg>
-                    دیدگاه‌ها <span class="text-gray-500">({{ post.comments|length|persian_number }})</span>
-                </h2>
-            </div>
-
-            {% if is_granted('ROLE_USER') %}
-                <div class="p-6 bg-gray-50 border-b border-gray-100">
-                    <form action="{{ path('app_comment_new', {'postId': post.id}) }}" method="post" class="space-y-4">
-                        <div>
-                            <label for="comment_content" class="block text-sm font-medium text-gray-700 mb-1">دیدگاه
-                                شما</label>
-                            <textarea name="content" id="comment_content" rows="4"
-                                      class="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 resize-y"
-                                      placeholder="دیدگاه خود را بنویسید..."></textarea>
-                        </div>
-                        <div>
-                            <button type="submit"
-                                    class="inline-flex items-center px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1.5" fill="none"
-                                     viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                                </svg>
-                                ارسال دیدگاه
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            {% else %}
-                <div class="p-6 bg-gray-50 border-b border-gray-100">
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-blue-50 border border-blue-100 rounded-lg text-blue-800">
-                        <div class="flex items-center gap-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            <span>برای ارسال دیدگاه باید وارد سایت شوید.</span>
-                        </div>
-                        <div class="flex gap-3">
-                            <a href="{{ path('app_login') }}"
-                               class="inline-flex items-center px-4 py-2 bg-white border border-blue-300 text-blue-700 rounded-lg hover:bg-blue-50 text-sm font-medium">
-                                ورود به سایت
-                            </a>
-                            <a href="{{ path('connect_discord') }}"
-                               class="inline-flex items-center px-4 py-2 bg-[#5865F2] text-white rounded-lg hover:bg-[#4752C4] text-sm font-medium">
-                                <svg class="h-4 w-4 ml-1.5" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
-                                </svg>
-                                ورود با دیسکورد
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-
-            <div class="divide-y divide-gray-100">
-                {% if post.comments|filter(c => (c.visible is null or c.visible))|length > 0 %}
-                    {% for comment in post.comments|filter(c => (c.visible is null or c.visible)) %}
-                        <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
-                            <div class="flex">
-                                <div class="flex-shrink-0 ml-3">
-                                    {% if comment.author.avatarUrl %}
-                                        <img src="{{ comment.author.avatarUrl }}" alt="{{ comment.author.displayName }}"
-                                             class="w-10 h-10 rounded-full border border-gray-200">
-                                    {% else %}
-                                        <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-bold">
-                                            {{ comment.author.displayName|first|upper }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                                <div class="flex-1">
-                                    <div class="flex flex-wrap items-center gap-2 mb-2">
-                                        <span class="font-medium text-gray-900">{{ comment.author.displayName }}</span>
-                                        <span class="inline-block px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full">{{ comment.createdAt|persian_ago }}</span>
-                                    </div>
-                                    <div class="text-gray-700 text-sm prose-sm whitespace-pre-line max-w-none">
-                                        {{ comment.content|nl2br }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="p-12 text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400 mb-4" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                        </svg>
-                        <p class="text-lg text-gray-500">هنوز دیدگاهی ثبت نشده است.</p>
-                        {% if is_granted('ROLE_USER') %}
-                            <p class="text-sm text-gray-500 mt-2">اولین نفری باشید که دیدگاهی ثبت می‌کند!</p>
-                        {% endif %}
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-{% endblock %} #}
-
 {% block body %}
     <section>
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
@@ -262,7 +42,13 @@
                                 <div class="shrink-0">
                                     <form action="{{ path('app_post_vote', {'id': post.id}) }}" method="POST">
                                         <button type="submit"
-                                                class="sticky top-6 flex flex-col items-center text-center w-14 h-14 px-1 py-3 rounded-sm border border-slate-700 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 hover:bg-slate-800 transition duration-150 ease-in-out">
+                                                {% if post.hasVotedBy(app.user) %}disabled{% endif %}
+                                                class="sticky top-6 flex flex-col items-center text-center w-14 h-14 px-1 py-3 rounded-sm border border-slate-700 bg-linear-to-tr
+                                                    {% if not post.hasVotedBy(app.user) %}
+                                                        from-slate-800/20 via-slate-800/50 to-slate-800/20 hover:bg-slate-800 transition duration-150 ease-in-out
+                                                    {% else %}
+                                                        from-green-950/10 via-green-950/20 to-green-950/10
+                                                    {% endif %}">
                                             <svg class="inline-flex fill-indigo-400 mb-1" width="11" height="7"
                                                  xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M1.664 6.747.336 5.253 5.5.662l5.164 4.591-1.328 1.494L5.5 3.338z"/>
@@ -303,24 +89,20 @@
                                                 <span class="text-base">{{ post.domain }}</span>
                                             </a>
                                         </div>
-
                                     </article>
 
                                     {% if is_granted('ROLE_USER') %}
-                                        <form class="mb-4">
-                                            <div class="w-full mb-5">
-                                                <label class="sr-only" for="comment">دیدگاه شما</label>
-                                                <textarea id="comment" rows="4"
-                                                          class="form-textarea w-full placeholder:italic"
-                                                          placeholder="نظرتون رو راجع به این پست بنویسید"></textarea>
-                                            </div>
+                                        <div class="mb-4">
+                                            {{ form_start(form) }}
+                                            {{ form_row(form.content) }}
                                             <div class="text-right">
                                                 <button class="btn-sm py-1.5 text-white bg-indigo-500 hover:bg-indigo-600"
                                                         type="submit">
                                                     ثبت دیدگاه
                                                 </button>
                                             </div>
-                                        </form>
+                                            {{form_end(form) }}
+                                        </div>
                                     {% endif %}
 
                                     <div class="w-full mb-5">

@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\PostVote;
 use App\Enum\WebhookEventAction;
+use App\Form\CommentSubmissionType;
 use App\Form\PostType;
 use App\Message\WebhookEvent;
 use App\Repository\PostRepository;
@@ -21,12 +23,17 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/posts')]
 class PostController extends AbstractController
 {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+    )
+    {
+    }
+
     #[Route('/new', name: 'app_post_new', methods: ['GET', 'POST'])]
     #[IsGranted('user_action')]
     #[IsGranted('ROLE_USER')]
     public function new(
         Request $request,
-        EntityManagerInterface $entityManager,
         PostRepository $postRepository,
         UrlNormalizerService $urlNormalizer,
         MessageBusInterface $messageBus,
@@ -46,8 +53,8 @@ class PostController extends AbstractController
             $normalizedUrl = $urlNormalizer->normalize($post->getUrl());
             $post->setNormalizedUrl($normalizedUrl);
             $post->setAuthor($this->getUser());
-            $entityManager->persist($post);
-            $entityManager->flush();
+            $this->entityManager->persist($post);
+            $this->entityManager->flush();
 
             $messageBus->dispatch(new WebhookEvent(
                 WebhookEventAction::POST_PUBLISHED,
@@ -68,21 +75,44 @@ class PostController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_post_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_post_show')]
     public function show(
         Post $post,
         PostRepository $postRepository,
         DiscordService $discordService,
+        Request $request,
     ): Response {
         $discordInfo = $discordService->fetchWidgetData();
         $discordEvents = $discordService->fetchUpcomingEvents();
         $mostPopularPosts = $postRepository->findMostPopularLastDay();
+        
+        $comment = new Comment();
+        $form = $this->createForm(CommentSubmissionType::class, $comment);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $comment->setPost($post);
+                $comment->setAuthor($this->getUser());
+                
+                $this->entityManager->persist($comment);
+                $this->entityManager->flush();
+
+                $this->addFlash('success', 'دیدگاه شما با موفقیت ثبت شد.');
+            } else {
+                $errors = $form->getErrors();
+                foreach ($errors as $error) {
+                    $this->addFlash('error', $error->getMessage());
+                }
+            }
+        }
 
         return $this->render('post/show.html.twig', [
             'post' => $post,
             'discord_info' => $discordInfo,
             'discord_events' => $discordEvents,
             'most_popular_posts' => $mostPopularPosts,
+            'form' => $form,
         ]);
     }
 
