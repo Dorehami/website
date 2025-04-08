@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Entity\PostVote;
+use App\Enum\WebhookEventAction;
 use App\Form\PostType;
+use App\Message\WebhookEvent;
 use App\Repository\PostRepository;
 use App\Service\DiscordService;
 use App\Service\UrlNormalizerService;
@@ -12,6 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -25,7 +28,8 @@ class PostController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         PostRepository $postRepository,
-        UrlNormalizerService $urlNormalizer
+        UrlNormalizerService $urlNormalizer,
+        MessageBusInterface $messageBus,
     ): Response {
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
@@ -44,6 +48,15 @@ class PostController extends AbstractController
             $post->setAuthor($this->getUser());
             $entityManager->persist($post);
             $entityManager->flush();
+
+            $messageBus->dispatch(new WebhookEvent(
+                WebhookEventAction::POST_PUBLISHED,
+                [
+                    'postId' => $post->getId(),
+                    'author' => $this->getUser()->getUserIdentifier(),
+                    'author_discord_id' => $this->getUser()->getDiscordId() ?? null,
+                ]
+            ));
 
             $this->addFlash('success', 'مقاله شما با موفقیت ارسال شد.');
             return $this->redirectToRoute('app_home');

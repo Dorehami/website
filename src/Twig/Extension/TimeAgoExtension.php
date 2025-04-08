@@ -38,7 +38,7 @@ class TimeAgoExtension extends AbstractExtension
 
         if ($diff < 3600) {
             $minutes = floor($diff / 60);
-            return $this->formatPersianNumber($minutes) . "$prefix دقیقه ";
+            return $this->formatPersianNumber($minutes) . " دقیقه $prefix";
         }
 
         if ($diff < 86400) {
