@@ -99,6 +99,7 @@ class PostController extends AbstractController
                 $this->entityManager->flush();
 
                 $this->addFlash('success', 'دیدگاه شما با موفقیت ثبت شد.');
+                return $this->redirectToRoute('app_post_show', ['id' => $post->getId()]);
             } else {
                 $errors = $form->getErrors();
                 foreach ($errors as $error) {
