@@ -40,22 +40,33 @@
                         <div class="md:pl-6 lg:pl-20">
                             <div class="flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:space-x-6">
                                 <div class="shrink-0">
-                                    <form action="{{ path('app_post_vote', {'id': post.id}) }}" method="POST">
-                                        <button type="submit"
-                                                {% if post.hasVotedBy(app.user) %}disabled{% endif %}
-                                                class="sticky top-6 flex flex-col items-center text-center w-14 h-14 px-1 py-3 rounded-sm border border-slate-700 bg-linear-to-tr
+                                    {% if is_granted('ROLE_USER') %}
+                                        <form action="{{ path('app_post_vote', {'id': post.id}) }}" method="POST">
+                                            <button type="submit"
+                                                    {% if post.hasVotedBy(app.user) %}disabled{% endif %}
+                                                    class="sticky top-6 flex flex-col items-center text-center w-14 h-14 px-1 py-3 rounded-sm border border-slate-700 bg-linear-to-tr
                                                     {% if not post.hasVotedBy(app.user) %}
                                                         from-slate-800/20 via-slate-800/50 to-slate-800/20 hover:bg-slate-800 transition duration-150 ease-in-out
                                                     {% else %}
                                                         from-green-950/10 via-green-950/20 to-green-950/10
                                                     {% endif %}">
+                                                <svg class="inline-flex fill-indigo-400 mb-1" width="11" height="7"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M1.664 6.747.336 5.253 5.5.662l5.164 4.591-1.328 1.494L5.5 3.338z"/>
+                                                </svg>
+                                                <span class="text-xs font-medium text-indigo-500">{{ post.votes|length|persian_number }}</span>
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <a href="{{ path('connect_discord') }}"
+                                           class="sticky top-6 flex flex-col items-center text-center w-14 h-14 px-1 py-3 rounded-sm border border-slate-700 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 hover:bg-slate-800 transition duration-150 ease-in-out">
                                             <svg class="inline-flex fill-indigo-400 mb-1" width="11" height="7"
                                                  xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M1.664 6.747.336 5.253 5.5.662l5.164 4.591-1.328 1.494L5.5 3.338z"/>
                                             </svg>
                                             <span class="text-xs font-medium text-indigo-500">{{ post.votes|length|persian_number }}</span>
-                                        </button>
-                                    </form>
+                                        </a>
+                                    {% endif %}
                                 </div>
 
                                 <div class="w-full">
@@ -101,7 +112,7 @@
                                                     ثبت دیدگاه
                                                 </button>
                                             </div>
-                                            {{form_end(form) }}
+                                            {{ form_end(form) }}
                                         </div>
                                     {% endif %}
 
