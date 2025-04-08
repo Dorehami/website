@@ -34,6 +34,8 @@
     <script>window.plausible = window.plausible || function () {
             (window.plausible.q = window.plausible.q || []).push(arguments)
         }</script>
+
+    <script src="{{ asset('apex/apexcharts.min.js') }}"></script>
 </head>
 
 <body class="font-estedad antialiased bg-slate-900 text-slate-200 tracking-tight">
@@ -176,6 +178,7 @@
 </div>
 
 {% block structured_data %}{% endblock %}
+{% block javascript_body %}{% endblock %}
 </body>
 
 </html>

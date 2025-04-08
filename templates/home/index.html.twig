@@ -53,6 +53,7 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
             <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
                 <div class="md:grow pt-6 pb-12 md:pb-20">
+                    <div id="chart" class="mb-4 hidden"></div>
                     <div class="md:pl-6 lg:pl-10">
                         <div>
                             <div class="border-b border-slate-800 pb-6 mb-10">
@@ -274,4 +275,123 @@
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block javascript_body %}
+    <script defer>
+        const options = {
+            series: [{
+                name: 'users',
+                data: [31, 40, 28, 51, 42, 109, 100]
+            }],
+            chart: {
+                type: 'area',
+                height: 250,
+                fontFamily: 'Estedad, sans-serif',
+                background: 'transparent',
+                sparkline: {
+                    enabled: true
+                },
+                toolbar: {
+                    show: false
+                },
+                animations: {
+                    enabled: true,
+                    easing: 'easeinout',
+                    speed: 800
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth',
+                width: 2,
+                colors: ['#6366F1']
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shadeIntensity: 1,
+                    opacityFrom: 0.4,
+                    opacityTo: 0.1,
+                    stops: [0, 90, 100]
+                },
+                colors: ['#6366F1']
+            },
+            grid: {
+                show: false,
+                padding: {
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0
+                }
+            },
+            xaxis: {
+                labels: {
+                    show: false
+                },
+                axisBorder: {
+                    show: false
+                },
+                axisTicks: {
+                    show: false
+                },
+                type: 'datetime',
+                categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+            },
+            yaxis: {
+                show: false,
+                min: 0
+            },
+            tooltip: {
+                enabled: true,
+                theme: 'dark',
+                style: {
+                    fontFamily: 'Estedad, sans-serif'
+                },
+                y: {
+                    formatter: function (value) {
+                        return `${value} کاربر`;
+                    },
+                    title: {
+                        formatter: () => ''
+                    }
+                },
+                x: {
+                    format: 'yyyy/MM/dd'
+                },
+                marker: {
+                    show: false
+                }
+            },
+            legend: {
+                show: false
+            },
+            states: {
+                hover: {
+                    filter: {
+                        type: 'none'
+                    }
+                },
+                active: {
+                    filter: {
+                        type: 'none'
+                    }
+                }
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        height: 200
+                    }
+                }
+            }]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+    </script>
 {% endblock %}
