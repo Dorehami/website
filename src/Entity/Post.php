@@ -6,6 +6,7 @@ use App\Repository\PostRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -46,6 +47,12 @@ class Post
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $normalizedUrl = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $domainIsPersonal = null;
 
     public function __construct()
     {
@@ -194,6 +201,11 @@ class Post
         return $this->votes->count();
     }
 
+    public function getVisibleComments(): Collection
+    {
+        return $this->comments->filter(fn (Comment $comment) => $comment->isVisible() ?? true);
+    }
+
     /**
      * Check if a user has already voted for this post
      */
@@ -222,5 +234,29 @@ class Post
     public function __toString(): string
     {
         return $this->title . ' - ' . $this->author->getDisplayName() . ' - ' . $this->url;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function isDomainIsPersonal(): ?bool
+    {
+        return $this->domainIsPersonal;
+    }
+
+    public function setDomainIsPersonal(?bool $domainIsPersonal): static
+    {
+        $this->domainIsPersonal = $domainIsPersonal;
+
+        return $this;
     }
 }

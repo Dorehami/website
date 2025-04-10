@@ -20,22 +20,45 @@
                     {{ form_start(form) }}
                     {{ form_errors(form) }}
 
-                    <div class="space-y-4">
-                        <div>
-                            {{ form_label(form.title, null, {'label_attr': {'class': 'sr-only'}}) }}
-                            {{ form_widget(form.title, {'attr': {'class': 'form-input text-sm w-full'}}) }}
-                            {{ form_errors(form.title) }}
+                    <div class="space-y-8">
+                        <div class="flex gap-4 w-full">
+                            <div class="flex-1">
+                                {{ form_label(form.title, null, {'label_attr': {'class': 'sr-only'}}) }}
+                                {{ form_widget(form.title, {'attr': {'class': 'form-input text-sm w-full'}}) }}
+                                <p class="text-slate-500 text-sm mt-1">
+                                    عنوان میتونه هر چیزی برای خواننده‌ها باشه.
+                                </p>
+                                {{ form_errors(form.title) }}
+                            </div>
+                            <div class="flex-1">
+                                {{ form_label(form.url, null, {'label_attr': {'class': 'sr-only'}}) }}
+                                {{ form_widget(form.url, {'attr': {'class': 'form-input text-sm w-full'}}) }}
+                                <p class="text-slate-500 text-sm mt-1">
+                                    اگر این لینک قبلاً ارسال شده باشه، به صفحه اون مقاله هدایت خواهی شد.
+                                </p>
+                                {{ form_errors(form.url) }}
+                            </div>
                         </div>
                         <div>
-                            {{ form_label(form.url, null, {'label_attr': {'class': 'sr-only'}}) }}
-                            {{ form_widget(form.url, {'attr': {'class': 'form-input text-sm w-full'}}) }}
+                            {{ form_label(form.description, null, {'label_attr': {'class': 'sr-only'}}) }}
+                            {{ form_widget(form.description, {'attr': {'class': 'form-input text-sm w-full'}}) }}
                             <p class="text-slate-500 text-sm mt-1">
-                                اگر این لینک قبلاً ارسال شده باشد، به صفحه آن مقاله هدایت خواهید شد.
+                                یه توضیح کوتاه برای خواننده‌ها، در صورتی که نخوان لینک رو باز کنن.
                             </p>
-                            {{ form_errors(form.url) }}
+                            {{ form_errors(form.description) }}
+                        </div>
+                        <div>
+                            {{ form_label(form.domainIsPersonal, null, {'label_attr': {'class': 'sr-only'}}) }}
+                            <div class="flex gap-2 items-center">
+                                {{ form_widget(form.domainIsPersonal, {'attr': {'class': 'form-checkbox text-sm'}}) }}
+                                <p class="text-slate-500 text-sm">
+                                    آیا دامنه، به شخص تعلق داره یا شخصیه؟ مثلا دامنه‌ی ویرگول شرکتیه و شخصی نیست
+                                </p>
+                            </div>
+                            {{ form_errors(form.domainIsPersonal) }}
                         </div>
                     </div>
-                    <div class="mt-6 text-center mx-auto">
+                    <div class="mt-8 text-center mx-auto">
                         <button type="submit"
                                 class="btn-sm text-white bg-indigo-500 hover:bg-indigo-600 w-full max-w-sm">ارسال مقاله
                         </button>

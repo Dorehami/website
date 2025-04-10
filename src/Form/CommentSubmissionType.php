@@ -15,9 +15,12 @@ class CommentSubmissionType extends AbstractType
         $builder
             ->add('content', TextAreaType::class, [
                 'label' => 'دیدگاه شما',
+                'label_attr' => [
+                    'class' => 'mb-4'
+                ],
                 'attr' => [
                     'placeholder' => 'نظرتون رو راجع به این پست بنویسید',
-                    'class' => 'form-textarea w-full placeholder:italic',
+                    'class' => 'form-textarea w-full placeholder:italic mt-4',
                 ],
                 'row_attr' => [
                     'class' => 'w-full mb-5',

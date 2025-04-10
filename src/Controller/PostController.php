@@ -25,8 +25,7 @@ class PostController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-    )
-    {
+    ) {
     }
 
     #[Route('/new', name: 'app_post_new', methods: ['GET', 'POST'])]
@@ -85,16 +84,16 @@ class PostController extends AbstractController
         $discordInfo = $discordService->fetchWidgetData();
         $discordEvents = $discordService->fetchUpcomingEvents();
         $mostPopularPosts = $postRepository->findMostPopularLastDay();
-        
+
         $comment = new Comment();
         $form = $this->createForm(CommentSubmissionType::class, $comment);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $comment->setPost($post);
                 $comment->setAuthor($this->getUser());
-                
+
                 $this->entityManager->persist($comment);
                 $this->entityManager->flush();
 
