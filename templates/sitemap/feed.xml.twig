@@ -19,12 +19,15 @@
                     <![CDATA[
                     <p>نویسنده: {{ post.author.displayName }}</p>
                     <p>منبع اصلی: <a href="{{ post.url }}">{{ post.domain }}</a></p>
+                    {% if post.description %}
+                        <p>{{ post.description }}</p>
+                    {% endif %}
                     {% if post.visibleComments|length > 0 %}
                         <p>{{ post.visibleComments|length|persian_number }} دیدگاه</p>
                     {% endif %}
                     ]]>
                 </description>
-                <author>{{ post.author.displayName|default('Dorehami') }}</author>
+                <author>Dorehami | دورهمی</author>
             </item>
         {% endfor %}
     </channel>
