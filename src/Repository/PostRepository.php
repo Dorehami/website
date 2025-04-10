@@ -62,7 +62,7 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return array Returns an array with posts and pagination info sorted by most popular (most votes)
+     * @return array Returns an array with posts and pagination info sorted by most popular (most comments and votes)
      */
     public function findMostPopularLastDay(int $limit = 5): array
     {
@@ -72,7 +72,6 @@ class PostRepository extends ServiceEntityRepository
             ->groupBy('post.id')
             ->orderBy('COUNT(comment.id)', 'DESC')
             ->addOrderBy('COUNT(vote.id)', 'DESC')
-            ->addOrderBy('post.createdAt', 'DESC')
             ->where('post.createdAt > :date')
             // this will have to change later to -1 day.
             // we just don't have enough posts right now
@@ -91,7 +90,8 @@ class PostRepository extends ServiceEntityRepository
             ->leftJoin('p.votes', 'v')
             ->groupBy('p.id')
             ->orderBy('COUNT(v.id)', 'DESC')
-            ->addOrderBy('p.createdAt', 'DESC');
+            //->addOrderBy('p.createdAt', 'DESC')   -> probably not relevant for most popular
+        ;
 
         return $this->paginate($queryBuilder, $page, $limit);
     }

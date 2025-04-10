@@ -125,9 +125,12 @@
                                 <a class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out"
                                    href="{{ path('app_post_show', {'id': post.id}) }}">{{ post.title }}</a>
                             </h3>
-                            <div class="text-xs text-slate-600">
-                                <span class="text-slate-500">{{ post.createdAt|persian_ago }}</span> ·
+                            <div class="text-xs text-slate-600 flex gap-1">
+                                <span class="text-slate-500">{{ post.createdAt|persian_ago }}</span>
+                                <span>·</span>
                                 <span class="text-slate-500">{{ post.points|persian_number }} امتیاز</span>
+                                <span>·</span>
+                                <span class="text-slate-500">{{ post.visibleComments|length|persian_number }} دیدگاه</span>
                             </div>
                         </li>
                     {% endfor %}
