@@ -1,7 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ post.title }} | دورهمی{% endblock %}
-{% block meta_description %}{{ post.title }} - ارسال شده توسط {{ post.author.displayName }} - {{ post.comments|length }} دیدگاه{% endblock %}
+{% block meta_description %}
+    {% if post.description %}
+        {{ post.description }}
+    {% else %}
+        {{ post.title }}
+    {% endif %}- ارسال شده توسط {{ post.author.displayName }} - {{ post.comments|length }} دیدگاه
+{% endblock %}
 {% block meta_keywords %}{{ post.title|lower|replace({' ': ', '}) }}, دورهمی, توسعه‌دهندگان نرم‌افزار{% endblock %}
 {% block og_type %}article{% endblock %}
 
@@ -70,7 +76,8 @@
                                 </div>
 
                                 <div class="w-full">
-                                    <article class="mb-10 rounded-sm border border-slate-700 p-8 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20">
+                                    <article
+                                            class="mb-10 rounded-sm border border-slate-700 p-8 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20">
                                         <header class="mb-6">
                                             <h1 class="h2 font-badkhat text-slate-200 mb-4">{{ post.title }}</h1>
                                             <div class="flex items-center">
