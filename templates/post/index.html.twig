@@ -62,8 +62,7 @@
                                         <span class="mx-1">•</span>
                                         <a href="{{ path('app_post_show', {'id': post.id}) }}"
                                            class="text-primary-600 hover:text-primary-800">
-                                            {% set visible_comments = (post.comments|filter(c => c.visible)) %}
-                                            {{ visible_comments|length|persian_number }} دیدگاه
+                                            {{ post.visibleComments|length|persian_number }} دیدگاه
                                         </a>
                                     </div>
                                 </div>

@@ -106,7 +106,6 @@
                             <div class="mb-12">
                                 <div class="flex flex-col space-y-3 mb-8">
                                     {% for post in posts %}
-                                        {% set visible_comments = (post.comments|filter(c => c.visible)) %}
                                         <div class="nth-[-n+4]:-order-1 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20">
                                             <div class="relative p-5">
                                                 <div class="absolute inset-0 -m-px pointer-events-none -z-10 before:absolute before:inset-0 before:bg-linear-to-t before:from-slate-700 before:to-slate-800 after:absolute after:inset-0 after:bg-slate-900 after:m-px"
@@ -121,7 +120,7 @@
                                                                      height="7" xmlns="http://www.w3.org/2000/svg">
                                                                     <path d="M1.664 6.747.336 5.253 5.5.662l5.164 4.591-1.328 1.494L5.5 3.338z"/>
                                                                 </svg>
-                                                                <span class="grow text-center text-xs font-medium text-indigo-500">{{ post.votes|length|persian_number }}</span>
+                                                                <span class="grow text-center text-xs font-medium text-indigo-500">{{ post.points|persian_number }}</span>
                                                             </button>
                                                         </form>
                                                     </div>
@@ -142,14 +141,14 @@
                                                                     <span>·</span>
                                                                     <span class="text-slate-500">{{ post.createdAt|persian_ago }}</span>
                                                                     <span>·</span>
-                                                                    <span class="text-slate-500">{{ visible_comments|length|persian_number }} دیدگاه</span>
+                                                                    <span class="text-slate-500">{{ post.visibleComments|length|persian_number }} دیدگاه</span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="shrink-0 flex -space-x-3 -mr-0.5">
                                                             {% set amountShown = 3 %}
-                                                            {% set rest = (visible_comments|length) - amountShown %}
-                                                            {% for comment in visible_comments|slice(0,amountShown) %}
+                                                            {% set rest = (post.visibleComments|length) - amountShown %}
+                                                            {% for comment in post.visibleComments|slice(0,amountShown) %}
                                                                 <img class="rounded-full border-2 border-slate-900 box-content w-8 h-8"
                                                                      src="{{ comment.author.avatarUrl }}"
                                                                      alt="{{ comment.author.displayName }}"/>

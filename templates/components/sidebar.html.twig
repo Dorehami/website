@@ -40,33 +40,35 @@
                     </p>
                 {% endif %}
             </div>
-            <div>
-                <div class="text-xs uppercase text-slate-600 font-semibold mb-4">رویدادهای پیش رو</div>
-                <ul class="space-y-6">
-                    {% for event in discord_events %}
-                        <li>
-                            <div class="flex items-center mb-1">
-                                <img class="rounded-full ml-2"
-                                     src="https://cdn.discordapp.com/avatars/{{ event.creator.id }}/{{ event.creator.avatar }}.png"
-                                     width="16" height="16" alt="User 06"/>
-                                <div class="text-xs">
-                                    <span class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">{{ event.creator.username }}</span>
+            {% if discord_events|length > 0 %}
+                <div>
+                    <div class="text-xs uppercase text-slate-600 font-semibold mb-4">رویدادهای پیش رو</div>
+                    <ul class="space-y-6">
+                        {% for event in discord_events %}
+                            <li>
+                                <div class="flex items-center mb-1">
+                                    <img class="rounded-full ml-2"
+                                         src="https://cdn.discordapp.com/avatars/{{ event.creator.id }}/{{ event.creator.avatar }}.png"
+                                         width="16" height="16" alt="User 06"/>
+                                    <div class="text-xs">
+                                        <span class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">{{ event.creator.username }}</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <h3 class="text-sm mb-2">
-                                <a class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out"
-                                   href="{{ path('redirect_event', {'eventId': event.id}) }}">{{ event.name }}</a>
-                                <p class="text-slate-400 text-xs">{{ event.description|nl2br }}</p>
-                            </h3>
-                            <div class="text-xs text-slate-600">
-                                <span class="text-slate-500">{{ event.scheduled_start_time|persian_ago }}</span>
-                                · <span
-                                        class="text-slate-500">{{ event.user_count|persian_number }} شرکت‌کننده</span>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
+                                <h3 class="text-sm mb-2">
+                                    <a class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out"
+                                       href="{{ path('redirect_event', {'eventId': event.id}) }}">{{ event.name }}</a>
+                                    <p class="text-slate-400 text-xs">{{ event.description|nl2br }}</p>
+                                </h3>
+                                <div class="text-xs text-slate-600">
+                                    <span class="text-slate-500">{{ event.scheduled_start_time|persian_ago }}</span>
+                                    · <span
+                                            class="text-slate-500">{{ event.user_count|persian_number }} شرکت‌کننده</span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
             {#                             <div>
                                 <div class="text-xs uppercase text-slate-600 font-semibold mb-4">جدید‌ترین پوزیشن‌ها</div>
                                 <ul class="space-y-3">
@@ -123,9 +125,12 @@
                                 <a class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out"
                                    href="{{ path('app_post_show', {'id': post.id}) }}">{{ post.title }}</a>
                             </h3>
-                            <div class="text-xs text-slate-600">
-                                <span class="text-slate-500">{{ post.createdAt|persian_ago }}</span> ·
-                                <span class="text-slate-500">{{ post.votes|length|persian_number }} امتیاز</span>
+                            <div class="text-xs text-slate-600 flex gap-1">
+                                <span class="text-slate-500">{{ post.createdAt|persian_ago }}</span>
+                                <span>·</span>
+                                <span class="text-slate-500">{{ post.points|persian_number }} امتیاز</span>
+                                <span>·</span>
+                                <span class="text-slate-500">{{ post.visibleComments|length|persian_number }} دیدگاه</span>
                             </div>
                         </li>
                     {% endfor %}

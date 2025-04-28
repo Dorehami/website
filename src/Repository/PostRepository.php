@@ -62,17 +62,17 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return array Returns an array with posts and pagination info sorted by most popular (most votes)
+     * @return array Returns an array with posts and pagination info sorted by most popular (most comments and votes)
      */
     public function findMostPopularLastDay(int $limit = 5): array
     {
-        $queryBuilder = $this->createQueryBuilder('p')
-            ->leftJoin('p.votes', 'v')
-            ->leftJoin('p.comments', 'c')
-            ->groupBy('p.id')
-            ->orderBy('COUNT(v.id)', 'DESC')
-            ->addOrderBy('p.createdAt', 'DESC')
-            ->where('p.createdAt > :date')
+        $queryBuilder = $this->createQueryBuilder('post')
+            ->leftJoin('post.votes', 'vote')
+            ->leftJoin('post.comments', 'comment')
+            ->groupBy('post.id')
+            ->orderBy('COUNT(comment.id)', 'DESC')
+            ->addOrderBy('COUNT(vote.id)', 'DESC')
+            ->where('post.createdAt > :date')
             // this will have to change later to -1 day.
             // we just don't have enough posts right now
             ->setParameter('date', new DateTimeImmutable('-30 days'))
@@ -90,7 +90,8 @@ class PostRepository extends ServiceEntityRepository
             ->leftJoin('p.votes', 'v')
             ->groupBy('p.id')
             ->orderBy('COUNT(v.id)', 'DESC')
-            ->addOrderBy('p.createdAt', 'DESC');
+            //->addOrderBy('p.createdAt', 'DESC')   -> probably not relevant for most popular
+        ;
 
         return $this->paginate($queryBuilder, $page, $limit);
     }

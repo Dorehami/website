@@ -1,7 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ post.title }} | دورهمی{% endblock %}
-{% block meta_description %}{{ post.title }} - ارسال شده توسط {{ post.author.displayName }} - {{ post.comments|length }} دیدگاه{% endblock %}
+{% block meta_description %}
+    {% if post.description %}
+        {{ post.description }}
+    {% else %}
+        {{ post.title }}
+    {% endif %}- ارسال شده توسط {{ post.author.displayName }} - {{ post.comments|length }} دیدگاه
+{% endblock %}
 {% block meta_keywords %}{{ post.title|lower|replace({' ': ', '}) }}, دورهمی, توسعه‌دهندگان نرم‌افزار{% endblock %}
 {% block og_type %}article{% endblock %}
 
@@ -46,15 +52,15 @@
                                                     {% if post.hasVotedBy(app.user) %}disabled{% endif %}
                                                     class="sticky top-6 flex flex-col items-center text-center w-14 h-14 px-1 py-3 rounded-sm border border-slate-700 bg-linear-to-tr
                                                     {% if not post.hasVotedBy(app.user) %}
-                                                        from-slate-800/20 via-slate-800/50 to-slate-800/20 hover:bg-slate-800 transition duration-150 ease-in-out
+                                                        from-slate-800/20 via-slate-800/50 to-slate-800/20 hover:bg-slate-800 transition duration-150 ease-in-out text-indigo-500
                                                     {% else %}
-                                                        from-green-950/10 via-green-950/20 to-green-950/10
+                                                        from-gray-950/10 via-gray-950/20 to-gray-950/10 text-gray-500
                                                     {% endif %}">
-                                                <svg class="inline-flex fill-indigo-400 mb-1" width="11" height="7"
+                                                <svg class="inline-flex fill-current mb-1" width="11" height="7"
                                                      xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M1.664 6.747.336 5.253 5.5.662l5.164 4.591-1.328 1.494L5.5 3.338z"/>
                                                 </svg>
-                                                <span class="text-xs font-medium text-indigo-500">{{ post.votes|length|persian_number }}</span>
+                                                <span class="text-xs font-medium">{{ post.points|persian_number }}</span>
                                             </button>
                                         </form>
                                     {% else %}
@@ -64,31 +70,32 @@
                                                  xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M1.664 6.747.336 5.253 5.5.662l5.164 4.591-1.328 1.494L5.5 3.338z"/>
                                             </svg>
-                                            <span class="text-xs font-medium text-indigo-500">{{ post.votes|length|persian_number }}</span>
+                                            <span class="text-xs font-medium text-indigo-500">{{ post.points|persian_number }}</span>
                                         </a>
                                     {% endif %}
                                 </div>
 
                                 <div class="w-full">
-                                    <article class="mb-10">
+                                    <article
+                                            class="mb-10 rounded-sm border border-slate-700 p-8 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20">
                                         <header class="mb-6">
                                             <h1 class="h2 font-badkhat text-slate-200 mb-4">{{ post.title }}</h1>
                                             <div class="flex items-center">
                                                 <img class="rounded-full ml-2 w-8 h-8" src="{{ post.author.avatarUrl }}"
                                                      alt="{{ post.author.displayName }}"/>
-                                                <div class="text-sm text-slate-600 flex gap-1">
+                                                <div class="text-sm text-slate-600 flex gap-1 items-center">
                                                     <span class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">
                                                         {{ post.author.displayName }}
                                                     </span>
                                                     <span>·</span>
                                                     <span class="text-slate-500">{{ post.createdAt|persian_ago }}</span>
                                                     <span>·</span>
-                                                    <span class="text-slate-500">{{ post.comments|length|persian_number }} دیدگاه</span>
+                                                    <span class="text-slate-500">{{ post.visibleComments|length|persian_number }} دیدگاه</span>
                                                 </div>
                                             </div>
                                         </header>
 
-                                        <div class="space-y-6">
+                                        <div class="space-y-4">
                                             <a class="flex gap-1 items-center text-indigo-500 hover:text-slate-600"
                                                href="{{ post.url }}" target="_blank">
                                                 <svg class="w-6 h-6 text-slate-500" xmlns="http://www.w3.org/2000/svg"
@@ -99,6 +106,9 @@
                                                 </svg>
                                                 <span class="text-base">{{ post.domain }}</span>
                                             </a>
+                                            {% if post.description %}
+                                                <p class="text-slate-400">{{ post.description }}</p>
+                                            {% endif %}
                                         </div>
                                     </article>
 
@@ -116,14 +126,13 @@
                                         </div>
                                     {% endif %}
 
-                                    <div class="w-full mb-5">
-                                        {% set visible_comment = post.comments|filter(c => c.visible) %}
+                                    <div class="w-full mb-5 mt-8">
                                         {% if is_granted('ROLE_USER') %}
-                                            <h4 class="font-bold text-slate-200 mb-2">{{ visible_comment|length|persian_number }}
+                                            <h4 class="font-bold text-slate-200 mb-2">{{ post.visibleComments|length|persian_number }}
                                                 دیدگاه</h4>
                                         {% else %}
                                             <div class="flex items-center justify-between mb-2">
-                                                <h4 class="font-bold text-slate-200">{{ visible_comment|length|persian_number }}
+                                                <h4 class="font-bold text-slate-200">{{ post.visibleComments|length|persian_number }}
                                                     دیدگاه</h4>
                                                 <a class="btn-sm text-white bg-indigo-500 hover:bg-indigo-600"
                                                    href="{{ path('connect_discord') }}">برای ثبت دیدگاه عضو دورهمی
@@ -131,8 +140,8 @@
                                             </div>
                                         {% endif %}
                                         <ul class="w-full">
-                                            {% for comment in visible_comment %}
-                                                <li class="p-4 mb-4 bg-slate-800 border border-slate-700 w-full">
+                                            {% for comment in post.visibleComments %}
+                                                <li class="p-4 mb-4 bg-slate-800 rounded border border-slate-700 w-full">
                                                     <div class="flex items-center mb-1">
                                                         <img class="rounded-full ml-2 w-6 h-6"
                                                              src="{{ comment.author.avatarUrl }}"

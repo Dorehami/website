@@ -95,7 +95,7 @@ class UserCrudController extends AbstractCrudController
                 return $action->setLabel('Create Admin User');
             });
     }
-
+    
     public function createEntity(string $entityFqcn)
     {
         $user = new User();
@@ -117,7 +117,7 @@ class UserCrudController extends AbstractCrudController
      */
     private function hashPassword(User $user): void
     {
-        if ($user->getPassword() === '') {
+        if (empty($user->getPassword())) {
             return;
         }
 
