@@ -31,13 +31,21 @@
                                 {{ form_errors(form.title) }}
                             </div>
                             <div class="flex-1">
-                                {{ form_label(form.url, null, {'label_attr': {'class': 'sr-only'}}) }}
-                                {{ form_widget(form.url, {'attr': {'class': 'form-input text-sm w-full'}}) }}
+                                {{ form_label(form.originalAuthorName, null, {'label_attr': {'class': 'sr-only'}}) }}
+                                {{ form_widget(form.originalAuthorName, {'attr': {'class': 'form-input text-sm w-full'}}) }}
                                 <p class="text-slate-500 text-sm mt-1">
-                                    اگر این لینک قبلاً ارسال شده باشه، به صفحه اون مقاله هدایت خواهی شد.
+                                    اسم نویسنده‌ی اصلی این مطلب چیه؟ میتونه اسم شخص یا شرکت باشه.
                                 </p>
-                                {{ form_errors(form.url) }}
+                                {{ form_errors(form.originalAuthorName) }}
                             </div>
+                        </div>
+                        <div>
+                            {{ form_label(form.url, null, {'label_attr': {'class': 'sr-only'}}) }}
+                            {{ form_widget(form.url, {'attr': {'class': 'form-input text-sm w-full'}}) }}
+                            <p class="text-slate-500 text-sm mt-1">
+                                اگر این لینک قبلاً ارسال شده باشه، به صفحه اون مقاله هدایت خواهی شد.
+                            </p>
+                            {{ form_errors(form.url) }}
                         </div>
                         <div>
                             {{ form_label(form.description, null, {'label_attr': {'class': 'sr-only'}}) }}

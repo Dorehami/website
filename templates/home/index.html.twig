@@ -142,6 +142,10 @@
                                                                     <span class="text-slate-500">{{ post.createdAt|persian_ago }}</span>
                                                                     <span>·</span>
                                                                     <span class="text-slate-500">{{ post.visibleComments|length|persian_number }} دیدگاه</span>
+                                                                    {% if post.originalAuthorName is defined and post.originalAuthorName is not empty %}
+                                                                        <span>·</span>
+                                                                        <span class="text-slate-500">{{ post.originalAuthorName }}</span>
+                                                                    {% endif %}
                                                                 </div>
                                                             </div>
                                                         </div>

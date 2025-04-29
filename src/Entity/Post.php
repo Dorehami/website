@@ -54,6 +54,9 @@ class Post
     #[ORM\Column(nullable: true)]
     private ?bool $domainIsPersonal = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $originalAuthorName = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -256,6 +259,18 @@ class Post
     public function setDomainIsPersonal(?bool $domainIsPersonal): static
     {
         $this->domainIsPersonal = $domainIsPersonal;
+
+        return $this;
+    }
+
+    public function getOriginalAuthorName(): ?string
+    {
+        return $this->originalAuthorName;
+    }
+
+    public function setOriginalAuthorName(?string $originalAuthorName): static
+    {
+        $this->originalAuthorName = $originalAuthorName;
 
         return $this;
     }

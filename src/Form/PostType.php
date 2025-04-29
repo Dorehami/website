@@ -85,6 +85,17 @@ class PostType extends AbstractType
                 'label' => 'دامنه به شخص تعلق داره؟',
                 'required' => false,
             ])
+            ->add('originalAuthorName', TextType::class, [
+                'label' => 'نویسنده',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'نام نویسنده‌ی اصلی مطلب چیه؟ (اجباری نیست)',
+                    'class' => 'w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500'
+                ],
+                'row_attr' => [
+                    'class' => 'mb-4'
+                ],
+            ])
         ;
     }
 

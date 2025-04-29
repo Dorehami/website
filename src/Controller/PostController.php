@@ -52,7 +52,15 @@ class PostController extends AbstractController
             $normalizedUrl = $urlNormalizer->normalize($post->getUrl());
             $post->setNormalizedUrl($normalizedUrl);
             $post->setAuthor($this->getUser());
+
+            $vote = new PostVote();
+            $vote->setPost($post);
+            $vote->setUser($this->getUser());
+
+            $post->addVote($vote);
+
             $this->entityManager->persist($post);
+            $this->entityManager->persist($vote);
             $this->entityManager->flush();
 
             $messageBus->dispatch(new WebhookEvent(

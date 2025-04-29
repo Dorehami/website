@@ -95,7 +95,7 @@ class UserCrudController extends AbstractCrudController
                 return $action->setLabel('Create Admin User');
             });
     }
-    
+
     public function createEntity(string $entityFqcn)
     {
         $user = new User();
