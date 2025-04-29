@@ -40,6 +40,7 @@ class PostCrudController extends AbstractCrudController
         yield UrlField::new('url');
         yield TextareaField::new('description')->hideOnIndex();
         yield BooleanField::new('domainIsPersonal');
+        yield TextField::new('originalAuthorName')->hideOnIndex();
         yield TextField::new('domain')->hideOnForm();
         yield AssociationField::new('author');
         yield DateTimeField::new('createdAt')->hideOnForm();
