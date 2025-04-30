@@ -1,5 +1,8 @@
 FROM php:8.4-fpm
 
+ARG CAPROVER_GIT_COMMIT_SHA=${CAPROVER_GIT_COMMIT_SHA}
+ENV CAPROVER_GIT_COMMIT_SHA=${CAPROVER_GIT_COMMIT_SHA}
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev \
