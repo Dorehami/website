@@ -1,5 +1,7 @@
 twig:
   file_name_pattern: '*.twig'
+  globals:
+    commit_sha: '%env(CAPROVER_GIT_COMMIT_SHA)%'
 
 when@test:
   twig:
