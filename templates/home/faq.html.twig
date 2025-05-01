@@ -1,260 +1,323 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}سوالات متداول | دورهمی{% endblock %}
-{% block meta_description %}پاسخ به سوالات متداول درباره جامعه گیک‌های دورهمی. نحوه عضویت، مشارکت و استفاده از امکانات جامعه.{% endblock %}
-{% block meta_keywords %}سوالات متداول, دورهمی, گیک, سوال و جواب, برنامه‌نویسی, جامعه, دیسکورد{% endblock %}
+{% set themeVars = {
+    'textPrimary': 'text-slate-700 dark:text-slate-200',
+    'textSecondary': 'text-slate-500 dark:text-slate-400',
+    'textAccent': 'text-indigo-500 dark:text-indigo-400',
+    'textAccentIcon': 'text-indigo-400 dark:text-indigo-500',
 
-{% block body %}
-    <section>
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="pt-28 md:pt-36">
-                <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
-                    <div class="md:grow pt-6 pb-12 md:pb-20">
-                        <div class="md:pr-6 lg:pr-20">
-                            <header class="mb-10">
-                                <h1 class="h2 font-badkhat text-slate-200 mb-4">سوالات متداول</h1>
-                                <p class="text-slate-400">
-                                    پاسخ به سوالات رایج درباره جامعه دورهمی. اگر سوال دیگری دارید که اینجا پاسخ داده
-                                    نشده، می‌تونید در کانال <span class="text-indigo-400">#پرسش-و-پاسخ</span> دیسکورد از
-                                    ما بپرسید.
-                                </p>
-                            </header>
+    'bgCard': 'bg-slate-50 dark:bg-transparent dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20',
+    'bgAccentCard': 'bg-slate-50 dark:bg-transparent dark:bg-linear-to-tr dark:from-indigo-900/20 dark:via-indigo-800/30 dark:to-indigo-900/20',
+    'bgHighlight': 'bg-slate-50 dark:bg-transparent dark:bg-linear-to-tr dark:from-indigo-500 dark:via-sky-300 dark:to-slate-200',
+    'bgBorderGradient': 'bg-slate-50 dark:bg-transparent dark:bg-linear-to-t dark:from-slate-700 dark:to-slate-800',
 
-                            <div class="rotate-1 mb-12">
-                                <div class="relative p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20">
-                                    <div class="absolute inset-0 -m-px pointer-events-none -z-10 before:absolute before:inset-0 before:bg-linear-to-t before:from-slate-700 before:to-slate-800 after:absolute after:inset-0 after:bg-slate-900 after:m-px"
-                                         aria-hidden="true"></div>
-                                    <div class="font-badkhat text-2xl text-center bg-clip-text text-transparent bg-linear-to-tr from-indigo-500 via-sky-300 to-slate-200 mb-3">
-                                        چند تا از سوالات پرتکرار
+    'cardContainer': 'p-5 bg-slate-50 dark:bg-transparent dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20 rounded-lg',
+    'sectionHeading': 'text-xl font-bold text-slate-600 dark:text-slate-200 mb-6 flex items-center gap-2',
+    'questionHeading': 'text-lg font-medium text-slate-600 dark:text-slate-200 mb-2',
+    'questionAnswer': 'text-slate-600 dark:text-slate-400',
+    'iconSize': 'h-6 w-6 text-indigo-500',
+    'highlightBlock': 'relative p-5 bg-slate-50 dark:bg-transparent dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20',
+    'highlightDecoration': 'absolute inset-0 -m-px pointer-events-none -z-10 before:absolute before:inset-0 before:bg-slate-50 before:dark:bg-translate before:dark:bg-linear-to-t before:dark:from-slate-700 before:dark:to-slate-800 after:absolute after:inset-0 after:bg-slate-100 after:dark:bg-slate-900 after:m-px',
+    'highlightText': 'font-badkhat text-2xl text-center bg-clip-text text-transparent bg-linear-to-tr to-indigo-400 via-sky-600 from-slate-700 dark:from-indigo-500 dark:via-sky-300 dark:to-slate-200 mb-3',
+    'actionButton': 'btn-sm text-white bg-indigo-500 hover:bg-indigo-600 text-center py-3'
+} %}
+
+    {% block title %}سوالات متداول | دورهمی{% endblock %}
+    {% block meta_description %}پاسخ به سوالات متداول درباره جامعه گیک‌های دورهمی. نحوه عضویت، مشارکت و استفاده از امکانات جامعه.{% endblock %}
+    {% block meta_keywords %}سوالات متداول, دورهمی, گیک, سوال و جواب, برنامه‌نویسی, جامعه, دیسکورد{% endblock %}
+
+    {% block body %}
+        <section>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6">
+                <div class="pt-28 md:pt-36">
+                    <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
+                        <div class="md:grow pt-6 pb-12 md:pb-20">
+                            <div class="md:pr-6 lg:pr-20">
+                                <header class="mb-10">
+                                    <h1 class="h2 font-badkhat {{ themeVars.textPrimary }} mb-4">سوالات متداول</h1>
+                                    <p class="{{ themeVars.textSecondary }}">
+                                        پاسخ به سوالات رایج درباره جامعه دورهمی. اگر سوال دیگری دارید که اینجا پاسخ داده
+                                        نشده، می‌تونید در کانال <span
+                                                class="{{ themeVars.textAccent }}">#پرسش-و-پاسخ</span> دیسکورد از
+                                        ما بپرسید.
+                                    </p>
+                                </header>
+
+                                <div class="rotate-1 mb-12">
+                                    <div class="{{ themeVars.highlightBlock }}">
+                                        <div class="{{ themeVars.highlightDecoration }}"
+                                             aria-hidden="true"></div>
+                                        <div class="{{ themeVars.highlightText }}">
+                                            چند تا از سوالات پرتکرار
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="mb-12">
-                                <h2 class="text-xl font-bold text-slate-200 mb-6 flex items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none"
-                                         viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
-                                    </svg>
-                                    عضویت و شروع کار
-                                </h2>
+                                <div class="mb-12">
+                                    <h2 class="{{ themeVars.sectionHeading }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="{{ themeVars.iconSize }}"
+                                             fill="none"
+                                             viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                                        </svg>
+                                        عضویت و شروع کار
+                                    </h2>
 
-                                <div class="space-y-6">
-                                    <div class="p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 rounded-lg">
-                                        <h3 class="text-lg font-medium text-slate-200 mb-2">چطور می‌تونم به دورهمی
-                                            بپیوندم؟</h3>
-                                        <p class="text-slate-400">عضویت در دورهمی خیلی ساده است. کافیه روی دکمه «پیوستن
-                                            به دیسکورد» در بالای سایت کلیک کنید و مراحل ثبت‌نام رو انجام بدید. بعد از
-                                            عضویت در سرور دیسکورد، می‌تونید به کانال <span class="text-indigo-400">#معرفی-خودت</span>
-                                            برید و خودتون رو به بقیه اعضا معرفی کنید.</p>
-                                    </div>
+                                    <div class="space-y-6">
+                                        <div class="{{ themeVars.cardContainer }}">
+                                            <h3 class="{{ themeVars.questionHeading }}">چطور می‌تونم به دورهمی
+                                                بپیوندم؟</h3>
+                                            <p class="{{ themeVars.questionAnswer }}">عضویت در دورهمی خیلی ساده است.
+                                                کافیه روی دکمه «پیوستن
+                                                به دیسکورد» در بالای سایت کلیک کنید و مراحل ثبت‌نام رو انجام بدید. بعد
+                                                از
+                                                عضویت در سرور دیسکورد، می‌تونید به کانال <span
+                                                        class="{{ themeVars.textAccent }}">#معرفی-خودت</span>
+                                                برید و خودتون رو به بقیه اعضا معرفی کنید.</p>
+                                        </div>
 
-                                    <div class="p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 rounded-lg">
-                                        <h3 class="text-lg font-medium text-slate-200 mb-2">آیا عضویت در دورهمی هزینه
-                                            داره؟</h3>
-                                        <p class="text-slate-400">نه، عضویت در دورهمی کاملاً رایگان است. ما یک جامعه
-                                            آزاد هستیم که بر پایه مشارکت و کمک داوطلبانه اعضا اداره می‌شه.</p>
-                                    </div>
+                                        <div class="{{ themeVars.cardContainer }}">
+                                            <h3 class="{{ themeVars.questionHeading }}">آیا عضویت در دورهمی هزینه
+                                                داره؟</h3>
+                                            <p class="{{ themeVars.questionAnswer }}">نه، عضویت در دورهمی کاملاً رایگان
+                                                است. ما یک جامعه
+                                                آزاد هستیم که بر پایه مشارکت و کمک داوطلبانه اعضا اداره می‌شه.</p>
+                                        </div>
 
-                                    <div class="p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 rounded-lg">
-                                        <h3 class="text-lg font-medium text-slate-200 mb-2">برای عضویت در دورهمی نیاز به
-                                            دانش خاصی دارم؟</h3>
-                                        <p class="text-slate-400">نه، دورهمی پذیرای افراد با هر سطح دانشی است. از
-                                            تازه‌کارها تا متخصصان باتجربه، همه می‌تونن عضو بشن و از منابع و گفتگوهای
-                                            جامعه استفاده کنن. ما معتقدیم که تنوع سطح دانش باعث غنی‌تر شدن جامعه
-                                            می‌شه.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-12">
-                                <h2 class="text-xl font-bold text-slate-200 mb-6 flex items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none"
-                                         viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/>
-                                    </svg>
-                                    نحوه فعالیت و مشارکت
-                                </h2>
-
-                                <div class="space-y-6">
-                                    <div class="p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 rounded-lg">
-                                        <h3 class="text-lg font-medium text-slate-200 mb-2">چطور می‌تونم در بحث‌ها
-                                            مشارکت کنم؟</h3>
-                                        <p class="text-slate-400">بعد از عضویت، می‌تونید به کانال‌های مختلف برید و در
-                                            گفتگوها شرکت کنید. سوال بپرسید، تجربیات خودتون رو به اشتراک بذارید، یا به
-                                            سوالات دیگران پاسخ بدید. فقط کافیه قوانین جامعه رو رعایت کنید و با احترام با
-                                            دیگران تعامل داشته باشید.</p>
-                                    </div>
-
-                                    <div class="p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 rounded-lg">
-                                        <h3 class="text-lg font-medium text-slate-200 mb-2">چه نوع محتوایی می‌تونم در
-                                            دورهمی به اشتراک بذارم؟</h3>
-                                        <p class="text-slate-400">می‌تونید مقالات، منابع آموزشی، خبرهای تکنولوژی،
-                                            تجربیات شخصی، پروژه‌های متن‌باز، و هر چیزی که فکر می‌کنید برای جامعه مفید
-                                            باشه رو به اشتراک بذارید. فقط مطمئن بشید که محتوا با قوانین جامعه مطابقت
-                                            داره و در کانال مناسب قرار می‌گیره.</p>
-                                    </div>
-
-                                    <div class="p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 rounded-lg">
-                                        <h3 class="text-lg font-medium text-slate-200 mb-2">آیا می‌تونم رویداد یا ورکشاپ
-                                            برگزار کنم؟</h3>
-                                        <p class="text-slate-400">بله، ما از برگزاری رویدادها و ورکشاپ‌ها توسط اعضا
-                                            استقبال می‌کنیم. اگر ایده‌ای برای برگزاری رویداد دارید، می‌تونید با ادمین‌ها
-                                            در کانال <span class="text-indigo-400">#پیشنهادات</span> صحبت کنید تا
-                                            هماهنگی‌های لازم انجام بشه.</p>
+                                        <div class="{{ themeVars.cardContainer }}">
+                                            <h3 class="{{ themeVars.questionHeading }}">برای عضویت در دورهمی نیاز به
+                                                دانش خاصی دارم؟</h3>
+                                            <p class="{{ themeVars.questionAnswer }}">نه، دورهمی پذیرای افراد با هر سطح
+                                                دانشی است. از
+                                                تازه‌کارها تا متخصصان باتجربه، همه می‌تونن عضو بشن و از منابع و گفتگوهای
+                                                جامعه استفاده کنن. ما معتقدیم که تنوع سطح دانش باعث غنی‌تر شدن جامعه
+                                                می‌شه.</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="-rotate-2 my-12">
-                                <div class="relative p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20">
-                                    <div class="absolute inset-0 -m-px pointer-events-none -z-10 before:absolute before:inset-0 before:bg-linear-to-t before:from-slate-700 before:to-slate-800 after:absolute after:inset-0 after:bg-slate-900 after:m-px"
-                                         aria-hidden="true"></div>
-                                    <p class="font-badkhat text-2xl text-center bg-clip-text text-transparent bg-linear-to-tr from-indigo-500 via-sky-300 to-slate-200 mb-3">
-                                        دورهمی متعلق به همه‌ی ماست. با مشارکت و همکاری، می‌تونیم این جامعه رو قوی‌تر
-                                        کنیم.</p>
-                                </div>
-                            </div>
+                                <div class="mb-12">
+                                    <h2 class="{{ themeVars.sectionHeading }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="{{ themeVars.iconSize }}"
+                                             fill="none"
+                                             viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/>
+                                        </svg>
+                                        نحوه فعالیت و مشارکت
+                                    </h2>
 
-                            <div class="mb-12">
-                                <h2 class="text-xl font-bold text-slate-200 mb-6 flex items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none"
-                                         viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                    </svg>
-                                    رویدادها و فعالیت‌ها
-                                </h2>
+                                    <div class="space-y-6">
+                                        <div class="{{ themeVars.cardContainer }}">
+                                            <h3 class="{{ themeVars.questionHeading }}">چطور می‌تونم در بحث‌ها
+                                                مشارکت کنم؟</h3>
+                                            <p class="{{ themeVars.questionAnswer }}">بعد از عضویت، می‌تونید به
+                                                کانال‌های مختلف برید و در
+                                                گفتگوها شرکت کنید. سوال بپرسید، تجربیات خودتون رو به اشتراک بذارید، یا
+                                                به
+                                                سوالات دیگران پاسخ بدید. فقط کافیه قوانین جامعه رو رعایت کنید و با
+                                                احترام با
+                                                دیگران تعامل داشته باشید.</p>
+                                        </div>
 
-                                <div class="space-y-6">
-                                    <div class="p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 rounded-lg">
-                                        <h3 class="text-lg font-medium text-slate-200 mb-2">چه نوع رویدادهایی در دورهمی
-                                            برگزار می‌شه؟</h3>
-                                        <p class="text-slate-400">در دورهمی رویدادهای متنوعی برگزار می‌شه، از جمله:
-                                            جلسات پرسش و پاسخ (AMA)، ورکشاپ‌های آموزشی، جلسات کدنویسی گروهی (Pair
-                                            Programming)، رویدادهای معرفی تکنولوژی‌های جدید، و گفتگو با متخصصان صنعت
-                                            نرم‌افزار.</p>
-                                    </div>
+                                        <div class="{{ themeVars.cardContainer }}">
+                                            <h3 class="{{ themeVars.questionHeading }}">چه نوع محتوایی می‌تونم در
+                                                دورهمی به اشتراک بذارم؟</h3>
+                                            <p class="{{ themeVars.questionAnswer }}">می‌تونید مقالات، منابع آموزشی،
+                                                خبرهای تکنولوژی،
+                                                تجربیات شخصی، پروژه‌های متن‌باز، و هر چیزی که فکر می‌کنید برای جامعه
+                                                مفید
+                                                باشه رو به اشتراک بذارید. فقط مطمئن بشید که محتوا با قوانین جامعه مطابقت
+                                                داره و در کانال مناسب قرار می‌گیره.</p>
+                                            
+                                        </div>
 
-                                    <div class="p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 rounded-lg">
-                                        <h3 class="text-lg font-medium text-slate-200 mb-2">چطور از رویدادهای آینده مطلع
-                                            بشم؟</h3>
-                                        <p class="text-slate-400">تمام رویدادهای آینده در کانال <span
-                                                    class="text-indigo-400">#اطلاعیه‌ها</span> و همچنین در بخش رویدادهای
-                                            (Events) دیسکورد اعلام می‌شه. همچنین می‌تونید در صفحه اصلی وبسایت، بخش
-                                            "رویدادهای پیش رو" رو چک کنید.</p>
-                                    </div>
-
-                                    <div class="p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 rounded-lg">
-                                        <h3 class="text-lg font-medium text-slate-200 mb-2">چطور می‌تونم در رویدادها
-                                            شرکت کنم؟</h3>
-                                        <p class="text-slate-400">برای شرکت در رویدادها، کافیه در دیسکورد روی رویداد
-                                            مورد نظر کلیک کنید و گزینه "Interested" یا "Going" رو انتخاب کنید. در زمان
-                                            برگزاری رویداد، به کانال صوتی یا تصویری مشخص شده بپیوندید.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-12">
-                                <h2 class="text-xl font-bold text-slate-200 mb-6 flex items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none"
-                                         viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
-                                    </svg>
-                                    سوالات فنی
-                                </h2>
-
-                                <div class="space-y-6">
-                                    <div class="p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 rounded-lg">
-                                        <h3 class="text-lg font-medium text-slate-200 mb-2">چطور می‌تونم سوال فنی
-                                            بپرسم؟</h3>
-                                        <p class="text-slate-400">برای پرسیدن سوالات فنی، به کانال مرتبط با موضوع
-                                            سوالتون برید (مثلاً #فرانت‌اند، #بک‌اند، #دیوآپس و غیره) و سوالتون رو به
-                                            صورت واضح و با جزئیات کافی مطرح کنید. برای سوالات مرتبط با کد، از بلاک‌های
-                                            کد استفاده کنید تا خوانایی بیشتری داشته باشه.</p>
-                                    </div>
-
-                                    <div class="p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 rounded-lg">
-                                        <h3 class="text-lg font-medium text-slate-200 mb-2">بهترین راه برای به اشتراک
-                                            گذاشتن کد در دیسکورد چیه؟</h3>
-                                        <p class="text-slate-400">برای به اشتراک گذاشتن کد، از سه بک‌تیک (```) قبل و بعد
-                                            از کد استفاده کنید. همچنین می‌تونید نام زبان برنامه‌نویسی رو هم بعد از
-                                            بک‌تیک‌های اول بنویسید تا هایلایت سینتکس فعال بشه. برای کدهای طولانی‌تر،
-                                            بهتره از سرویس‌هایی مثل GitHub Gist یا CodeSandbox استفاده کنید و لینکش رو
-                                            به اشتراک بذارید.</p>
-                                    </div>
-
-                                    <div class="p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 rounded-lg">
-                                        <h3 class="text-lg font-medium text-slate-200 mb-2">آیا می‌تونم برای یک پروژه
-                                            خاص درخواست همکاری کنم؟</h3>
-                                        <p class="text-slate-400">بله، می‌تونید در کانال <span class="text-indigo-400">#همکاری-پروژه‌ها</span>
-                                            درخواست همکاری برای پروژه‌های متن‌باز یا پروژه‌های شخصی خودتون رو مطرح کنید.
-                                            سعی کنید اطلاعات کاملی از پروژه، تکنولوژی‌های مورد استفاده، و نوع همکاری
-                                            مورد نیاز ارائه بدید.</p>
+                                        <div class="{{ themeVars.cardContainer }}">
+                                            <h3 class="{{ themeVars.questionHeading }}">آیا می‌تونم رویداد یا ورکشاپ
+                                                برگزار کنم؟</h3>
+                                            <p class="{{ themeVars.questionAnswer }}">بله، ما از برگزاری رویدادها و
+                                                ورکشاپ‌ها توسط اعضا
+                                                استقبال می‌کنیم. اگر ایده‌ای برای برگزاری رویداد دارید، می‌تونید با
+                                                ادمین‌ها
+                                                در کانال <span class="{{ themeVars.textAccent }}">#پیشنهادات</span> صحبت
+                                                کنید تا
+                                                هماهنگی‌های لازم انجام بشه.</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="mb-8">
-                                <h2 class="text-xl font-bold text-slate-200 mb-6 flex items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none"
-                                         viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                    </svg>
-                                    سوالات متفرقه
-                                </h2>
-
-                                <div class="space-y-6">
-                                    <div class="p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 rounded-lg">
-                                        <h3 class="text-lg font-medium text-slate-200 mb-2">آیا دورهمی در شبکه‌های
-                                            اجتماعی دیگه هم فعاله؟</h3>
-                                        <p class="text-slate-400">بله، ما علاوه بر دیسکورد در گیت‌هاب هم فعال هستیم.
-                                            می‌تونید پروژه‌های متن‌باز ما رو در صفحه <a
-                                                    href="https://github.com/Dorehami" target="_blank"
-                                                    class="text-indigo-400 hover:underline">گیت‌هاب دورهمی</a> مشاهده
-                                            کنید.</p>
-                                    </div>
-
-                                    <div class="p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 rounded-lg">
-                                        <h3 class="text-lg font-medium text-slate-200 mb-2">چطور می‌تونم در توسعه وبسایت
-                                            دورهمی مشارکت کنم؟</h3>
-                                        <p class="text-slate-400">وبسایت دورهمی یک پروژه متن‌باز است و از مشارکت همه
-                                            استقبال می‌کنیم. می‌تونید مخزن پروژه رو در گیت‌هاب فورک کنید، تغییرات مورد
-                                            نظر خودتون رو اعمال کنید و یک درخواست Pull Request ارسال کنید. برای اطلاعات
-                                            بیشتر، فایل README پروژه رو مطالعه کنید.</p>
-                                    </div>
-
-                                    <div class="p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 rounded-lg">
-                                        <h3 class="text-lg font-medium text-slate-200 mb-2">چطور می‌تونم با مدیران
-                                            دورهمی در ارتباط باشم؟</h3>
-                                        <p class="text-slate-400">برای ارتباط با مدیران دورهمی، می‌تونید در کانال <span
-                                                    class="text-indigo-400">#پشتیبانی</span> پیام بذارید یا به صورت
-                                            خصوصی به ادمین‌ها پیام بدید. تمامی ادمین‌ها در دیسکورد با رنگ متفاوت مشخص
-                                            شده‌اند.</p>
+                                <div class="-rotate-2 my-12">
+                                    <div class="{{ themeVars.highlightBlock }}">
+                                        <div class="{{ themeVars.highlightDecoration }}"
+                                             aria-hidden="true"></div>
+                                        <p class="{{ themeVars.highlightText }}">
+                                            دورهمی متعلق به همه‌ی ماست. با مشارکت و همکاری، می‌تونیم این جامعه رو قوی‌تر
+                                            کنیم.</p>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="p-6 bg-linear-to-tr from-indigo-900/20 via-indigo-800/30 to-indigo-900/20 rounded-lg">
-                                <h3 class="text-xl font-bold text-slate-200 mb-4">سوال دیگه‌ای دارید؟</h3>
-                                <p class="mb-6">اگر سوالی دارید که در اینجا پاسخ داده نشده، می‌تونید در سرور دیسکورد ما
-                                    بپرسید. ما همیشه آماده کمک هستیم.</p>
+                                <div class="mb-12">
+                                    <h2 class="{{ themeVars.sectionHeading }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="{{ themeVars.iconSize }}"
+                                             fill="none"
+                                             viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                        </svg>
+                                        رویدادها و فعالیت‌ها
+                                    </h2>
 
-                                <div class="flex justify-center">
-                                    <a href="{{ path('redirect_invite') }}"
-                                       class="btn-sm text-white bg-indigo-500 hover:bg-indigo-600 text-center py-3">
-                                        پیوستن به دیسکورد
-                                    </a>
+                                    <div class="space-y-6">
+                                        <div class="{{ themeVars.cardContainer }}">
+                                            <h3 class="{{ themeVars.questionHeading }}">چه نوع رویدادهایی در دورهمی
+                                                برگزار می‌شه؟</h3>
+                                            <p class="{{ themeVars.questionAnswer }}">در دورهمی رویدادهای متنوعی برگزار
+                                                می‌شه، از جمله:
+                                                جلسات پرسش و پاسخ (AMA)، ورکشاپ‌های آموزشی، جلسات کدنویسی گروهی (Pair
+                                                Programming)، رویدادهای معرفی تکنولوژی‌های جدید، و گفتگو با متخصصان صنعت
+                                                نرم‌افزار.</p>
+                                        </div>
+
+                                        <div class="{{ themeVars.cardContainer }}">
+                                            <h3 class="{{ themeVars.questionHeading }}">چطور از رویدادهای آینده مطلع
+                                                بشم؟</h3>
+                                            <p class="{{ themeVars.questionAnswer }}">تمام رویدادهای آینده در کانال
+                                                <span
+                                                        class="{{ themeVars.textAccent }}">#اطلاعیه‌ها</span> و همچنین
+                                                در بخش رویدادهای
+                                                (Events) دیسکورد اعلام می‌شه. همچنین می‌تونید در صفحه اصلی وبسایت، بخش
+                                                "رویدادهای پیش رو" رو چک کنید.</p>
+                                        </div>
+
+                                        <div class="{{ themeVars.cardContainer }}">
+                                            <h3 class="{{ themeVars.questionHeading }}">چطور می‌تونم در رویدادها
+                                                شرکت کنم؟</h3>
+                                            <p class="{{ themeVars.questionAnswer }}">برای شرکت در رویدادها، کافیه در
+                                                دیسکورد روی رویداد
+                                                مورد نظر کلیک کنید و گزینه "Interested" یا "Going" رو انتخاب کنید. در
+                                                زمان
+                                                برگزاری رویداد، به کانال صوتی یا تصویری مشخص شده بپیوندید.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-12">
+                                    <h2 class="{{ themeVars.sectionHeading }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="{{ themeVars.iconSize }}"
+                                             fill="none"
+                                             viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                                        </svg>
+                                        سوالات فنی
+                                    </h2>
+
+                                    <div class="space-y-6">
+                                        <div class="{{ themeVars.cardContainer }}">
+                                            <h3 class="{{ themeVars.questionHeading }}">چطور می‌تونم سوال فنی
+                                                بپرسم؟</h3>
+                                            <p class="{{ themeVars.questionAnswer }}">برای پرسیدن سوالات فنی، به کانال
+                                                مرتبط با موضوع
+                                                سوالتون برید (مثلاً #فرانت‌اند، #بک‌اند، #دیوآپس و غیره) و سوالتون رو به
+                                                صورت واضح و با جزئیات کافی مطرح کنید. برای سوالات مرتبط با کد، از
+                                                بلاک‌های
+                                                کد استفاده کنید تا خوانایی بیشتری داشته باشه.</p>
+                                        </div>
+
+                                        <div class="{{ themeVars.cardContainer }}">
+                                            <h3 class="{{ themeVars.questionHeading }}">بهترین راه برای به اشتراک
+                                                گذاشتن کد در دیسکورد چیه؟</h3>
+                                            <p class="{{ themeVars.questionAnswer }}">برای به اشتراک گذاشتن کد، از سه
+                                                بک‌تیک (```) قبل و بعد
+                                                از کد استفاده کنید. همچنین می‌تونید نام زبان برنامه‌نویسی رو هم بعد از
+                                                بک‌تیک‌های اول بنویسید تا هایلایت سینتکس فعال بشه. برای کدهای طولانی‌تر،
+                                                بهتره از سرویس‌هایی مثل GitHub Gist یا CodeSandbox استفاده کنید و لینکش
+                                                رو
+                                                به اشتراک بذارید.</p>
+                                        </div>
+
+                                        <div class="{{ themeVars.cardContainer }}">
+                                            <h3 class="{{ themeVars.questionHeading }}">آیا می‌تونم برای یک پروژه
+                                                خاص درخواست همکاری کنم؟</h3>
+                                            <p class="{{ themeVars.questionAnswer }}">بله، می‌تونید در کانال <span
+                                                        class="{{ themeVars.textAccent }}">#همکاری-پروژه‌ها</span>
+                                                درخواست همکاری برای پروژه‌های متن‌باز یا پروژه‌های شخصی خودتون رو مطرح
+                                                کنید.
+                                                سعی کنید اطلاعات کاملی از پروژه، تکنولوژی‌های مورد استفاده، و نوع همکاری
+                                                مورد نیاز ارائه بدید.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-8">
+                                    <h2 class="{{ themeVars.sectionHeading }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="{{ themeVars.iconSize }}"
+                                             fill="none"
+                                             viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        سوالات متفرقه
+                                    </h2>
+
+                                    <div class="space-y-6">
+                                        <div class="{{ themeVars.cardContainer }}">
+                                            <h3 class="{{ themeVars.questionHeading }}">آیا دورهمی در شبکه‌های
+                                                اجتماعی دیگه هم فعاله؟</h3>
+                                            <p class="{{ themeVars.questionAnswer }}">بله، ما علاوه بر دیسکورد در
+                                                گیت‌هاب هم فعال هستیم.
+                                                می‌تونید پروژه‌های متن‌باز ما رو در صفحه <a
+                                                        href="https://github.com/Dorehami" target="_blank"
+                                                        class="{{ themeVars.textAccent }} hover:underline">گیت‌هاب
+                                                    دورهمی</a> مشاهده
+                                                کنید.</p>
+                                        </div>
+
+                                        <div class="{{ themeVars.cardContainer }}">
+                                            <h3 class="{{ themeVars.questionHeading }}">چطور می‌تونم در توسعه وبسایت
+                                                دورهمی مشارکت کنم؟</h3>
+                                            <p class="{{ themeVars.questionAnswer }}">وبسایت دورهمی یک پروژه متن‌باز است
+                                                و از مشارکت همه
+                                                استقبال می‌کنیم. می‌تونید مخزن پروژه رو در گیت‌هاب فورک کنید، تغییرات
+                                                مورد
+                                                نظر خودتون رو اعمال کنید و یک درخواست Pull Request ارسال کنید. برای
+                                                اطلاعات
+                                                بیشتر، فایل README پروژه رو مطالعه کنید.</p>
+                                        </div>
+
+                                        <div class="{{ themeVars.cardContainer }}">
+                                            <h3 class="{{ themeVars.questionHeading }}">چطور می‌تونم با مدیران
+                                                دورهمی در ارتباط باشم؟</h3>
+                                            <p class="{{ themeVars.questionAnswer }}">برای ارتباط با مدیران دورهمی،
+                                                می‌تونید در کانال <span
+                                                        class="{{ themeVars.textAccent }}">#پشتیبانی</span> پیام بذارید
+                                                یا به صورت
+                                                خصوصی به ادمین‌ها پیام بدید. تمامی ادمین‌ها در دیسکورد با رنگ متفاوت
+                                                مشخص
+                                                شده‌اند.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="p-6 {{ themeVars.bgAccentCard }} rounded-lg">
+                                    <h3 class="text-xl font-bold {{ themeVars.textPrimary }} mb-4">سوال دیگه‌ای
+                                        دارید؟</h3>
+                                    <p class="mb-6">اگر سوالی دارید که در اینجا پاسخ داده نشده، می‌تونید در سرور دیسکورد
+                                        ما
+                                        بپرسید. ما همیشه آماده کمک هستیم.</p>
+
+                                    <div class="flex justify-center">
+                                        <a href="{{ path('redirect_invite') }}"
+                                           class="{{ themeVars.actionButton }}">
+                                            پیوستن به دیسکورد
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-{% endblock %}
+        </section>
+    {% endblock %}

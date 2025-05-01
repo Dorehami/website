@@ -1,0 +1,11 @@
+### Light Theme
+- [x] `templates/base.html.twig`
+- [x] `templates/home/index.html.twig`
+- [x] `templates/components/sidebar.html.twig`
+- [x] `templates/components/upvote.html.twig`
+- [x] `templates/post/show.html.twig`
+- [x] `templates/post/new.html.twig`
+- [x] `templates/home/about.html.twig`
+- [x] `templates/home/faq.html.twig`
+- [x] `templates/home/rules.html.twig`
+- [x] `templates/security/login.html.twig`

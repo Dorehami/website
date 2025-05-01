@@ -1,7 +1,7 @@
 # دورهمی - جامعه توسعه‌دهندگان نرم‌افزار
 
 <p align="center">
-  <img width="128px" src="https://dorehami.dev/images/logo.svg">
+  <img width="128px" src="https://dorehami.dev/images/1.png">
 </p>
 
 <p align="right" dir="rtl">

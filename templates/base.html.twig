@@ -19,7 +19,7 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Dorehami" href="{{ path('app_rss_feed') }}"/>
     <link rel="canonical"
           href="{% block canonical_url %}{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}{% endblock %}">
-    <link rel="icon" href="{{ asset('images/logo.svg') }}">
+    <link rel="icon" href="{{ asset('images/4-removebg-preview.png') }}">
 
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
@@ -38,15 +38,15 @@
     <script src="{{ asset('apex/apexcharts.min.js') }}"></script>
 </head>
 
-<body class="font-estedad antialiased bg-slate-900 text-slate-200 tracking-tight">
+<body class="font-estedad antialiased dark:bg-slate-900 dark:text-slate-200 tracking-tight">
 
 <div class="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
-    <header class="absolute w-full bg-slate-900 z-30">
+    <header class="absolute w-full dark:bg-slate-900 z-30">
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
             <div class="flex items-center justify-between h-16 md:h-20">
                 <div class="shrink-0 mr-4">
                     <a class="block group" href="{{ path('app_home') }}" aria-label="Dorehami">
-                        <img src="{{ asset('images/logo.svg') }}" width="32" height="32" alt="جامعه‌ی دورهمی"/>
+                        <img src="{{ asset('images/2-removebg-preview.png') }}" width="96" alt="جامعه‌ی دورهمی"/>
                     </a>
                 </div>
 
@@ -54,7 +54,7 @@
                     <ul class="flex grow justify-end flex-wrap items-center">
                         {% if not is_granted('ROLE_USER') %}
                             <li>
-                                <a class="text-sm font-medium text-slate-400 hover:text-slate-200 px-3 lg:px-5 py-2 flex items-center transition duration-150 ease-in-out"
+                                <a class="text-sm font-medium dark:text-slate-400 dark:hover:text-slate-200 px-3 lg:px-5 py-2 flex items-center transition duration-150 ease-in-out"
                                    href="{{ path('app_login') }}">ورود</a>
                             </li>
                             <li class="ml-3">
@@ -68,7 +68,7 @@
                                 <div class="flex gap-1 px-3 lg:px-5 py-2 ">
                                     <img src="{{ app.user.avatarUrl }}" alt="{{ app.user.displayName }}"
                                          class="w-8 h-8 rounded-full">
-                                    <span class="text-sm font-medium text-slate-400 flex items-center">{{ app.user.displayName }}</span>
+                                    <span class="text-sm font-medium text-slate-600 dark:text-slate-400 flex items-center">{{ app.user.displayName }}</span>
                                 </div>
                             </li>
 
@@ -101,35 +101,35 @@
         {% block body %}{% endblock %}
     </main>
 
-    <footer class="border-t border-slate-800">
+    <footer class="border-t dark:border-slate-800">
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
             <div class="py-8">
                 <div class="flex flex-col md:flex-row items-center justify-center md:justify-between mb-4">
                     <div class="shrink-0 ml-4">
                         <a class="inline-flex group mb-8 md:mb-0" href="{{ path('app_home') }}" aria-label="Dorehami">
-                            <img src="{{ asset('images/logo.svg') }}" width="32" height="32" alt="جامعه‌ی دورهمی"/>
+                            <img src="{{ asset('images/2-removebg-preview.png') }}" width="64" alt="جامعه‌ی دورهمی"/>
                         </a>
                     </div>
                     <div class="text-sm font-medium md:order-1 mb-2 md:mb-0">
                         <ul class="inline-flex flex-wrap text-sm space-x-6">
                             <li>
-                                <a class="text-slate-500 underline hover:no-underline" href="{{ path('app_about') }}">درباره
+                                <a class="text-slate-500 hover:text-slate-700 hover:dark:text-slate-300" href="{{ path('app_about') }}">درباره
                                     جامعه</a>
                             </li>
                             <li>
-                                <a class="text-slate-500 underline hover:no-underline" href="{{ path('app_rules') }}">قوانین
+                                <a class="text-slate-500 hover:text-slate-700 hover:dark:text-slate-300" href="{{ path('app_rules') }}">قوانین
                                     و مقررات</a>
                             </li>
                             <li>
-                                <a class="text-slate-500 underline hover:no-underline" href="{{ path('app_faq') }}">سوالات
+                                <a class="text-slate-500 hover:text-slate-700 hover:dark:text-slate-300" href="{{ path('app_faq') }}">سوالات
                                     متداول</a>
                             </li>
                             <li>
-                                <a class="text-slate-500 underline hover:no-underline"
+                                <a class="text-slate-500 hover:text-slate-700 hover:dark:text-slate-300"
                                    href="{{ path('redirect_invite') }}">پیوستن به دیسکورد</a>
                             </li>
                             <li>
-                                <a class="text-slate-500 underline hover:no-underline"
+                                <a class="text-slate-500 hover:text-slate-700 hover:dark:text-slate-300"
                                    href="{{ path('app_rss_feed') }}">RSS فید</a>
                             </li>
                         </ul>
@@ -199,9 +199,10 @@
                         </li>
                     </ul>
                     <div class="flex gap-2">
-                        <div class="text-sm text-slate-600">تمامی حقوق برای دورهمی محفوظ است. &copy; ۱۴۰۴</div>
-                        <div class="text-sm text-slate-600">•</div>
-                        <div class="text-sm text-slate-600">ورژن <a class="font-mono text-xs" target="_blank" href="https://github.com/Dorehami/website/commit/{{ commit_sha }}">{{ commit_sha }}</a></div>
+                        {% set textClass = "text-sm text-slate-500 dark:text-slate-600" %}
+                        <div class="{{ textClass }}">تمامی حقوق برای دورهمی محفوظ است. &copy; ۱۴۰۴</div>
+                        <div class="{{ textClass }}">•</div>
+                        <div class="{{ textClass }}">ورژن <a class="font-mono text-xs" target="_blank" href="https://github.com/Dorehami/website/commit/{{ commit_sha }}">{{ commit_sha|slice(0, 5) }}</a></div>
                     </div>
                 </div>
             </div>

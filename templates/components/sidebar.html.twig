@@ -22,8 +22,10 @@
             <div>
                 {% set max_members = 50 %}
                 {% set reset_members = (discord_info.members|length) - max_members %}
+                
+                {% set titleClass = "text-xs uppercase text-slate-500 dark:text-slate-600 font-semibold mb-4" %}
 
-                <div class="text-xs uppercase text-slate-600 font-semibold mb-4">کاربران آنلاین</div>
+                <div class="{{ titleClass }}">کاربران آنلاین</div>
                 <div class="flex -space-x-1.5 mt-2">
                     {% for member in (discord_info.members|slice(0, max_members)) %}
                         <img
@@ -40,22 +42,25 @@
                     </p>
                 {% endif %}
             </div>
+            
+            {% set linkClass = "text-slate-500 hover:text-slate-700 dark:text-slate-200 font-semibold dark:hover:text-white transition duration-150 ease-in-out" %}
+            
             {% if discord_events|length > 0 %}
                 <div>
-                    <div class="text-xs uppercase text-slate-600 font-semibold mb-4">رویدادهای پیش رو</div>
+                    <div class="{{ titleClass }}">رویدادهای پیش رو</div>
                     <ul class="space-y-6">
                         {% for event in discord_events %}
                             <li>
                                 <div class="flex items-center mb-1">
-                                    <img class="rounded-full ml-2"
+                                    <img class="rounded-full ml-2 w-8 h-8"
                                          src="https://cdn.discordapp.com/avatars/{{ event.creator.id }}/{{ event.creator.avatar }}.png"
-                                         width="16" height="16" alt="User 06"/>
+                                         alt="{{ event.creator.id }}"/>
                                     <div class="text-xs">
                                         <span class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">{{ event.creator.username }}</span>
                                     </div>
                                 </div>
                                 <h3 class="text-sm mb-2">
-                                    <a class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out"
+                                    <a class="{{ linkClass }}"
                                        href="{{ path('redirect_event', {'eventId': event.id}) }}">{{ event.name }}</a>
                                     <p class="text-slate-400 text-xs">{{ event.description|nl2br }}</p>
                                 </h3>
@@ -108,7 +113,7 @@
                                 </ul>
                             </div> #}
             <div>
-                <div class="text-xs uppercase text-slate-600 font-semibold mb-4">
+                <div class="{{ titleClass }}">
                     محبوب‌ترین لینک‌های ماه گذشته
                 </div>
                 <ul class="space-y-6">
@@ -122,7 +127,7 @@
                                 </div>
                             </div>
                             <h3 class="text-sm mb-1">
-                                <a class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out"
+                                <a class="{{ linkClass }}"
                                    href="{{ path('app_post_show', {'id': post.id}) }}">{{ post.title }}</a>
                             </h3>
                             <div class="text-xs text-slate-600 flex gap-1">
@@ -137,10 +142,10 @@
                 </ul>
             </div>
             <div class="-rotate-1">
-                <div class="relative p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20">
-                    <div class="absolute inset-0 -m-px pointer-events-none -z-10 before:absolute before:inset-0 before:bg-linear-to-t before:from-slate-700 before:to-slate-800 after:absolute after:inset-0 after:bg-slate-900 after:m-px"
+                <div class="relative p-5 light:bg-slate-50 dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20">
+                    <div class="absolute inset-0 -m-px pointer-events-none -z-10 before:absolute before:inset-0 before:bg-slate-100 before:dark:bg-linear-to-t before:dark:from-slate-700 before:dark:to-slate-800 after:absolute after:inset-0 after:bg-slate-50 after:dark:bg-slate-900 after:m-px"
                          aria-hidden="true"></div>
-                    <div class="font-badkhat text-2xl text-center bg-clip-text text-transparent bg-linear-to-tr from-indigo-500 via-sky-300 to-slate-200 mb-3">
+                    <div class="font-badkhat text-2xl text-center bg-clip-text text-transparent bg-linear-to-tr to-indigo-400 via-sky-600 from-slate-700 dark:from-indigo-500 dark:via-sky-300 dark:to-slate-200 mb-3">
                         شما هم بخشی از این جامعه‌ی {{ discord_info.total_members }} نفره بشید
                     </div>
 

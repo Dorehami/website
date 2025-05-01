@@ -1,0 +1,44 @@
+{% if size is defined and size == "large" %}
+    {% set baseClass = "sticky top-6 flex flex-col items-center text-center w-14 h-14 px-1 py-3 rounded-sm border border-slate-200 dark:border-slate-700 bg-linear-to-tr" %}
+    {% set hasVotedClass = "light:bg-slate-50 dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20 hover:dark:bg-slate-800 transition duration-150 ease-in-out" %}
+
+    {% if is_granted('ROLE_USER') %}
+        <form action="{{ path('app_post_vote', {'id': post.id}) }}" method="POST">
+            <button type="submit"
+                    {% if post.hasVotedBy(app.user) %}disabled{% endif %}
+                    class="{{ baseClass }}
+                            {% if not post.hasVotedBy(app.user) %}
+                                {{ hasVotedClass }} text-indigo-500
+                            {% else %}
+                                dark:from-gray-950/10 dark:via-gray-950/20 dark:to-gray-950/10 text-gray-500
+                            {% endif %}">
+                <svg class="inline-flex fill-current mb-1" width="11" height="7"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.664 6.747.336 5.253 5.5.662l5.164 4.591-1.328 1.494L5.5 3.338z"/>
+                </svg>
+                <span class="text-xs font-medium">{{ post.points|persian_number }}</span>
+            </button>
+        </form>
+    {% else %}
+        <a href="{{ path('connect_discord') }}"
+           class="{{ baseClass }} {{ hasVotedClass }}">
+            <svg class="inline-flex fill-indigo-400 mb-1" width="11" height="7"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.664 6.747.336 5.253 5.5.662l5.164 4.591-1.328 1.494L5.5 3.338z"/>
+            </svg>
+            <span class="text-xs font-medium text-indigo-500">{{ post.points|persian_number }}</span>
+        </a>
+    {% endif %}
+{% else %}
+    <form action="{{ path('app_post_vote', {'id': post.id}) }}"
+          method="post">
+        <button type="submit"
+                class="flex items-center text-left w-16 px-2.5 py-1 rounded-sm border border-slate-200 dark:border-slate-700 dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20 hover:bg-slate-100 hover:dark:bg-slate-800 transition duration-150 ease-in-out">
+            <svg class="shrink-0 fill-indigo-400 ml-1.5" width="11"
+                 height="7" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.664 6.747.336 5.253 5.5.662l5.164 4.591-1.328 1.494L5.5 3.338z"/>
+            </svg>
+            <span class="grow text-center text-xs font-medium text-indigo-500">{{ post.points|persian_number }}</span>
+        </button>
+    </form>
+{% endif %}

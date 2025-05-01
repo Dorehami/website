@@ -6,8 +6,9 @@
 
 {% block body %}
     <section class="relative overflow-hidden">
-        <div class="absolute inset-0 bg-linear-to-t from-slate-800/60 pointer-events-none -z-10"
+        <div class="absolute inset-0 bg-linear-to-t dark:from-slate-800/60 pointer-events-none -z-10"
              aria-hidden="true"></div>
+        
         <div class="absolute left-1/2 -translate-x-1/2 pointer-events-none -z-10" aria-hidden="true">
             <img src="{{ asset('images/hero-illustration.svg') }}" class="max-w-none" width="1905" height="622"
                  alt="جامعه‌ی دورهمی">
@@ -18,9 +19,9 @@
                 <div class="relative max-w-xl mx-auto md:max-w-none text-center md:text-right flex flex-col md:flex-row">
                     <div class="md:w-[48rem]">
                         <div class="md:pl-32">
-                            <h1 class="h2 font-badkhat bg-clip-text text-transparent bg-linear-to-tr from-indigo-500 via-sky-300 to-slate-200 px-6">
+                            <h1 class="h2 font-badkhat bg-clip-text text-transparent bg-linear-to-tr from-slate-700 via-sky-600 to-indigo-500 dark:from-indigo-500 dark:via-sky-300 dark:to-slate-200">
                                 جامعه‌ی دورهمی، جامعه‌ی گیک‌های فارسی‌زبان</h1>
-                            <p class="text-lg text-slate-400 mb-8">یه جامعه پویا از گیک‌های فارسی زبان در
+                            <p class="text-lg text-slate-500 dark:text-slate-400 mb-8">یه جامعه پویا از گیک‌های فارسی زبان در
                                 دیسکورد. فضایی برای یادگیری، همکاری، پرسش و پاسخ، و ارتباط با دیگر گیک‌ها. </p>
                         </div>
                         {# <div class="md:flex flex-wrap items-center md:space-x-5 text-center">
@@ -49,14 +50,15 @@
             </div>
         </div>
     </section>
+    
     <section>
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
+            <div class="md:flex md:justify-between md:divide-x md:dark:divide-slate-800">
                 <div class="md:grow pt-6 pb-12 md:pb-20">
                     <div id="chart" class="mb-4 hidden"></div>
                     <div class="md:pl-6 lg:pl-10">
                         <div>
-                            <div class="border-b border-slate-800 pb-6 mb-10">
+                            <div class="border-b dark:border-slate-800 pb-6 mb-10">
                                 <div class="text-center md:text-left md:flex justify-between items-center">
                                     <div class="mb-4 md:mb-0 md:order-1 md:ml-6">
                                         {% if is_granted('ROLE_USER') %}
@@ -106,29 +108,19 @@
                             <div class="mb-12">
                                 <div class="flex flex-col space-y-3 mb-8">
                                     {% for post in posts %}
-                                        <div class="nth-[-n+4]:-order-1 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20">
+                                        <div class="nth-[-n+4]:-order-1 dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20">
                                             <div class="relative p-5">
-                                                <div class="absolute inset-0 -m-px pointer-events-none -z-10 before:absolute before:inset-0 before:bg-linear-to-t before:from-slate-700 before:to-slate-800 after:absolute after:inset-0 after:bg-slate-900 after:m-px"
+                                                <div class="absolute inset-0 -m-px pointer-events-none -z-10 before:absolute before:inset-0 before:bg-slate-100 before:dark:bg-linear-to-t before:dark:from-slate-700 before:dark:to-slate-800 after:absolute after:inset-0 after:bg-slate-50 after:dark:bg-slate-900 after:m-px"
                                                      aria-hidden="true"></div>
                                                 <div class="sm:flex items-center space-y-3 sm:space-y-0 sm:space-x-5">
                                                     <div class="shrink-0">
-                                                        <form action="{{ path('app_post_vote', {'id': post.id}) }}"
-                                                              method="post">
-                                                            <button type="submit"
-                                                                    class="flex items-center text-left w-16 px-2.5 py-1 rounded-sm border border-slate-700 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 hover:bg-slate-800 transition duration-150 ease-in-out">
-                                                                <svg class="shrink-0 fill-indigo-400 ml-1.5" width="11"
-                                                                     height="7" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path d="M1.664 6.747.336 5.253 5.5.662l5.164 4.591-1.328 1.494L5.5 3.338z"/>
-                                                                </svg>
-                                                                <span class="grow text-center text-xs font-medium text-indigo-500">{{ post.points|persian_number }}</span>
-                                                            </button>
-                                                        </form>
+                                                        {% include "components/upvote.html.twig" with {'post': post } %}
                                                     </div>
                                                     <div class="grow lg:flex items-center justify-between space-y-5 lg:space-x-6 lg:space-y-0">
                                                         <div>
                                                             <div class="mb-2">
                                                                 <h2>
-                                                                    <a class="text-slate-200 font-semibold hover:text-white transition duration-150 ease-in-out"
+                                                                    <a class="text-slate-500 dark:text-slate-200 font-semibold hover:text-slate-700 hover:dark:text-white transition duration-150 ease-in-out"
                                                                        href="{{ path('app_post_show', {'id': post.id}) }}">{{ post.title }}</a>
                                                                 </h2>
                                                             </div>
@@ -136,15 +128,15 @@
                                                                 <img class="rounded-full ml-2 w-6 h-6"
                                                                      src="{{ post.author.avatarUrl }}"
                                                                      alt="{{ post.author.displayName }}"/>
-                                                                <div class="text-xs text-slate-600 flex items-center space-x-2">
+                                                                <div class="text-xs text-slate-300 dark:text-slate-600 flex items-center space-x-2">
                                                                     <span class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">{{ post.author.displayName }}</span>
                                                                     <span>·</span>
-                                                                    <span class="text-slate-500">{{ post.createdAt|persian_ago }}</span>
+                                                                    <span class="text-slate-400 dark:text-slate-500">{{ post.createdAt|persian_ago }}</span>
                                                                     <span>·</span>
-                                                                    <span class="text-slate-500">{{ post.visibleComments|length|persian_number }} دیدگاه</span>
+                                                                    <span class="text-slate-400 dark:text-slate-500">{{ post.visibleComments|length|persian_number }} دیدگاه</span>
                                                                     {% if post.originalAuthorName is defined and post.originalAuthorName is not empty %}
                                                                         <span>·</span>
-                                                                        <span class="text-slate-500">{{ post.originalAuthorName }}</span>
+                                                                        <span class="text-slate-400 dark:text-slate-500">{{ post.originalAuthorName }}</span>
                                                                     {% endif %}
                                                                 </div>
                                                             </div>
@@ -153,7 +145,7 @@
                                                             {% set amountShown = 3 %}
                                                             {% set rest = (post.visibleComments|length) - amountShown %}
                                                             {% for comment in post.visibleComments|slice(0,amountShown) %}
-                                                                <img class="rounded-full border-2 border-slate-900 box-content w-8 h-8"
+                                                                <img class="rounded-full border-2 border-slate-400 dark:border-slate-900 box-content w-8 h-8"
                                                                      src="{{ comment.author.avatarUrl }}"
                                                                      alt="{{ comment.author.displayName }}"/>
                                                             {% endfor %}
@@ -182,7 +174,7 @@
                                 </div>
 
                                 <div class="flex gap-12 justify-between items-center space-x-2">
-                                    {% set paginationBtnClass = "flex gap-8 btn-sm py-1.5 h-8 text-indigo-500 border border-slate-700 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20 hover:bg-slate-800" %}
+                                    {% set paginationBtnClass = "flex gap-8 btn-sm py-1.5 h-8 text-indigo-500 border dark:border-slate-700 dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20 hover:dark:bg-slate-800" %}
                                     {% if pagination.has_previous %}
                                         <div class="text-right">
                                             <a href="{{ path('app_home', {'filter': filter, 'page': pagination.previous_page}) }}"
@@ -219,15 +211,19 @@
                             </div>
                         </div>
                         <div class="grid gap-5 sm:grid-cols-2">
-                            <div class="relative p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20">
-                                <div class="absolute inset-0 -m-px pointer-events-none -z-10 before:absolute before:inset-0 before:bg-linear-to-t before:from-slate-700 before:to-slate-800 after:absolute after:inset-0 after:bg-slate-900 after:m-px"
+                            {% set parentClass = "relative p-5 dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20" %}
+                            {% set bgClass = "absolute inset-0 -m-px pointer-events-none -z-10 before:absolute before:inset-0 before:bg-slate-100 before:dark:bg-linear-to-t before:dark:from-slate-700 before:dark:to-slate-800 after:absolute after:inset-0 after:bg-slate-50 after:dark:bg-slate-900 after:m-px" %}
+                            {% set titleClass = "text-slate-500 dark:text-slate-200 font-semibold mb-1" %}
+                            
+                            <div class="{{ parentClass }}">
+                                <div class="{{ bgClass }}"
                                      aria-hidden="true"></div>
                                 <div class="h-full flex flex-col">
                                     <div class="grow mb-1">
                                         <img class="mb-3" src="{{ asset('images/box-icon-about-us.svg') }}" width="40"
                                              height="40"
                                              alt="Resources icon"/>
-                                        <h3 class="text-slate-200 font-semibold mb-1">درباره‌ی دورهمی</h3>
+                                        <h3 class="{{ titleClass }}">درباره‌ی دورهمی</h3>
                                         <p class="text-sm text-slate-500">درباره‌ی جامعه‌ی دورهمی و فلسفه‌ی شکل‌گیری اون
                                             بیشتر مطالعه و کسب اطلاعات کنید.</p>
                                     </div>
@@ -244,15 +240,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="relative p-5 bg-linear-to-tr from-slate-800/20 via-slate-800/50 to-slate-800/20">
-                                <div class="absolute inset-0 -m-px pointer-events-none -z-10 before:absolute before:inset-0 before:bg-linear-to-t before:from-slate-700 before:to-slate-800 after:absolute after:inset-0 after:bg-slate-900 after:m-px"
+                            <div class="{{ parentClass }}">
+                                <div class="{{ bgClass }}"
                                      aria-hidden="true"></div>
                                 <div class="h-full flex flex-col">
                                     <div class="grow mb-1">
                                         <img class="mb-3" src="{{ asset('images/box-icon-rules.svg') }}" width="40"
                                              height="40"
                                              alt="News icon"/>
-                                        <h3 class="text-slate-200 font-semibold mb-1">قوانین و مقررات</h3>
+                                        <h3 class="{{ titleClass }}">قوانین و مقررات</h3>
                                         <p class="text-sm text-slate-500">
                                             با قوانین و مقررات حضور و مشارکت تو جامعه‌ی دورهمی آشنا بشید.
                                         </p>

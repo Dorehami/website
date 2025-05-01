@@ -62,14 +62,14 @@ input[type="search"]::-webkit-search-results-decoration {
 .form-select,
 .form-checkbox,
 .form-radio {
-    @apply bg-transparent border border-slate-700 focus:ring-0 focus:ring-offset-0;
+    @apply bg-transparent border border-slate-200 dark:border-slate-700 focus:ring-0 focus:ring-offset-0;
 }
 
 .form-input,
 .form-textarea,
 .form-multiselect,
 .form-select {
-    @apply bg-linear-to-tr rounded-sm from-slate-800/20 via-slate-800/50 to-slate-800/20 text-sm px-3 py-1.5 focus:bg-slate-800 focus:border-slate-600;
+    @apply bg-slate-50 dark:bg-transparent dark:bg-linear-to-tr rounded-sm dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20 text-sm px-3 py-1.5 focus:dark:bg-slate-800 focus:dark:border-slate-600 focus:bg-slate-100 focus:border-slate-400;
 }
 
 .form-input,
