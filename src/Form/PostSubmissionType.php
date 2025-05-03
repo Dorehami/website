@@ -110,7 +110,7 @@ class PostSubmissionType extends AbstractType
                 'row_attr' => [
                     'class' => 'mb-8'
                 ],
-                'choice_attr' => function(PostType $choice) {
+                'choice_attr' => function (PostType $choice) {
                     return [
                         'data-description' => $choice->getDescription(),
                         'data-icon' => $choice->getIcon(),

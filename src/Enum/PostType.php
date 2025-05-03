@@ -15,7 +15,7 @@ enum PostType: string
 
     public function getLabel(): string
     {
-        return match($this) {
+        return match ($this) {
             self::ARTICLE => 'مقاله',
             self::PROJECT => 'پروژه',
             self::SHOWCASE => 'نمایش دستاورد',
@@ -29,7 +29,7 @@ enum PostType: string
 
     public function getDescription(): string
     {
-        return match($this) {
+        return match ($this) {
             self::ARTICLE => 'محتوای آموزشی یا تحلیلی نوشتاری (پست وبلاگ) در مورد موضوعات مختلف',
             self::PROJECT => 'پروژه‌ای که در حال توسعه هست و میتونه برای جامعه جالب و مفید باشه',
             self::SHOWCASE => 'نمایش کار تکمیل شده خودت که می‌خوای با جامعه به اشتراک بذاری',
@@ -43,7 +43,7 @@ enum PostType: string
 
     public function getIcon(): string
     {
-        return match($this) {
+        return match ($this) {
             self::ARTICLE => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z" /></svg>',
             self::PROJECT => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" /></svg>',
             self::SHOWCASE => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5m.75-9 3-3 2.148 2.148A12.061 12.061 0 0 1 16.5 7.605" /></svg>',
