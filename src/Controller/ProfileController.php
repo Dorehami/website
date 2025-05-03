@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class ProfileController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    #[Route('/{id:user}', name: 'user')]
+    #[Route('/{id:user}', name: 'user', requirements: ['id' => '^(?!edit$).+'])]
     public function index(
         ?User $user = null,
     ): Response
