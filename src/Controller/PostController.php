@@ -7,7 +7,7 @@ use App\Entity\Post;
 use App\Entity\PostVote;
 use App\Enum\WebhookEventAction;
 use App\Form\CommentSubmissionType;
-use App\Form\PostType;
+use App\Form\PostSubmissionType;
 use App\Message\WebhookEvent;
 use App\Repository\PostRepository;
 use App\Service\DiscordService;
@@ -38,7 +38,7 @@ class PostController extends AbstractController
         MessageBusInterface $messageBus,
     ): Response {
         $post = new Post();
-        $form = $this->createForm(PostType::class, $post);
+        $form = $this->createForm(PostSubmissionType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

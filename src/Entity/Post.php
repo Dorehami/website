@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\PostType;
 use App\Repository\PostRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -56,6 +57,9 @@ class Post
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $originalAuthorName = null;
+
+    #[ORM\Column(enumType: PostType::class, options: ['default' => PostType::ARTICLE])]
+    private ?PostType $type = PostType::ARTICLE;
 
     public function __construct()
     {
@@ -271,6 +275,18 @@ class Post
     public function setOriginalAuthorName(?string $originalAuthorName): static
     {
         $this->originalAuthorName = $originalAuthorName;
+
+        return $this;
+    }
+
+    public function getType(): ?PostType
+    {
+        return $this->type;
+    }
+
+    public function setType(PostType $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }

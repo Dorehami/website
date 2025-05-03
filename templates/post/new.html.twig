@@ -1,5 +1,8 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme form with ['form/enum-widget.html.twig', 'form_div_layout.html.twig'] %}
+
+
 {% block title %}ارسال مقاله جدید | دورهمی{% endblock %}
 
 {% block body %}
@@ -20,8 +23,19 @@
                     {{ form_start(form) }}
                     {{ form_errors(form) }}
 
+                    <div class="mb-4">
+                        <h2 class="text-xl font-bold dark:text-slate-200 text-slate-600 mb-4">نوع پست رو انتخاب کن</h2>
+                        <p class="text-slate-400 mb-6">هر نوع پست برای منظور خاصی طراحی و نوشته میشه. لطفا متناسب با محتوای خودتون یکی رو انتخاب کنید.</p>
+                        {{ form_widget(form.type) }}
+                    </div>
+
+                    <div class="my-8">
+                        <h2 class="text-xl font-bold dark:text-slate-200 text-slate-600 mb-4">اطلاعات کلی پست رو وارد کن</h2>
+                        <p class="text-slate-400 mb-6">از اینجا به بعد فقط اطلاعات عمومی پست رو شامل میشه.</p>
+                    </div>
+                    
                     <div class="space-y-8">
-                        <div class="flex gap-4 w-full">
+                        <div class="flex flex-col md:flex-row gap-4 w-full">
                             <div class="flex-1">
                                 {{ form_label(form.title, null, {'label_attr': {'class': 'sr-only'}}) }}
                                 {{ form_widget(form.title, {'attr': {'class': 'form-input text-sm w-full'}}) }}
@@ -39,13 +53,15 @@
                                 {{ form_errors(form.originalAuthorName) }}
                             </div>
                         </div>
-                        <div>
-                            {{ form_label(form.url, null, {'label_attr': {'class': 'sr-only'}}) }}
-                            {{ form_widget(form.url, {'attr': {'class': 'form-input text-sm w-full'}}) }}
-                            <p class="text-slate-500 text-sm mt-1">
-                                اگر این لینک قبلاً ارسال شده باشه، به صفحه اون مقاله هدایت خواهی شد.
-                            </p>
-                            {{ form_errors(form.url) }}
+                        <div class="flex flex-col md:flex-row gap-4 w-full">
+                            <div class="flex-3">
+                                {{ form_label(form.url, null, {'label_attr': {'class': 'sr-only'}}) }}
+                                {{ form_widget(form.url, {'attr': {'class': 'form-input text-sm w-full'}}) }}
+                                <p class="text-slate-500 text-sm mt-1">
+                                    اگر این لینک قبلاً ارسال شده باشه، به صفحه اون مقاله هدایت خواهی شد.
+                                </p>
+                                {{ form_errors(form.url) }}
+                            </div>
                         </div>
                         <div>
                             {{ form_label(form.description, null, {'label_attr': {'class': 'sr-only'}}) }}

@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Post;
+use App\Enum\PostType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,7 +15,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Url;
 
-class PostType extends AbstractType
+class PostSubmissionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -21,7 +23,7 @@ class PostType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'عنوان',
                 'attr' => [
-                    'placeholder' => 'عنوان مقاله رو وارد کن',
+                    'placeholder' => 'عنوان پست رو وارد کن',
                     'class' => 'w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500'
                 ],
                 'row_attr' => [
@@ -41,7 +43,7 @@ class PostType extends AbstractType
             ->add('url', TextType::class, [
                 'label' => 'آدرس',
                 'attr' => [
-                    'placeholder' => 'آدرس اینترنتی مقاله رو وارد کن',
+                    'placeholder' => 'آدرس اینترنتی پست رو وارد کن',
                     'class' => 'w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500'
                 ],
                 'row_attr' => [
@@ -89,12 +91,36 @@ class PostType extends AbstractType
                 'label' => 'نویسنده',
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'نام نویسنده‌ی اصلی مطلب چیه؟ (اجباری نیست)',
+                    'placeholder' => 'نام نویسنده‌ی اصلی پست چیه؟ (اجباری نیست)',
                     'class' => 'w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500'
                 ],
                 'row_attr' => [
                     'class' => 'mb-4'
                 ],
+            ])
+            ->add('type', EnumType::class, [
+                'label' => 'نوع پست',
+                'required' => true,
+                'class' => PostType::class,
+                'choice_label' => fn(PostType $p) => $p->getLabel(),
+                'expanded' => true, // This makes it render as radio buttons
+                'attr' => [
+                    'class' => 'post-type-selector'
+                ],
+                'row_attr' => [
+                    'class' => 'mb-8'
+                ],
+                'choice_attr' => function(PostType $choice) {
+                    return [
+                        'data-description' => $choice->getDescription(),
+                        'data-icon' => $choice->getIcon(),
+                    ];
+                },
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'لطفا نوع پست را انتخاب کنید'
+                    ]),
+                ]
             ])
         ;
     }
