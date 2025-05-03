@@ -17,11 +17,10 @@ final class ProfileController extends AbstractController
     #[Route('/', name: 'index')]
     #[Route('/{id:user}', name: 'user')]
     public function index(
-        ?string $id = null,
         ?User $user = null,
     ): Response
     {
-        if (is_null($user) && !is_null($id)) {
+        if (is_null($user) ) {
             $user = $this->getUser();
         }
         
