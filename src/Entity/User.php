@@ -72,6 +72,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Report::class, mappedBy: 'reportedBy')]
     private Collection $reports;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $displayName = null;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -342,7 +345,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getDisplayName(): string
     {
-        return $this->discordUsername ?? $this->email ?? 'کاربر';
+        return $this->displayName ?? $this->discordUsername ?? $this->email ?? 'کاربر';
+    }
+
+    public function setDisplayName(?string $displayName): static
+    {
+        $this->displayName = $displayName;
+
+        return $this;
     }
 
     public function getJoinedAt(): ?DateTimeImmutable

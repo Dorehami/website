@@ -1,0 +1,156 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ویرایش پروفایل | دورهمی{% endblock %}
+{% block meta_description %}ویرایش اطلاعات پروفایل در دورهمی{% endblock %}
+{% block meta_keywords %}پروفایل کاربر, ویرایش پروفایل, دورهمی, جامعه توسعه‌دهندگان نرم‌افزار{% endblock %}
+
+{% block body %}
+    <section>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="pt-28 md:pt-36">
+                <div class="max-w-3xl mx-auto">
+                    <div class="pt-6 pb-12 md:pb-20">
+                        <div class="mb-8 text-center">
+                            <h1 class="h2 font-badkhat bg-clip-text text-transparent bg-linear-to-tr to-indigo-400 via-sky-600 from-slate-700 dark:from-indigo-500 dark:via-sky-300 dark:to-slate-200 mb-4">
+                                ویرایش پروفایل
+                            </h1>
+                            <p class="text-slate-500 dark:text-slate-400">
+                                اطلاعات پروفایل خود را در دورهمی ویرایش کنید
+                            </p>
+                        </div>
+
+                        <div class="rounded-sm border border-slate-200 light:bg-slate-50 dark:border-slate-700 p-6 dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20">
+                            {{ form_start(form) }}
+
+                            {% for message in app.flashes('success') %}
+                                <div class="mb-6 p-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 rounded">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+
+                            {% for message in app.flashes('error') %}
+                                <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 rounded">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+
+                            <div class="mb-8 flex flex-col items-center">
+                                <img src="{{ app.user.avatarUrl }}" alt="{{ app.user.displayName }}"
+                                     class="w-32 h-32 rounded-full border-4 border-slate-200 dark:border-slate-700 mb-4">
+                                <p class="text-sm text-slate-500 dark:text-slate-400">
+                                    {% if app.user.discordId %}
+                                        تصویر پروفایل شما از دیسکورد دریافت می‌شود و قابل تغییر نیست
+                                    {% else %}
+                                        برای تغییر تصویر پروفایل، حساب خود را به دیسکورد متصل کنید
+                                    {% endif %}
+                                </p>
+                            </div>
+
+                            <div class="mb-6">
+                                {{ form_label(form.displayName, null, {'label_attr': {'class': 'block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2'}}) }}
+                                {{ form_widget(form.displayName) }}
+                                {{ form_errors(form.displayName, {'attr': {'class': 'text-sm text-red-500 mt-1'}}) }}
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                    این نام در سایت دورهمی به کاربران دیگر نمایش داده می‌شود
+                                </p>
+                            </div>
+
+
+                            <div class="flex gap-4 mt-8">
+                                <button type="submit" class="btn-sm text-white bg-indigo-500 hover:bg-indigo-600">
+                                    ذخیره تغییرات
+                                </button>
+                                <a href="{{ path('app_profile_index') }}" class="btn-sm text-slate-600 dark:text-slate-400 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600">
+                                    انصراف
+                                </a>
+                            </div>
+
+                            {{ form_end(form) }}
+                        </div>
+
+                        <div class="mt-8 rounded-sm border border-slate-200 light:bg-slate-50 dark:border-slate-700 p-6 dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20">
+                            <h2 class="text-lg font-bold text-slate-600 dark:text-slate-200 mb-4">اطلاعات بیشتر</h2>
+
+                            <div class="flex items-center justify-between mb-4 p-4 bg-slate-100 dark:bg-slate-800 rounded">
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-500 ml-3" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
+                                    </svg>
+                                    <div>
+                                        <h3 class="font-medium text-slate-600 dark:text-slate-200">اتصال به دیسکورد</h3>
+                                        <p class="text-sm text-slate-500 dark:text-slate-400">
+                                            {% if app.user.discordId %}
+                                                حساب دیسکورد به این اکانت متصل است
+                                                {% if app.user.discordUsername %}
+                                                    ({{ app.user.discordUsername }})
+                                                {% endif %}
+                                            {% else %}
+                                                حساب دیسکورد به این اکانت متصل نیست
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    {% if app.user.discordId %}
+                                        <div class="flex items-center justify-center h-8 w-8 bg-green-100 dark:bg-green-900 rounded-full">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-green-500 dark:text-green-400">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                            </svg>
+                                        </div>
+                                    {% else %}
+                                        <a href="{{ path('connect_discord') }}" class="btn-sm py-1.5 text-white bg-indigo-500 hover:bg-indigo-600">
+                                            اتصال
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">
+                                {% if app.user.discordId %}
+                                    در حال حاضر، امکان ویرایش سایر اطلاعات پروفایل وجود ندارد.
+                                    بسیاری از اطلاعات مانند آواتار و نام کاربری دیسکورد به صورت خودکار از حساب دیسکورد شما دریافت می‌شوند.
+                                {% else %}
+                                    برای استفاده از تمامی امکانات سایت، پیشنهاد می‌کنیم حساب خود را به دیسکورد متصل کنید.
+                                    با اتصال به دیسکورد، آواتار، نام کاربری و سایر اطلاعات به صورت خودکار از حساب دیسکورد شما دریافت می‌شوند.
+                                {% endif %}
+                            </p>
+
+                            {% if app.user.email %}
+                                <div class="flex items-center justify-between mb-4 p-4 bg-slate-100 dark:bg-slate-800 rounded">
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-indigo-500 ml-3">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                                        </svg>
+                                        <div>
+                                            <h3 class="font-medium text-slate-600 dark:text-slate-200">ایمیل</h3>
+                                            <p class="text-sm text-slate-500 dark:text-slate-400 dir-ltr text-left">
+                                                {{ app.user.email }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <div class="border-t dark:border-slate-700 pt-4 mt-6">
+                                <h3 class="text-md font-medium text-slate-600 dark:text-slate-200 mb-2">عملیات‌های حساب کاربری</h3>
+                                <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">
+                                    اگر می‌خواهید درباره حساب کاربری خود سوالی بپرسید یا درخواستی داشته باشید، لطفاً با ادمین‌های دیسکورد تماس بگیرید.
+                                </p>
+                                <div class="flex flex-wrap gap-4">
+                                    <a href="{{ path('app_logout') }}" class="btn-sm bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800">
+                                        خروج از حساب کاربری
+                                    </a>
+                                    {% if not app.user.discordId %}
+                                        <a href="{{ path('connect_discord') }}" class="btn-sm text-white bg-indigo-500 hover:bg-indigo-600">
+                                            اتصال به دیسکورد
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

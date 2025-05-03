@@ -119,13 +119,13 @@
                 <ul class="space-y-6">
                     {% for post in most_popular_posts %}
                         <li>
-                            <div class="flex items-center mb-1">
+                            <a href="{{ path('app_profile_user', {'id': post.author.id}) }}" class="flex items-center mb-1">
                                 <img class="rounded-full ml-2" src="{{ post.author.avatarUrl }}"
                                      width="16" height="16" alt="{{ post.author.displayName }}"/>
                                 <div class="text-xs">
                                     <span class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">{{ post.author.displayName }}</span>
                                 </div>
-                            </div>
+                            </a>
                             <h3 class="text-sm mb-1">
                                 <a class="{{ linkClass }}"
                                    href="{{ path('app_post_show', {'id': post.id}) }}">{{ post.title }}</a>
