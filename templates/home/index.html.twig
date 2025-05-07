@@ -118,25 +118,25 @@
                                                     </div>
                                                     <div class="grow lg:flex items-center justify-between space-y-5 lg:space-x-6 lg:space-y-0">
                                                         <div>
-                                                            <div class="mb-2">
-                                                                <h2>
-                                                                    <a class="text-slate-500 dark:text-slate-200 font-semibold hover:text-slate-700 hover:dark:text-white transition duration-150 ease-in-out"
-                                                                       href="{{ path('app_post_show', {'id': post.id}) }}">{{ post.title }}</a>
-                                                                </h2>
-                                                            </div>
+                                                            <a href="{{ path('app_post_show', {'id': post.id}) }}" class="w-full mb-2 flex gap-2 items-center align-middle text-slate-500 dark:text-slate-200 font-semibold hover:text-slate-700 hover:dark:text-white transition duration-150 ease-in-out">
+                                                                {{ post.type.icon | raw }}
+                                                                <span>({{ post.type.label }}) {{ post.title }}</span>
+                                                            </a>
                                                             <div class="flex items-center">
                                                                 <img class="rounded-full ml-2 w-6 h-6"
                                                                      src="{{ post.author.avatarUrl }}"
                                                                      alt="{{ post.author.displayName }}"/>
                                                                 <div class="text-xs text-slate-300 dark:text-slate-600 flex items-center space-x-2">
-                                                                    <a href="{{ path('app_profile_user', {'id': post.author.id}) }}" class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">{{ post.author.displayName }}</a>
+                                                                    <a href="{{ path('app_profile_user', {'id': post.author.id}) }}" class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">
+                                                                        {{ post.author.displayName }}
+                                                                    </a>
                                                                     <span>·</span>
                                                                     <span class="text-slate-400 dark:text-slate-500">{{ post.createdAt|persian_ago }}</span>
                                                                     <span>·</span>
                                                                     <span class="text-slate-400 dark:text-slate-500">{{ post.visibleComments|length|persian_number }} دیدگاه</span>
                                                                     {% if post.originalAuthorName is defined and post.originalAuthorName is not empty %}
                                                                         <span>·</span>
-                                                                        <span class="text-slate-400 dark:text-slate-500">{{ post.originalAuthorName }}</span>
+                                                                        <span class="text-slate-400 dark:text-slate-500">از {{ post.originalAuthorName }}</span>
                                                                     {% endif %}
                                                                 </div>
                                                             </div>
