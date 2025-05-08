@@ -53,7 +53,10 @@
                                     <article
                                             class="mb-10 rounded-sm border border-slate-200 light:bg-slate-50 dark:border-slate-700 p-8 dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20">
                                         <header class="mb-6">
-                                            <h1 class="h2 font-badkhat text-slate-700 dark:text-slate-200 mb-4">{{ post.title }}</h1>
+                                            <h1 class="h2 font-estedad text-slate-700 dark:text-slate-200 mb-4 flex gap-2 items-center">
+                                                {{ post.type.icon | replace({'w-6': 'w-12', 'h-6': 'h-12'}) | raw }}
+                                                <span>{{ post.title }}</span>
+                                            </h1>
                                             <div class="flex items-center">
                                                 <img class="rounded-full ml-2 w-8 h-8" src="{{ post.author.avatarUrl }}"
                                                      alt="{{ post.author.displayName }}"/>
@@ -80,7 +83,7 @@
                                                 <span class="text-base">{{ post.domain }}</span>
                                             </a>
                                             {% if post.description %}
-                                                <p class="text-slate-500 dark:text-slate-400">{{ post.description }}</p>
+                                                <p class="text-slate-500 dark:text-slate-400">{{ post.description | nl2br }}</p>
                                             {% endif %}
                                         </div>
                                     </article>

@@ -127,8 +127,11 @@
                                 </div>
                             </a>
                             <h3 class="text-sm mb-1">
-                                <a class="{{ linkClass }}"
-                                   href="{{ path('app_post_show', {'id': post.id}) }}">{{ post.title }}</a>
+                                <a class="{{ linkClass }} flex gap-1 items-center"
+                                   href="{{ path('app_post_show', {'id': post.id}) }}">
+                                    <span>{{ post.type.icon | replace({'w-6': 'w-5', 'h-6': 'h-5'}) | raw }}</span>
+                                    <span>{{ post.title }}</span>
+                                </a>
                             </h3>
                             <div class="text-xs text-slate-600 flex gap-1">
                                 <span class="text-slate-500">{{ post.createdAt|persian_ago }}</span>
