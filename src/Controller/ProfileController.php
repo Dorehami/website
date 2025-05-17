@@ -18,16 +18,15 @@ final class ProfileController extends AbstractController
     #[Route('/{id:user}', name: 'user', requirements: ['id' => '^(?!edit$).+'])]
     public function index(
         ?User $user = null,
-    ): Response
-    {
-        if (is_null($user) ) {
+    ): Response {
+        if (is_null($user)) {
             $user = $this->getUser();
         }
-        
+
         if (is_null($user)) {
             return $this->redirectToRoute('app_login');
         }
-        
+
         return $this->render('profile/index.html.twig', [
             'user' => $user,
         ]);
@@ -38,26 +37,25 @@ final class ProfileController extends AbstractController
     public function edit(
         Request $request,
         EntityManagerInterface $entityManager,
-    ): Response
-    {
+    ): Response {
         $user = $this->getUser();
         $form = $this->createForm(ProfileEditType::class, $user);
-        
+
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $entityManager->persist($user);
                 $entityManager->flush();
-                
+
                 $this->addFlash('success', 'اطلاعات با موفقیت ثبت شد');
-                
+
                 return $this->redirectToRoute('app_profile_index');
             } else {
                 $this->addFlash('error', 'ایرادی در ثبت اطلاعات یافت شد');
             }
         }
-        
+
         return $this->render('profile/edit.html.twig', [
             'form' => $form,
         ]);

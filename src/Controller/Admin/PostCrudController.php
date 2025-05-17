@@ -26,8 +26,7 @@ class PostCrudController extends AbstractCrudController
 {
     public function __construct(
         private readonly MessageBusInterface $messageBus,
-    )
-    {
+    ) {
     }
 
     public static function getEntityFqcn(): string
@@ -75,7 +74,7 @@ class PostCrudController extends AbstractCrudController
                 return $this->generateUrl('app_post_show', ['id' => $post->getId()]);
             })
             ->setCssClass('btn btn-primary');
-        
+
         $triggerPostPublishEvent = Action::new('triggerPostPublishEvent', 'Trigger Post Publish', 'fa fa-bolt')
             ->linkToCrudAction('triggerPostPublishEvent')
         ;
@@ -91,7 +90,7 @@ class PostCrudController extends AbstractCrudController
     {
         /** @var Post $post */
         $post = $this->getContext()->getEntity()->getInstance();
-        
+
         $this->messageBus->dispatch(new WebhookEvent(
             WebhookEventAction::POST_PUBLISHED,
             [
@@ -100,7 +99,7 @@ class PostCrudController extends AbstractCrudController
                 'author_discord_id' => $post->getAuthor()->getDiscordId(),
             ]
         ));
-        
+
         $this->addFlash('success', 'Post Publish Triggered');
     }
 }

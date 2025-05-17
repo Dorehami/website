@@ -25,6 +25,7 @@ class PostController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
+        private readonly MessageBusInterface $messageBus,
     ) {
     }
 
@@ -142,6 +143,14 @@ class PostController extends AbstractController
 
         $entityManager->persist($vote);
         $entityManager->flush();
+
+        $this->messageBus->dispatch(new WebhookEvent(
+            WebhookEventAction::POST_UPVOTE,
+            [
+                'postId' => $post->getId(),
+                'voteBy' => $this->getUser()->getUserIdentifier()
+            ]
+        ));
 
         $this->addFlash('success', 'رأی شما با موفقیت ثبت شد.');
         return $this->redirectToRoute('app_post_show', ['id' => $post->getId()]);
