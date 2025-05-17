@@ -62,8 +62,9 @@ class UserCrudController extends AbstractCrudController
 
         yield ArrayField::new('roles');
         yield TextField::new('discordId')->hideOnForm();
+        yield TextField::new('displayName');
         yield TextField::new('discordUsername')->hideOnForm();
-        yield TextField::new('avatarUrl')->hideOnForm();
+        yield TextField::new('avatarUrl')->hideOnIndex();
         yield ImageField::new('avatarUrl')
             ->setLabel('Avatar')
             ->onlyOnIndex()
