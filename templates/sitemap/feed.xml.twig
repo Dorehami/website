@@ -16,9 +16,10 @@
                 <guid>{{ hostname }}{{ path('app_post_show', {'id': post.id}) }}</guid>
                 <pubDate>{{ post.createdAt|date('r') }}</pubDate>
                 <description>
+                    {% set utm_url = post.url ~ ('?' in post.url ? '&' : '?') ~ 'utm_source=dorehami.dev&utm_medium=referral&utm_campaign=blog_rss' %}
                     <![CDATA[
                     <p>نویسنده: {{ post.author.displayName }}</p>
-                    <p>منبع اصلی: <a href="{{ post.url }}">{{ post.domain }}</a></p>
+                    <p>منبع اصلی: <a href="{{ utm_url }}">{{ post.domain }}</a></p>
                     {% if post.description %}
                         <p>{{ post.description }}</p>
                     {% endif %}

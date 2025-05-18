@@ -77,8 +77,10 @@
                                         </header>
 
                                         <div class="space-y-4">
+                                            {% set utm_url = post.url ~ ('?' in post.url ? '&' : '?') ~ 'utm_source=dorehami.dev&utm_medium=referral&utm_campaign=blog_links' %}
                                             <a class="flex gap-1 items-center text-indigo-500 hover:text-slate-600"
-                                               href="{{ post.url }}" target="_blank">
+                                               onclick="plausible('Outbound Link Click', { props: { destination: '{{ post.domain }}', postId: '{{ post.id }}' } })"
+                                               href="{{ utm_url }}" target="_blank">
                                                 <span>👈</span>
                                                 <span class="text-base">{{ post.domain }}</span>
                                             </a>
