@@ -105,6 +105,13 @@ class PostController extends AbstractController
 
                 $this->entityManager->persist($comment);
                 $this->entityManager->flush();
+                
+                $this->messageBus->dispatch(new WebhookEvent(
+                    WebhookEventAction::POST_COMMENTED,
+                    [
+                        'postId' => $post->getId(),
+                    ]
+                ));
 
                 $this->addFlash('success', 'دیدگاه شما با موفقیت ثبت شد.');
                 return $this->redirectToRoute('app_post_show', ['id' => $post->getId()]);
