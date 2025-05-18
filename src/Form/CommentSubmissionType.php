@@ -25,8 +25,7 @@ class CommentSubmissionType extends AbstractType
                 'row_attr' => [
                     'class' => 'w-full mb-5',
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

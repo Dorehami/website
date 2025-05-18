@@ -122,23 +122,23 @@
                                                                 {{ post.type.icon | raw }}
                                                                 <span>({{ post.type.label }}) {{ post.title }}</span>
                                                             </a>
-                                                            <div class="flex items-center">
-                                                                <img class="rounded-full ml-2 w-6 h-6"
-                                                                     src="{{ post.author.avatarUrl }}"
-                                                                     alt="{{ post.author.displayName }}"/>
-                                                                <div class="text-xs text-slate-300 dark:text-slate-600 flex items-center space-x-2">
+                                                            <div class="text-xs text-slate-300 dark:text-slate-600 flex flex-col md:flex-row items-center space-x-2">
+                                                                <div class="flex gap-2 items-center">
+                                                                    <img class="rounded-full ml-2 w-6 h-6"
+                                                                         src="{{ post.author.avatarUrl }}"
+                                                                         alt="{{ post.author.displayName }}"/>
                                                                     <a href="{{ path('app_profile_user', {'id': post.author.id}) }}" class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">
                                                                         {{ post.author.displayName }}
                                                                     </a>
-                                                                    <span>·</span>
-                                                                    <span class="text-slate-400 dark:text-slate-500">{{ post.createdAt|persian_ago }}</span>
-                                                                    <span>·</span>
-                                                                    <span class="text-slate-400 dark:text-slate-500">{{ post.visibleComments|length|persian_number }} دیدگاه</span>
-                                                                    {% if post.originalAuthorName is defined and post.originalAuthorName is not empty %}
-                                                                        <span>·</span>
-                                                                        <span class="text-slate-400 dark:text-slate-500">از {{ post.originalAuthorName }}</span>
-                                                                    {% endif %}
                                                                 </div>
+                                                                <span>·</span>
+                                                                <span class="text-slate-400 dark:text-slate-500">{{ post.createdAt|persian_ago }}</span>
+                                                                <span>·</span>
+                                                                <span class="text-slate-400 dark:text-slate-500">{{ post.visibleComments|length|persian_number }} دیدگاه</span>
+                                                                {% if post.originalAuthorName is defined and post.originalAuthorName is not empty %}
+                                                                    <span>·</span>
+                                                                    <span class="text-slate-400 dark:text-slate-500">از {{ post.originalAuthorName }}</span>
+                                                                {% endif %}
                                                             </div>
                                                         </div>
                                                         <div class="shrink-0 flex -space-x-3 -mr-0.5">

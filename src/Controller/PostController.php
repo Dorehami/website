@@ -11,7 +11,7 @@ use App\Form\PostSubmissionType;
 use App\Message\WebhookEvent;
 use App\Repository\PostRepository;
 use App\Service\DiscordService;
-use App\Service\UrlNormalizerService;
+use App\Service\UtilityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +35,7 @@ class PostController extends AbstractController
     public function new(
         Request $request,
         PostRepository $postRepository,
-        UrlNormalizerService $urlNormalizer,
+        UtilityService $urlNormalizer,
         MessageBusInterface $messageBus,
     ): Response {
         $post = new Post();
@@ -50,7 +50,7 @@ class PostController extends AbstractController
                 return $this->redirectToRoute('app_post_show', ['id' => $existingPost->getId()]);
             }
 
-            $normalizedUrl = $urlNormalizer->normalize($post->getUrl());
+            $normalizedUrl = $urlNormalizer->normalizeUrl($post->getUrl());
             $post->setNormalizedUrl($normalizedUrl);
             $post->setAuthor($this->getUser());
 
@@ -105,7 +105,7 @@ class PostController extends AbstractController
 
                 $this->entityManager->persist($comment);
                 $this->entityManager->flush();
-                
+
                 $this->messageBus->dispatch(new WebhookEvent(
                     WebhookEventAction::POST_COMMENTED,
                     [

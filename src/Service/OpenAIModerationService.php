@@ -10,9 +10,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class OpenAIModerationService implements ModerationServiceInterface
 {
-    private readonly ClientInterface $client;
-
     private const string API_URL = 'https://api.openai.com/v1/moderations';
+    private readonly ClientInterface $client;
     private string $apiKey;
 
     public function __construct(
@@ -30,13 +29,6 @@ class OpenAIModerationService implements ModerationServiceInterface
         $result = $this->moderateContent($content);
 
         return !($result['results'][0]['flagged'] ?? true);
-    }
-
-    public function getDetailedResults(string $content): array
-    {
-        $result = $this->moderateContent($content);
-
-        return $result['results'][0] ?? ['error' => 'Failed to get moderation results'];
     }
 
     private function moderateContent(string $content): array
@@ -59,5 +51,12 @@ class OpenAIModerationService implements ModerationServiceInterface
         } catch (Exception $e) {
             return ['results' => [['flagged' => false, 'error' => $e->getMessage()]]];
         }
+    }
+
+    public function getDetailedResults(string $content): array
+    {
+        $result = $this->moderateContent($content);
+
+        return $result['results'][0] ?? ['error' => 'Failed to get moderation results'];
     }
 }

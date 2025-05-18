@@ -33,8 +33,7 @@ class ProfileEditType extends AbstractType
                         'maxMessage' => 'نام نمایشی نمی‌تواند بیشتر از {{ limit }} کاراکتر داشته باشد',
                     ]),
                 ],
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

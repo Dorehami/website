@@ -210,7 +210,7 @@ class Post
 
     public function getVisibleComments(): Collection
     {
-        return $this->comments->filter(fn (Comment $comment) => $comment->isVisible() ?? true);
+        return $this->comments->filter(fn(Comment $comment) => $comment->isVisible() ?? true);
     }
 
     /**

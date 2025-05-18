@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use App\Repository\PostRepository;
-use App\Service\UrlNormalizerService;
+use App\Service\UtilityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -19,7 +19,7 @@ class NormalizeUrlsCommand extends Command
 {
     public function __construct(
         private readonly PostRepository $postRepository,
-        private readonly UrlNormalizerService $urlNormalizer,
+        private readonly UtilityService $urlNormalizer,
         private readonly EntityManagerInterface $entityManager
     ) {
         parent::__construct();
@@ -34,7 +34,7 @@ class NormalizeUrlsCommand extends Command
 
         foreach ($posts as $post) {
             if (!$post->getNormalizedUrl() && $post->getUrl()) {
-                $normalizedUrl = $this->urlNormalizer->normalize($post->getUrl());
+                $normalizedUrl = $this->urlNormalizer->normalizeUrl($post->getUrl());
                 $post->setNormalizedUrl($normalizedUrl);
                 $count++;
             }

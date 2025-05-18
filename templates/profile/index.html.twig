@@ -60,7 +60,7 @@
                                     </div>
                                 </div>
 
-                                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                                     <div class="p-4 light:bg-slate-50 border-slate-200 dark:bg-slate-800 rounded border dark:border-slate-700 text-center">
                                         <div class="text-2xl font-bold text-indigo-500">{{ user.posts|length|persian_number }}</div>
                                         <div class="text-sm text-slate-500 dark:text-slate-400">مطالب ارسالی</div>
@@ -76,6 +76,10 @@
                                     <div class="p-4 light:bg-slate-50 border-slate-200 dark:bg-slate-800 rounded border dark:border-slate-700 text-center">
                                         <div class="text-2xl font-bold text-indigo-500">{{ user.postVotes|length|persian_number }}</div>
                                         <div class="text-sm text-slate-500 dark:text-slate-400">رأی‌ها</div>
+                                    </div>
+                                    <div class="p-4 light:bg-slate-50 border-slate-200 dark:bg-slate-800 rounded border dark:border-slate-700 text-center">
+                                        <div class="text-2xl font-bold text-indigo-500">{{ total_visits|persian_number }}</div>
+                                        <div class="text-sm text-slate-500 dark:text-slate-400">بازدیدها</div>
                                     </div>
                                 </div>
                             </div>
@@ -113,6 +117,8 @@
                                                                     <span class="text-slate-400 dark:text-slate-500">{{ post.createdAt|persian_ago }}</span>
                                                                     <span>·</span>
                                                                     <span class="text-slate-400 dark:text-slate-500">{{ post.visibleComments|length|persian_number }} دیدگاه</span>
+                                                                    <span>·</span>
+                                                                    <span class="text-slate-400 dark:text-slate-500">{{ (analytics[post.id].visits ?? 0)|persian_number }} بازدید</span>
                                                                     {% if post.originalAuthorName is defined and post.originalAuthorName is not empty %}
                                                                         <span>·</span>
                                                                         <span class="text-slate-400 dark:text-slate-500">{{ post.originalAuthorName }}</span>

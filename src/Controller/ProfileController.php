@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Post;
 use App\Entity\User;
 use App\Form\ProfileEditType;
+use App\Service\PlausibleAnalyticsService;
+use App\Service\UtilityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +21,8 @@ final class ProfileController extends AbstractController
     #[Route('/{id:user}', name: 'user', requirements: ['id' => '^(?!edit$).+'])]
     public function index(
         ?User $user = null,
+        PlausibleAnalyticsService $plausibleAnalyticsService,
+        UtilityService $utilityService
     ): Response {
         if (is_null($user)) {
             $user = $this->getUser();
@@ -27,8 +32,21 @@ final class ProfileController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
+        $postIds = array_map(fn(Post $p) => $p->getId(), $user->getPosts()->toArray());
+        $analytics = $plausibleAnalyticsService->getVisitorsByPostIds($postIds);
+
+        $totalVisits = array_reduce(
+            $analytics,
+            function (int $carry, array $item) {
+                return $carry + $item['visits'];
+            },
+            0
+        );
+
         return $this->render('profile/index.html.twig', [
             'user' => $user,
+            'analytics' => $analytics,
+            'total_visits' => $totalVisits,
         ]);
     }
 

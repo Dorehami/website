@@ -89,8 +89,7 @@ class PostRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('p')
             ->leftJoin('p.votes', 'v')
             ->groupBy('p.id')
-            ->orderBy('COUNT(v.id)', 'DESC')
-            //->addOrderBy('p.createdAt', 'DESC')   -> probably not relevant for most popular
+            ->orderBy('COUNT(v.id)', 'DESC')//->addOrderBy('p.createdAt', 'DESC')   -> probably not relevant for most popular
         ;
 
         return $this->paginate($queryBuilder, $page, $limit);

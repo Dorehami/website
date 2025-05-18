@@ -76,8 +76,7 @@ class PostCrudController extends AbstractCrudController
             ->setCssClass('btn btn-primary');
 
         $triggerPostPublishEvent = Action::new('triggerPostPublishEvent', 'Trigger Post Publish', 'fa fa-bolt')
-            ->linkToCrudAction('triggerPostPublishEvent')
-        ;
+            ->linkToCrudAction('triggerPostPublishEvent');
 
         return $actions
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
@@ -86,6 +85,7 @@ class PostCrudController extends AbstractCrudController
             ->add(Crud::PAGE_DETAIL, $viewOnSite)
             ->add(Crud::PAGE_EDIT, $viewOnSite);
     }
+
     public function triggerPostPublishEvent(AdminUrlGenerator $adminUrlGenerator): Response
     {
         /** @var Post $post */

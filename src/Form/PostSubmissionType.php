@@ -121,8 +121,7 @@ class PostSubmissionType extends AbstractType
                         'message' => 'لطفا نوع پست را انتخاب کنید'
                     ]),
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
