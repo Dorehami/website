@@ -7,6 +7,8 @@
 @import './additional-styles/toggle-switch.css' layer(components);
 @import './additional-styles/theme.css';
 
+@import "./additional-styles/navb-bar.css";
+
 @plugin "@tailwindcss/forms" {
     strategy: base;
 }

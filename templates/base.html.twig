@@ -21,6 +21,7 @@
           href="{% block canonical_url %}{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}{% endblock %}">
     <link rel="icon" href="{{ asset('images/4-removebg-preview.png') }}">
 
+
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
@@ -41,50 +42,69 @@
 <body class="font-estedad antialiased dark:bg-slate-900 dark:text-slate-200 tracking-tight">
 
 <div class="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
-    <header class="absolute w-full dark:bg-slate-900 z-30">
+    <header class="absolute w-full bg-white dark:bg-slate-900 z-30" x-data="{ open: false }">
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
             <div class="flex items-center justify-between h-16 md:h-20">
+                <!-- Logo -->
                 <div class="shrink-0 mr-4">
                     <a class="block group" href="{{ path('app_home') }}" aria-label="Dorehami">
                         <img src="{{ asset('images/2-removebg-preview.png') }}" width="96" alt="جامعه‌ی دورهمی"/>
                     </a>
                 </div>
 
-                <nav class="flex grow">
-                    <ul class="flex grow justify-end flex-wrap items-center">
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button @click="open = !open" class="text-slate-500 hover:text-slate-300 focus:outline-none">
+                        <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                        <svg x-show="open" x-cloak class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Main nav -->
+                <nav class="hidden md:flex grow">
+                    <ul class="flex grow justify-end items-center space-x-4 rtl:space-x-reverse">
                         {% if not is_granted('ROLE_USER') %}
                             <li>
-                                <a class="text-sm font-medium dark:text-slate-400 dark:hover:text-slate-200 px-3 lg:px-5 py-2 flex items-center transition duration-150 ease-in-out"
+                                <a class="text-sm font-medium dark:text-slate-400 dark:hover:text-slate-200 px-3 lg:px-5 py-2 transition"
                                    href="{{ path('app_login') }}">ورود</a>
                             </li>
-                            <li class="ml-3">
-                                <a class="btn-sm text-white bg-indigo-500 hover:bg-indigo-600 w-full"
+                            <li>
+                                <a class="btn-sm text-white bg-indigo-500 hover:bg-indigo-600"
                                    href="{{ path('connect_discord') }}">پیوستن به جامعه</a>
                             </li>
                         {% endif %}
 
                         {% if is_granted('ROLE_USER') %}
                             <li>
-                                <a class="flex gap-1 px-3 lg:px-5 py-2" href="{{ path('app_profile_index') }}">
+                                <a class="flex gap-1 px-3 lg:px-5 py-2 items-center"
+                                   href="{{ path('app_profile_index') }}">
                                     <img src="{{ app.user.avatarUrl }}" alt="{{ app.user.displayName }}"
                                          class="w-8 h-8 rounded-full">
-                                    <span class="text-sm font-medium text-slate-600 dark:text-slate-400 flex items-center">{{ app.user.displayName }}</span>
+                                    <span class="text-sm font-medium text-slate-600 dark:text-slate-400">{{ app.user.displayName }}</span>
                                 </a>
                             </li>
 
                             {% if is_granted('ROLE_ADMIN') %}
                                 <li>
-                                    <a class="btn-sm text-white bg-indigo-500 hover:bg-indigo-600 w-full"
+                                    <a class="btn-sm text-white bg-indigo-500 hover:bg-indigo-600"
                                        href="{{ path('admin') }}">پنل ادمین</a>
                                 </li>
                             {% endif %}
                         {% endif %}
 
                         <li>
-                            <a class="flex gap-1 text-sm font-medium dark:text-slate-400 dark:hover:text-slate-200 px-3 lg:px-5 py-2 flex items-center transition duration-150 ease-in-out"
+                            <a class="flex gap-1 text-sm font-medium dark:text-slate-400 dark:hover:text-slate-200 px-3 lg:px-5 py-2 transition"
                                target="_blank" href="https://feedback.dorehami.dev">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Z"/>
                                 </svg>
                                 <span>فیدبک</span>
                             </a>
@@ -92,8 +112,61 @@
                     </ul>
                 </nav>
             </div>
+
+            <!-- Mobile nav -->
+            <div x-show="open"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 -translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 -translate-y-2"
+                 x-cloak
+                 class="md:hidden shadow-2xl w-full rounded">
+                <ul class="flex flex-col px-2 py-4 gap-4 rtl:space-y-reverse">
+                    {% if not is_granted('ROLE_USER') %}
+                        <li>
+                            <a class="block text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-indigo-600 px-4 py-2"
+                               href="{{ path('app_login') }}">ورود</a>
+                        </li>
+                        <li>
+                            <a class="block text-white bg-indigo-500 hover:bg-indigo-600 text-sm px-4 py-2 rounded"
+                               href="{{ path('connect_discord') }}">پیوستن به جامعه</a>
+                        </li>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_USER') %}
+                        <li class="flex items-center px-4 gap-2">
+                            <img src="{{ app.user.avatarUrl }}" alt="{{ app.user.displayName }}"
+                                 class="w-8 h-8 rounded-full">
+                            <a class="text-sm font-medium text-slate-600 dark:text-slate-400"
+                               href="{{ path('app_profile_index') }}">{{ app.user.displayName }}</a>
+                        </li>
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li>
+                                <a class="block text-white bg-indigo-500 hover:bg-indigo-600 text-sm px-4 py-2 rounded"
+                                   href="{{ path('admin') }}">پنل ادمین</a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+
+                    <li>
+                        <a class="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 px-4 py-2"
+                           target="_blank" href="https://feedback.dorehami.dev">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Z"/>
+                            </svg>
+                            <span>فیدبک</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </header>
+
 
     {% set flashes = app.flashes %}
     {% if flashes|length > 0 %}

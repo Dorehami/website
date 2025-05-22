@@ -7,5 +7,7 @@ import './bootstrap.js';
  */
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
-
 import './js/main'
+import Alpine from 'alpinejs/dist/cdn.min'
+
+window.Alpine = Alpine
