@@ -39,11 +39,11 @@ class Post
     #[ORM\Column]
     private ?DateTimeImmutable $createdAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class, orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'post', orphanRemoval: true)]
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private Collection $comments;
 
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: PostVote::class, orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: PostVote::class, mappedBy: 'post', orphanRemoval: true)]
     private Collection $votes;
 
     #[ORM\Column(length: 255, nullable: true)]

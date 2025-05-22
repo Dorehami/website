@@ -53,7 +53,7 @@ class TimeAgoExtension extends AbstractExtension
 
         if ($diff < 31536000) {
             $months = floor($diff / 2592000);
-            return $this->formatPersianNumber($months) . " $prefix ماه ";
+            return $this->formatPersianNumber($months) . " ماه $prefix ";
         }
 
         $years = floor($diff / 31536000);
