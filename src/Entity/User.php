@@ -41,13 +41,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatarUrl = null;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Post::class)]
+    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'author')]
     private Collection $posts;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class)]
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'author')]
     private Collection $comments;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: PostVote::class)]
+    #[ORM\OneToMany(targetEntity: PostVote::class, mappedBy: 'user')]
     private Collection $postVotes;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
@@ -74,6 +74,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $displayName = null;
+
+    #[ORM\Column(options: ['default' => true])]
+    private ?bool $receiveCommentEmailNotification = null;
+
+    #[ORM\Column(options: ['default' => true])]
+    private ?bool $receiveUpvoteEmailNotification = null;
 
     public function __construct()
     {
@@ -393,6 +399,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $report->setReportedBy(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isReceiveCommentEmailNotification(): ?bool
+    {
+        return $this->receiveCommentEmailNotification;
+    }
+
+    public function setReceiveCommentEmailNotification(bool $receiveCommentEmailNotification): static
+    {
+        $this->receiveCommentEmailNotification = $receiveCommentEmailNotification;
+
+        return $this;
+    }
+
+    public function isReceiveUpvoteEmailNotification(): ?bool
+    {
+        return $this->receiveUpvoteEmailNotification;
+    }
+
+    public function setReceiveUpvoteEmailNotification(bool $receiveUpvoteEmailNotification): static
+    {
+        $this->receiveUpvoteEmailNotification = $receiveUpvoteEmailNotification;
 
         return $this;
     }

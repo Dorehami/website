@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -33,7 +34,16 @@ class ProfileEditType extends AbstractType
                         'maxMessage' => 'نام نمایشی نمی‌تواند بیشتر از {{ limit }} کاراکتر داشته باشد',
                     ]),
                 ],
-            ]);
+            ])
+            ->add('receiveUpvoteEmailNotification', CheckboxType::class, [
+                'label' => 'دریافت ایمیل در صورت راي مثبت گرفتن پست‌ها',
+                'required' => false,
+            ])
+            ->add('receiveCommentEmailNotification', CheckboxType::class, [
+                'label' => 'دریافت ایمیل در صورت کامنت گرفتن پست‌ها',
+                'required' => false,
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

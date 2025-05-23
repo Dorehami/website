@@ -54,6 +54,28 @@
                                     این نام در سایت دورهمی به کاربران دیگر نمایش داده می‌شود
                                 </p>
                             </div>
+                            
+                            <div class="mb-6">
+                                {{ form_label(form.receiveUpvoteEmailNotification, null, {'label_attr': {'class': 'sr-only'}}) }}
+                                <div class="flex gap-2 items-center">
+                                    {{ form_widget(form.receiveUpvoteEmailNotification, {'attr': {'class': 'form-checkbox text-sm'}}) }}
+                                    <p class="block text-sm font-medium text-slate-600 dark:text-slate-300">
+                                        دریافت ایمیل هنگام دریافت رای مثبت روی پست‌های شما
+                                    </p>
+                                </div>
+                                {{ form_errors(form.receiveUpvoteEmailNotification) }}
+                            </div>
+
+                            <div class="mb-6">
+                                {{ form_label(form.receiveCommentEmailNotification, null, {'label_attr': {'class': 'sr-only'}}) }}
+                                <div class="flex gap-2 items-center">
+                                    {{ form_widget(form.receiveCommentEmailNotification, {'attr': {'class': 'form-checkbox text-sm'}}) }}
+                                    <p class="block text-sm font-medium text-slate-600 dark:text-slate-300">
+                                        دریافت ایمیل هنگام ثبت نظر جدید روی پست‌های شما
+                                    </p>
+                                </div>
+                                {{ form_errors(form.receiveCommentEmailNotification) }}
+                            </div>
 
 
                             <div class="flex gap-4 mt-8">
