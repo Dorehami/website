@@ -1,0 +1,35 @@
+/* Class assigned to popover wrapper */
+.custom-popover.driver-popover * {
+    font-family: var(--font-estedad) !important;
+}
+
+/* Arrow pointing towards the highlighted element */
+.custom-popover.driver-popover-arrow {}
+
+/* Title and description */
+.custom-popover.driver-popover-title {
+    font-family: var(--font-estedad) !important;
+}
+.custom-popover.driver-popover-description {
+    font-family: var(--font-estedad) !important;
+}
+
+/* Close button displayed on the top right corner */
+.custom-popover.driver-popover-close-btn {}
+
+/* Footer of the popover displaying progress and navigation buttons */
+.custom-popover.driver-popover-footer {}
+.custom-popover.driver-popover-progress-text {
+    direction: rtl !important;
+    font-family: var(--font-estedad) !important;
+}
+.custom-popover.driver-popover-prev-btn {
+    direction: rtl !important;
+    margin: 0 1em !important;
+    font-family: var(--font-estedad) !important;
+}
+.custom-popover.driver-popover-next-btn {
+    direction: rtl !important;
+    margin: 0 1em !important;
+    font-family: var(--font-estedad) !important;
+}

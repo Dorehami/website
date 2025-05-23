@@ -8,6 +8,7 @@
 @import './additional-styles/theme.css';
 
 @import "./additional-styles/navb-bar.css";
+@import "./additional-styles/popover.css";
 
 @plugin "@tailwindcss/forms" {
     strategy: base;
@@ -105,3 +106,4 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+

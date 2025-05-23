@@ -28,6 +28,7 @@
     "build": "encore production --progress"
   },
   "dependencies": {
-    "alpinejs": "^3.14.9"
+    "alpinejs": "^3.14.9",
+    "driver.js": "^1.3.6"
   }
 }

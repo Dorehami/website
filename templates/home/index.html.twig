@@ -8,7 +8,7 @@
     <section class="relative overflow-hidden">
         <div class="absolute inset-0 bg-linear-to-t dark:from-slate-800/60 pointer-events-none -z-10"
              aria-hidden="true"></div>
-        
+
         <div class="absolute left-1/2 -translate-x-1/2 pointer-events-none -z-10" aria-hidden="true">
             <img src="{{ asset('images/hero-illustration.svg') }}" class="max-w-none" width="1905" height="622"
                  alt="جامعه‌ی دورهمی">
@@ -21,7 +21,8 @@
                         <div class="md:pl-32">
                             <h1 class="h2 font-badkhat bg-clip-text text-transparent bg-linear-to-tr from-slate-700 via-sky-600 to-indigo-500 dark:from-indigo-500 dark:via-sky-300 dark:to-slate-200">
                                 جامعه‌ی دورهمی، جامعه‌ی گیک‌های فارسی‌زبان</h1>
-                            <p class="text-lg text-slate-500 dark:text-slate-400 mb-8">یه جامعه پویا از گیک‌های فارسی زبان در
+                            <p class="text-lg text-slate-500 dark:text-slate-400 mb-8">یه جامعه پویا از گیک‌های فارسی
+                                زبان در
                                 دیسکورد. فضایی برای یادگیری، همکاری، پرسش و پاسخ، و ارتباط با دیگر گیک‌ها. </p>
                         </div>
                         {# <div class="md:flex flex-wrap items-center md:space-x-5 text-center">
@@ -50,7 +51,7 @@
             </div>
         </div>
     </section>
-    
+
     <section>
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
             <div class="md:flex md:justify-between md:divide-x md:dark:divide-slate-800">
@@ -118,7 +119,8 @@
                                                     </div>
                                                     <div class="grow lg:flex items-center justify-between space-y-5 lg:space-x-6 lg:space-y-0">
                                                         <div>
-                                                            <a href="{{ path('app_post_show', {'id': post.id}) }}" class="w-full mb-2 flex gap-2 items-center align-middle text-slate-500 dark:text-slate-200 font-semibold hover:text-slate-700 hover:dark:text-white transition duration-150 ease-in-out">
+                                                            <a href="{{ path('app_post_show', {'id': post.id}) }}"
+                                                               class="w-full mb-2 flex gap-2 items-center align-middle text-slate-500 dark:text-slate-200 font-semibold hover:text-slate-700 hover:dark:text-white transition duration-150 ease-in-out">
                                                                 {{ post.type.icon | raw }}
                                                                 <span>({{ post.type.label }}) {{ post.title }}</span>
                                                             </a>
@@ -127,7 +129,8 @@
                                                                     <img class="rounded-full ml-2 w-6 h-6"
                                                                          src="{{ post.author.avatarUrl }}"
                                                                          alt="{{ post.author.displayName }}"/>
-                                                                    <a href="{{ path('app_profile_user', {'id': post.author.id}) }}" class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">
+                                                                    <a href="{{ path('app_profile_user', {'id': post.author.id}) }}"
+                                                                       class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">
                                                                         {{ post.author.displayName }}
                                                                     </a>
                                                                 </div>
@@ -214,7 +217,7 @@
                             {% set parentClass = "relative p-5 dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20" %}
                             {% set bgClass = "absolute inset-0 -m-px pointer-events-none -z-10 before:absolute before:inset-0 before:bg-slate-100 before:dark:bg-linear-to-t before:dark:from-slate-700 before:dark:to-slate-800 after:absolute after:inset-0 after:bg-slate-50 after:dark:bg-slate-900 after:m-px" %}
                             {% set titleClass = "text-slate-500 dark:text-slate-200 font-semibold mb-1" %}
-                            
+
                             <div class="{{ parentClass }}">
                                 <div class="{{ bgClass }}"
                                      aria-hidden="true"></div>
