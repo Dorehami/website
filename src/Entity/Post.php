@@ -24,7 +24,7 @@ class Post
     #[Assert\Length(min: 5, max: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
     #[Assert\Url]
     private ?string $url = null;

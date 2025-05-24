@@ -54,7 +54,6 @@ class PostSubmissionType extends AbstractType
                     new NotBlank(),
                     new Length(
                         min: 10,
-                        max: 255,
                         minMessage: 'آدرس باید حداقل ۱۰ کاراکتر داشته باشه',
                         maxMessage: 'آدرس میتونه نهایتا ۲۵۵ کاراکتر داشته باشه'
                     ),
