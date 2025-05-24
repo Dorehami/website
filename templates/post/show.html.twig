@@ -11,6 +11,10 @@
 {% block meta_keywords %}{{ post.title|lower|replace({' ': ', '}) }}, دورهمی, توسعه‌دهندگان نرم‌افزار{% endblock %}
 {% block og_type %}article{% endblock %}
 
+{% block additional_head %}
+    <link rel="canonical" href="{{ post.url }}">
+{% endblock %}
+
 {% block structured_data %}
     <script type="application/ld+json">
         {
