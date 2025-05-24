@@ -93,6 +93,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function prePersist(): void
     {
         $this->joinedAt = new DateTimeImmutable();
+
+        if ($this->receiveCommentEmailNotification === null) {
+            $this->receiveCommentEmailNotification = true;
+        }
+        if ($this->receiveUpvoteEmailNotification === null) {
+            $this->receiveUpvoteEmailNotification = true;
+        }
     }
 
     public function getId(): ?int
