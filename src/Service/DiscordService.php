@@ -12,6 +12,7 @@ class DiscordService
 {
     private string $guildId;
     private string $guildUrl;
+    private string $guestRoleId;
     private string $apiUrl;
     private string $discordToken;
     private ClientInterface $httpClient;
@@ -25,6 +26,7 @@ class DiscordService
         $this->discordToken = $params->get('app.discord_token');
         $this->guildUrl = "https://discord.com/api/guilds/{$this->guildId}";
         $this->apiUrl = "https://discord.com/api/v9";
+        $this->guestRoleId = $params->get('app.discord_guest_role_id');
     }
 
     public function getDiscordGuildId(): string
@@ -119,5 +121,34 @@ class DiscordService
         }, $cacheTtl);
 
         return $cachedEvents ?: [];
+    }
+    
+    public function isGuest(string $userDiscordId): bool
+    {
+        $cacheKey = 'discord_is_guest_' . $userDiscordId;
+        $cacheTtl = 120;
+
+        $cachedEvents = $this->cache->get($cacheKey, function () use ($cacheTtl, $userDiscordId) {
+            try {
+                $response = $this->httpClient->request('GET', "{$this->guildUrl}/members/{$userDiscordId}", [
+                    'headers' => [
+                        'Authorization' => "Bot {$this->discordToken}",
+                        'Content-Type' => 'application/json',
+                    ]
+                ]);
+
+                if ($response->getStatusCode() !== 200) {
+                    return false;
+                }
+
+                $data = json_decode($response->getBody()->getContents(), true);
+
+                return in_array($this->guestRoleId, $data['roles'] ?? [], true);
+            } catch (Exception $e) {
+                return false;
+            }
+        }, $cacheTtl);
+
+        return $cachedEvents ?: false;
     }
 }

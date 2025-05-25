@@ -6,6 +6,7 @@
 parameters:
   app.discord_guild_id: '%env(DISCORD_GUILD_ID)%'
   app.discord_token: '%env(DISCORD_TOKEN)%'
+  app.discord_guest_role_id: '%env(DISCORD_GUEST_ROLE_ID)%'
   app.openai_api_key: '%env(OPENAI_API_KEY)%'
   app.webhook_url: '%env(WEBHOOK_URL)%'
   app.webhook_secret: '%env(WEBHOOK_SECRET)%'
