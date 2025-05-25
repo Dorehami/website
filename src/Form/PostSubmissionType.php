@@ -19,12 +19,18 @@ class PostSubmissionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $limits = [
+            'title' => 140,
+            'description' => 500,
+        ];
+        
         $builder
             ->add('title', TextType::class, [
                 'label' => 'عنوان',
                 'attr' => [
                     'placeholder' => 'عنوان پست رو وارد کن',
-                    'class' => 'w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500'
+                    'class' => 'w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500',
+                    'data-lim' => $limits['title'],
                 ],
                 'row_attr' => [
                     'class' => 'mb-4'
@@ -34,7 +40,7 @@ class PostSubmissionType extends AbstractType
                     new NotBlank(),
                     new Length(
                         min: 5,
-                        max: 140,
+                        max: $limits['title'],
                         minMessage: 'عنوان باید حداقل ۵ کاراکتر داشته باشه',
                         maxMessage: 'عنوان میتونه حداکثر ۱۴۰ کاراکتر داشته باشه'
                     ),
@@ -69,7 +75,8 @@ class PostSubmissionType extends AbstractType
                 'label' => 'توضیحات',
                 'attr' => [
                     'placeholder' => 'توضیحات بیشتری برای خواننده بنویس (اجباری نیست)',
-                    'class' => 'w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500'
+                    'class' => 'w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500',
+                    'data-lim' => $limits['description'],
                 ],
                 'row_attr' => [
                     'class' => 'mb-4'
@@ -77,7 +84,7 @@ class PostSubmissionType extends AbstractType
                 'constraints' => [
                     new Length(
                         min: 0,
-                        max: 255,
+                        max: $limits['description'],
                     ),
                 ],
                 'required' => false,

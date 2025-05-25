@@ -1,0 +1,61 @@
+/* Character Counter Styles */
+.character-counter {
+    transition: all 0.2s ease-in-out;
+    font-family: var(--font-estedad);
+    direction: rtl;
+}
+
+.character-counter.pulse-warning {
+    animation: pulse-warning 1.5s ease-in-out infinite alternate;
+}
+
+.character-counter.pulse-error {
+    animation: pulse-error 1s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-warning {
+    from { opacity: 0.8; }
+    to { opacity: 1; }
+}
+
+@keyframes pulse-error {
+    from { opacity: 0.7; }
+    to { opacity: 1; }
+}
+
+/* Field styling classes */
+.over-limit {
+    border-color: #dc2626 !important;
+    box-shadow: 0 0 0 1px #dc2626 !important;
+}
+
+.near-limit {
+    border-color: #ea580c !important;
+    box-shadow: 0 0 0 1px #ea580c !important;
+}
+
+.character-valid {
+    border-color: #16a34a !important;
+    box-shadow: 0 0 0 1px #16a34a !important;
+}
+
+/* Custom counter positions */
+.character-counter.inline {
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 0;
+}
+
+.character-counter.floating {
+    position: absolute;
+    top: -20px;
+    left: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+}
+
+.dark .character-counter.floating {
+    background: rgba(15, 23, 42, 0.9);
+}
