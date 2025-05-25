@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}خطای {{ status_code }} - {{ status_text }} | دورهمی{% endblock %}
+{% block meta_description %}خطایی رخ داده است. لطفاً دوباره تلاش کنید یا با پشتیبانی تماس بگیرید.{% endblock %}
+
+{% block body %}
+    <section class="relative">
+        <div class="absolute left-1/2 -translate-x-1/2 pointer-events-none -z-10" aria-hidden="true">
+            <img src="{{ asset('images/hero-illustration.svg') }}" class="max-w-none" width="1905" height="622"
+                 alt="خطا">
+        </div>
+
+        <div class="relative max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="pt-32 pb-12 md:pt-40 md:pb-20">
+                <div class="max-w-3xl mx-auto text-center">
+                    <div class="mb-8">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-red-600 dark:text-red-400">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9 1.5a9 9 0 1 1 18 0 9 9 0 0 1-18 0Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 15.75h.007v.008H12v-.008Z" />
+                            </svg>
+                        </div>
+
+                        <h1 class="h2 font-badkhat text-slate-700 dark:text-slate-200 mb-4">
+                            خطای {{ status_code }}
+                        </h1>
+
+                        <h2 class="text-xl font-semibold text-slate-600 dark:text-slate-300 mb-6">
+                            {{ status_text }}
+                        </h2>
+
+                        <p class="text-lg text-slate-500 dark:text-slate-400 mb-8">
+                            متأسفانه خطایی رخ داده است. لطفاً دوباره تلاش کنید یا با پشتیبانی تماس بگیرید.
+                        </p>
+                    </div>
+
+                    <div class="rounded-sm border border-slate-200 light:bg-slate-50 dark:border-slate-700 p-6 dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20 mb-8">
+                        <h3 class="text-lg font-semibold text-slate-600 dark:text-slate-200 mb-4">
+                            چه کاری می‌توانید انجام دهید؟
+                        </h3>
+
+                        <div class="grid md:grid-cols-2 gap-6 text-right">
+                            <div class="flex items-start gap-3">
+                                <div class="flex-shrink-0 w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center mt-0.5">
+                                    <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400">۱</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-slate-600 dark:text-slate-200 mb-1">مجدداً تلاش کنید</h4>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400">صفحه را تازه کنید و دوباره امتحان کنید</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3">
+                                <div class="flex-shrink-0 w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center mt-0.5">
+                                    <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400">۲</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-slate-600 dark:text-slate-200 mb-1">بازگشت به خانه</h4>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400">به صفحه اصلی دورهمی برگردید</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3">
+                                <div class="flex-shrink-0 w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center mt-0.5">
+                                    <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400">۳</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-slate-600 dark:text-slate-200 mb-1">بررسی اتصال</h4>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400">اتصال اینترنت خود را بررسی کنید</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3">
+                                <div class="flex-shrink-0 w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center mt-0.5">
+                                    <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400">۴</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-slate-600 dark:text-slate-200 mb-1">گزارش مشکل</h4>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400">در دیسکورد مشکل را گزارش دهید</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button onclick="location.reload()"
+                                class="btn-sm text-white bg-indigo-500 hover:bg-indigo-600">
+                            تازه کردن صفحه
+                        </button>
+
+                        <a href="{{ path('app_home') }}"
+                           class="btn-sm text-slate-600 dark:text-slate-400 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600">
+                            بازگشت به صفحه اصلی
+                        </a>
+
+                        <a href="{{ path('redirect_invite') }}"
+                           class="btn-sm text-indigo-500 border dark:border-slate-700 dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20 hover:dark:bg-slate-800">
+                            درخواست کمک از دیسکورد
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
