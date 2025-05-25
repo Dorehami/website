@@ -21,7 +21,11 @@ class DiscordFunctionsExtension extends AbstractExtension
         ];
     }
 
-    public function isGuest(string $userDiscordId): string {
+    public function isGuest(string|null $userDiscordId): bool {
+        if (is_null($userDiscordId)) {
+            return true;
+        }
+        
         return $this->discordService->isGuest($userDiscordId);
     }
 }
