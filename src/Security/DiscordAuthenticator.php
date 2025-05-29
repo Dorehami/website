@@ -46,7 +46,7 @@ class DiscordAuthenticator extends OAuth2Authenticator implements Authentication
                 $discordUser = $client->fetchUserFromToken($accessToken);
 
                 // Check if user already exists
-                $existingUser = $this->userRepository->findOneByDiscordId($discordUser->getId());
+                $existingUser = $this->userRepository->findOneByEmail($discordUser->getEmail());
 
                 if ($existingUser) {
                     $this->bannedUserChecker->checkPreAuth($existingUser);

@@ -30,6 +30,15 @@ final class Version20250408075855 extends AbstractMigration
             ALTER TABLE comment ALTER id SET DEFAULT nextval('comment_id_seq')
         SQL);
         $this->addSql(<<<'SQL'
+            CREATE SEQUENCE user_id_seq
+        SQL);
+        $this->addSql(<<<'SQL'
+            SELECT setval('user_id_seq', (SELECT MAX(id) FROM `user`))
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE `user` ALTER id SET DEFAULT nextval('user_id_seq')
+        SQL);
+        $this->addSql(<<<'SQL'
             CREATE SEQUENCE post_id_seq
         SQL);
         $this->addSql(<<<'SQL'
