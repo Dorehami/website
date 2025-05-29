@@ -81,7 +81,7 @@ class DiscordAuthenticator extends OAuth2Authenticator implements Authentication
 
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
-                
+
                 $this->messageBus->dispatch(new WebhookEvent(
                     WebhookEventAction::USER_JOINED,
                     [

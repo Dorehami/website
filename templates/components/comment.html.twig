@@ -1,0 +1,84 @@
+{% set maxLevelReached = level >= 4 %}
+
+<li class="{% if level > 0 %}mr-4 md:mr-{{ level * 4 }} border-r dark:border-slate-700 border-slate-200 pr-4{% endif %} p-4 mb-4 light:bg-slate-50 border-slate-200 dark:bg-slate-800 rounded border dark:border-slate-700 w-full"
+    id="comment-{{ comment.id }}">
+    <div class="flex items-center mb-1">
+        <img class="rounded-full ml-2 w-6 h-6"
+             src="{{ comment.author.avatarUrl }}"
+             alt="{{ comment.author.displayName }}"/>
+        <div class="text-xs text-slate-400 dark:text-slate-600 flex gap-2">
+            <a href="{{ path('app_profile_user', {'id': comment.author.id}) }}"
+               class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">{{ comment.author.displayName }}</a>
+            <span>·</span>
+            <span class="text-slate-500">{{ comment.createdAt|persian_ago }}</span>
+        </div>
+    </div>
+    <div class="text-sm text-slate-600 dark:text-slate-400 space-y-4 mb-1">
+        {{ comment.content }}
+    </div>
+    {% if is_granted('ROLE_USER') %}
+        <div class="text-xs text-slate-400 dark:text-slate-600 flex gap-3 mt-2">
+            {% if not maxLevelReached %}
+                <button
+                        class="reply-button flex gap-1 items-center cursor-pointer font-medium text-slate-500 hover:text-slate-200 transition duration-150 ease-in-out"
+                        data-comment-id="{{ comment.id }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z"/>
+                    </svg>
+                    <span>پاسخ</span>
+                </button>
+            {% endif %}
+
+            {% if comment.author is not same as app.user %}
+                <form action="{{ path('app_comment_moderate', {'id': comment.id}) }}" method="post">
+                    <button
+                            type="submit"
+                            class="flex gap-1 items-center cursor-pointer font-medium text-slate-500 hover:text-slate-200 transition duration-150 ease-in-out">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
+                        </svg>
+                        <span>گزارش</span>
+                    </button>
+                </form>
+            {% endif %}
+        </div>
+
+        {% if not maxLevelReached %}
+            <div id="reply-form-{{ comment.id }}" class="reply-form mt-4 hidden">
+                <form action="{{ path('app_comment_reply', {'id': comment.id}) }}" method="post"
+                      data-comment-id="{{ comment.id }}">
+                <textarea
+                        name="content"
+                        class="form-textarea w-full text-sm placeholder-gray-400 border border-gray-300 rounded-md dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200"
+                        rows="3"
+                        placeholder="پاسخ خود را بنویسید..."></textarea>
+                    <div class="flex justify-between mt-2">
+                        <button type="button" class="text-xs text-slate-500 hover:text-slate-300"
+                                onclick="document.getElementById('reply-form-{{ comment.id }}').classList.add('hidden')">
+                            انصراف
+                        </button>
+                        <button type="submit" class="btn-sm py-1 text-white bg-indigo-500 hover:bg-indigo-600 text-xs">
+                            ارسال پاسخ
+                        </button>
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {# Nested replies #}
+    {% if comment.hasReplies() %}
+        <ul class="pl-4 mt-4 space-y-4">
+            {% for reply in comment.visibleReplies %}
+                {% include 'components/comment.html.twig' with {
+                    'comment': reply,
+                    'level': level + 1
+                } %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+</li>

@@ -125,12 +125,17 @@ class PostController extends AbstractController
             }
         }
 
+        $rootComments = $post->getVisibleComments()->filter(function (Comment $comment) {
+            return $comment->getParent() === null;
+        });
+
         return $this->render('post/show.html.twig', [
             'post' => $post,
             'discord_info' => $discordInfo,
             'discord_events' => $discordEvents,
             'most_popular_posts' => $mostPopularPosts,
             'form' => $form,
+            'rootComments' => $rootComments,
         ]);
     }
 

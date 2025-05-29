@@ -11,6 +11,7 @@
 
 @import "./additional-styles/navb-bar.css";
 @import "./additional-styles/popover.css";
+@import "./additional-styles/nested-comment.css";
 
 @plugin "@tailwindcss/forms" {
     strategy: base;

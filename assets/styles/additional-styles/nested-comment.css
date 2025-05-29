@@ -1,0 +1,24 @@
+.nested-comments {
+    border-left: 2px solid theme('colors.slate.700');
+    padding-left: 1rem;
+    margin-left: 1rem;
+}
+
+@media (max-width: 768px) {
+    .nested-comments {
+        margin-left: 0.5rem;
+        padding-left: 0.5rem;
+    }
+}
+
+.reply-form {
+    transition: all 0.3s ease;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.reply-form:not(.hidden) {
+    max-height: 200px;
+    opacity: 1;
+}

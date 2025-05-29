@@ -87,6 +87,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(options: ['default' => true])]
     private ?bool $receiveUpvoteEmailNotification = null;
 
+    #[ORM\Column(options: ['default' => true])]
+    private ?bool $receiveCommentReplyEmailNotification = null;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -105,6 +108,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
         if ($this->receiveUpvoteEmailNotification === null) {
             $this->receiveUpvoteEmailNotification = true;
+        }
+        if ($this->receiveCommentReplyEmailNotification === null) {
+            $this->receiveCommentReplyEmailNotification = true;
         }
     }
 
@@ -462,6 +468,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setReceiveUpvoteEmailNotification(bool $receiveUpvoteEmailNotification): static
     {
         $this->receiveUpvoteEmailNotification = $receiveUpvoteEmailNotification;
+
+        return $this;
+    }
+
+    public function isReceiveCommentReplyEmailNotification(): ?bool
+    {
+        return $this->receiveCommentReplyEmailNotification;
+    }
+
+    public function setReceiveCommentReplyEmailNotification(bool $receiveCommentReplyEmailNotification): static
+    {
+        $this->receiveCommentReplyEmailNotification = $receiveCommentReplyEmailNotification;
 
         return $this;
     }

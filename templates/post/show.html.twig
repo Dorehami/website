@@ -41,6 +41,75 @@
     </script>
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.reply-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const commentId = this.dataset.commentId;
+                    const replyForm = document.getElementById('reply-form-' + commentId);
+
+                    document.querySelectorAll('.reply-form').forEach(form => {
+                        if (form.id !== 'reply-form-' + commentId) {
+                            form.classList.add('hidden');
+                        }
+                    });
+
+                    replyForm.classList.toggle('hidden');
+
+                    if (!replyForm.classList.contains('hidden')) {
+                        replyForm.querySelector('textarea').focus();
+                    }
+                });
+            });
+
+            document.querySelectorAll('.reply-form form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const formData = new FormData(this);
+                    const commentId = this.dataset.commentId;
+                    const textarea = this.querySelector('textarea');
+
+                    fetch(this.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                const successMessage = document.createElement('div');
+                                successMessage.classList.add('p-2', 'bg-green-50', 'text-green-600', 'rounded', 'mb-2');
+                                successMessage.innerText = 'پاسخ شما با موفقیت ثبت شد. در حال بارگذاری مجدد صفحه...';
+
+                                form.parentNode.insertBefore(successMessage, form);
+
+                                textarea.value = '';
+                                form.parentNode.classList.add('hidden');
+
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 750);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            const errorMessage = document.createElement('div');
+                            errorMessage.classList.add('p-2', 'bg-red-50', 'text-red-600', 'rounded', 'mb-2');
+                            errorMessage.innerText = 'خطا در ثبت پاسخ. لطفا دوباره تلاش کنید.';
+
+                            form.parentNode.insertBefore(errorMessage, form);
+                        });
+                });
+            });
+        });
+    </script>
+{% endblock %}
+
 {% block body %}
     <section>
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
@@ -143,43 +212,12 @@
                                                         بشید</a>
                                                 </div>
                                             {% endif %}
-                                            <ul class="w-full">
-                                                {% for comment in post.visibleComments %}
-                                                    <li class="p-4 mb-4 light:bg-slate-50 border-slate-200 dark:bg-slate-800 rounded border dark:border-slate-700 w-full">
-                                                        <div class="flex items-center mb-1">
-                                                            <img class="rounded-full ml-2 w-6 h-6"
-                                                                 src="{{ comment.author.avatarUrl }}"
-                                                                 alt="{{ comment.author.displayName }}"/>
-                                                            <div class="text-xs text-slate-400 dark:text-slate-600 flex gap-2">
-                                                                <a href="{{ path('app_profile_user', {'id': comment.author.id}) }}"
-                                                                   class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">{{ comment.author.displayName }}</a>
-                                                                <span>·</span>
-                                                                <span class="text-slate-500">{{ comment.createdAt|persian_ago }}</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-sm text-slate-600 dark:text-slate-400 space-y-4 mb-1">
-                                                            {{ comment.content }}
-                                                        </div>
-                                                        {% if is_granted('ROLE_USER') %}
-                                                            <div class="text-xs text-slate-400 dark:text-slate-600 flex gap-1 mt-2">
-                                                                {% if comment.author is not same as app.user %}
-                                                                    <form action="{{ path('app_comment_moderate', {'id': comment.id}) }}"
-                                                                          method="post">
-                                                                        <button
-                                                                                type="submit"
-                                                                                class="flex gap-1 items-center cursor-pointer font-medium text-slate-500 hover:text-slate-200 transition duration-150 ease-in-out">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-                                                                            </svg>
-                                                                            <span>گزارش</span>
-                                                                        </button>
-                                                                    </form>
-                                                                {% endif %}
-                                                                {# <span>·</span>
-                                                        <a class="text-slate-200 underline hover:no-underline" href="#">Reply</a> #}
-                                                            </div>
-                                                        {% endif %}
-                                                    </li>
+                                            <ul class="w-full space-y-4">
+                                                {% for comment in rootComments %}
+                                                    {% include 'components/comment.html.twig' with {
+                                                        'comment': comment,
+                                                        'level': 0
+                                                    } %}
                                                 {% endfor %}
                                             </ul>
                                         </div>
