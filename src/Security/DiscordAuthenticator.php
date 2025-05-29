@@ -3,6 +3,8 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Enum\WebhookEventAction;
+use App\Message\WebhookEvent;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
@@ -10,6 +12,7 @@ use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -26,7 +29,8 @@ class DiscordAuthenticator extends OAuth2Authenticator implements Authentication
         private readonly EntityManagerInterface $entityManager,
         private readonly RouterInterface $router,
         private readonly UserRepository $userRepository,
-        private readonly BannedUserChecker $bannedUserChecker
+        private readonly BannedUserChecker $bannedUserChecker,
+        private readonly MessageBusInterface $messageBus,
     ) {
     }
 
@@ -77,6 +81,14 @@ class DiscordAuthenticator extends OAuth2Authenticator implements Authentication
 
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
+                
+                $this->messageBus->dispatch(new WebhookEvent(
+                    WebhookEventAction::USER_JOINED,
+                    [
+                        'userId' => $user->getId(),
+                        'gate' => 'discord'
+                    ]
+                ));
 
                 return $user;
             })
