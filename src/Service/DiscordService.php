@@ -122,7 +122,7 @@ class DiscordService
 
         return $cachedEvents ?: [];
     }
-    
+
     public function isGuest(string $userDiscordId): bool
     {
         $cacheKey = 'discord_is_guest_' . $userDiscordId;

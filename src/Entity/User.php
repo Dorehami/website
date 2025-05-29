@@ -39,6 +39,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $discordUsername = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    private ?string $githubId = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $githubUsername = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatarUrl = null;
 
     #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'author')]
@@ -174,6 +180,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->discordUsername = $discordUsername;
 
+        return $this;
+    }
+
+    public function getGithubId(): ?string
+    {
+        return $this->githubId;
+    }
+
+    public function setGithubId(?string $githubId): static
+    {
+        $this->githubId = $githubId;
+        return $this;
+    }
+
+    public function getGithubUsername(): ?string
+    {
+        return $this->githubUsername;
+    }
+
+    public function setGithubUsername(?string $githubUsername): static
+    {
+        $this->githubUsername = $githubUsername;
         return $this;
     }
 
@@ -358,7 +386,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getDisplayName(): string
     {
-        return $this->displayName ?? $this->discordUsername ?? $this->email ?? 'کاربر';
+        return $this->displayName ??
+            $this->discordUsername ??
+            $this->githubUsername ??
+            $this->email ??
+            'کاربر ' . $this->getId();
     }
 
     public function setDisplayName(?string $displayName): static

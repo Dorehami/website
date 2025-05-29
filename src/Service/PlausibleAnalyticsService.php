@@ -29,19 +29,24 @@ class PlausibleAnalyticsService
     {
         $filters = array_map(fn($id) => "/posts/{$id}", $postIds);
 
-        $response = $this->client->request('POST', $this->apiUrl, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $this->authToken,
-                'Content-Type' => 'application/json',
-            ],
-            'json' => [
-                'site_id' => $this->siteId,
-                'metrics' => ['visitors'],
-                'date_range' => $dateRange,
-                'dimensions' => ['event:page'],
-                'filters' => [['contains', 'event:page', $filters]],
-            ],
-        ]);
+        try {
+            $response = $this->client->request('POST', $this->apiUrl, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $this->authToken,
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'site_id' => $this->siteId,
+                    'metrics' => ['visitors'],
+                    'date_range' => $dateRange,
+                    'dimensions' => ['event:page'],
+                    'filters' => [['contains', 'event:page', $filters]],
+                ],
+            ]);
+        } catch (\Exception $ex) {
+            // we'll just ignore the errors for now
+            return [];
+        }
 
         $data = json_decode($response->getBody()->getContents(), true);
 
