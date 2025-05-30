@@ -6,6 +6,8 @@ namespace App\Entity;
 
 use App\Repository\CommentRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -37,9 +39,18 @@ class Comment implements ReportableEntity
     #[ORM\JoinColumn(nullable: true)]
     private ?User $moderatedBy = null;
 
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'replies')]
+    #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+    private ?self $parent = null;
+
+    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'parent', orphanRemoval: true)]
+    #[ORM\OrderBy(['createdAt' => 'ASC'])]
+    private Collection $replies;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
+        $this->replies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -133,5 +144,79 @@ class Comment implements ReportableEntity
     {
         $this->moderatedBy = $moderatedBy;
         return $this;
+    }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?self $parent): static
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getReplies(): Collection
+    {
+        return $this->replies;
+    }
+
+    public function addReply(self $reply): static
+    {
+        if (!$this->replies->contains($reply)) {
+            $this->replies->add($reply);
+            $reply->setParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReply(self $reply): static
+    {
+        if ($this->replies->removeElement($reply)) {
+            if ($reply->getParent() === $this) {
+                $reply->setParent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get visible replies
+     *
+     * @return Collection<int, self>
+     */
+    public function getVisibleReplies(): Collection
+    {
+        return $this->replies->filter(fn(self $reply) => $reply->isVisible() ?? true);
+    }
+
+    /**
+     * Check if this comment is a reply
+     */
+    public function isReply(): bool
+    {
+        return $this->parent !== null;
+    }
+
+    /**
+     * Check if this comment has replies
+     */
+    public function hasReplies(): bool
+    {
+        return !$this->replies->isEmpty();
+    }
+
+    /**
+     * Get the number of visible replies
+     */
+    public function getVisibleRepliesCount(): int
+    {
+        return $this->getVisibleReplies()->count();
     }
 }

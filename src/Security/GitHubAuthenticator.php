@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
+use League\OAuth2\Client\Provider\GithubResourceOwner;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,9 +21,8 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
-use Wohali\OAuth2\Client\Provider\DiscordResourceOwner;
 
-class DiscordAuthenticator extends OAuth2Authenticator implements AuthenticationEntryPointInterface
+class GitHubAuthenticator extends OAuth2Authenticator implements AuthenticationEntryPointInterface
 {
     public function __construct(
         private readonly ClientRegistry $clientRegistry,
@@ -36,28 +36,30 @@ class DiscordAuthenticator extends OAuth2Authenticator implements Authentication
 
     public function supports(Request $request): ?bool
     {
-        return $request->attributes->get('_route') === 'connect_discord_check';
+        return $request->attributes->get('_route') === 'connect_github_check';
     }
 
     public function authenticate(Request $request): Passport
     {
-        $client = $this->clientRegistry->getClient('discord');
+        $client = $this->clientRegistry->getClient('github');
         $accessToken = $this->fetchAccessToken($client);
 
         return new SelfValidatingPassport(
             new UserBadge($accessToken->getToken(), function () use ($accessToken, $client) {
-                /** @var DiscordResourceOwner $discordUser */
-                $discordUser = $client->fetchUserFromToken($accessToken);
+                /** @var GithubResourceOwner $githubUser */
+                $githubUser = $client->fetchUserFromToken($accessToken);
 
-                // Check if user already exists
-                $existingUser = $this->userRepository->findOneByEmail($discordUser->getEmail());
+                $existingUser = $this->userRepository->findOneByEmail($githubUser->getEmail());
 
                 if ($existingUser) {
                     $this->bannedUserChecker->checkPreAuth($existingUser);
-                    $existingUser->setDiscordUsername($discordUser->getUsername());
-                    if ($discordUser->getAvatarHash()) {
-                        $existingUser->setAvatarUrl('https://cdn.discordapp.com/avatars/' . $discordUser->getId() . '/' . $discordUser->getAvatarHash() . '.png');
+                    $existingUser->setGithubId($githubUser->getId());
+                    $existingUser->setGithubUsername($githubUser->getNickname());
+
+                    if (empty($existingUser->getDisplayName())) {
+                        $existingUser->setDisplayName($githubUser->getName());
                     }
+
                     $this->entityManager->persist($existingUser);
                     $this->entityManager->flush();
 
@@ -65,15 +67,12 @@ class DiscordAuthenticator extends OAuth2Authenticator implements Authentication
                 }
 
                 $user = new User();
-                $user->setDiscordId($discordUser->getId());
-                $user->setDiscordUsername($discordUser->getUsername());
-                if ($discordUser->getEmail()) {
-                    $user->setEmail($discordUser->getEmail());
+                $user->setGithubId($githubUser->getId());
+                $user->setGithubUsername($githubUser->getNickname());
+                if ($githubUser->getEmail()) {
+                    $user->setEmail($githubUser->getEmail());
                 } else {
-                    $user->setEmail('discord_' . $discordUser->getId() . '@example.com');
-                }
-                if ($discordUser->getAvatarHash()) {
-                    $user->setAvatarUrl('https://cdn.discordapp.com/avatars/' . $discordUser->getId() . '/' . $discordUser->getAvatarHash() . '.png');
+                    $user->setEmail('github_' . $githubUser->getId() . '@example.com');
                 }
 
                 $user->setPassword('');
@@ -86,7 +85,7 @@ class DiscordAuthenticator extends OAuth2Authenticator implements Authentication
                     WebhookEventAction::USER_JOINED,
                     [
                         'userId' => $user->getId(),
-                        'gate' => 'discord'
+                        'gate' => 'github'
                     ]
                 ));
 

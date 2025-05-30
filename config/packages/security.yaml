@@ -19,6 +19,7 @@ security:
       custom_authenticator:
         - App\Security\AdminFormAuthenticator
         - App\Security\DiscordAuthenticator
+        - App\Security\GitHubAuthenticator
       entry_point: App\Security\AdminFormAuthenticator
       logout:
         path: app_logout

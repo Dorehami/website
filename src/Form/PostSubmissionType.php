@@ -23,7 +23,7 @@ class PostSubmissionType extends AbstractType
             'title' => 140,
             'description' => 500,
         ];
-        
+
         $builder
             ->add('title', TextType::class, [
                 'label' => 'عنوان',

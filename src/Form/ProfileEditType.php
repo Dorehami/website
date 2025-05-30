@@ -43,6 +43,10 @@ class ProfileEditType extends AbstractType
                 'label' => 'دریافت ایمیل در صورت کامنت گرفتن پست‌ها',
                 'required' => false,
             ])
+            ->add('receiveCommentReplyEmailNotification', CheckboxType::class, [
+                'label' => 'دریافت ایمیل در صورت پاسخ روی کامنت‌ها',
+                'required' => false,
+            ])
         ;
     }
 
