@@ -39,10 +39,15 @@ class DiscordService
      */
     public function fetchWidgetData(): array
     {
-        $response = $this->httpClient->request('GET', "{$this->guildUrl}/widget.json");
+        $defaultResponse = ['members' => [], 'invitation_link' => '#', 'total_members' => 0];
+        try {
+            $response = $this->httpClient->request('GET', "{$this->guildUrl}/widget.json");
+        } catch (Exception $exception) {
+            return $defaultResponse;
+        }
 
         if ($response->getStatusCode() !== 200) {
-            return ['members' => [], 'invitation_link' => '#', 'total_members' => 0];
+            return $defaultResponse;
         }
 
         $data = json_decode($response->getBody()->getContents(), true);
@@ -75,10 +80,14 @@ class DiscordService
             return [];
         }
 
-        $response = $this->httpClient->request(
-            'GET',
-            "{$this->apiUrl}/invites/{$inviteCode}?with_counts=true&with_expiration=true"
-        );
+        try {
+            $response = $this->httpClient->request(
+                'GET',
+                "{$this->apiUrl}/invites/{$inviteCode}?with_counts=true&with_expiration=true"
+            );
+        } catch (Exception $exception) {
+            return [];
+        }
 
         if ($response->getStatusCode() !== 200) {
             return [];

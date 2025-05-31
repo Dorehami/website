@@ -21,7 +21,7 @@ final class Version20250408075855 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            CREATE SEQUENCE comment_id_seq
+            CREATE SEQUENCE IF NOT EXISTS comment_id_seq
         SQL);
         $this->addSql(<<<'SQL'
             SELECT setval('comment_id_seq', (SELECT MAX(id) FROM comment))
@@ -30,7 +30,7 @@ final class Version20250408075855 extends AbstractMigration
             ALTER TABLE comment ALTER id SET DEFAULT nextval('comment_id_seq')
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE SEQUENCE user_id_seq
+            CREATE SEQUENCE IF NOT EXISTS user_id_seq
         SQL);
         $this->addSql(<<<'SQL'
             SELECT setval('user_id_seq', (SELECT MAX(id) FROM `user`))
@@ -39,7 +39,7 @@ final class Version20250408075855 extends AbstractMigration
             ALTER TABLE `user` ALTER id SET DEFAULT nextval('user_id_seq')
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE SEQUENCE post_id_seq
+            CREATE SEQUENCE IF NOT EXISTS post_id_seq
         SQL);
         $this->addSql(<<<'SQL'
             SELECT setval('post_id_seq', (SELECT MAX(id) FROM post))
@@ -48,7 +48,7 @@ final class Version20250408075855 extends AbstractMigration
             ALTER TABLE post ALTER id SET DEFAULT nextval('post_id_seq')
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE SEQUENCE post_vote_id_seq
+            CREATE SEQUENCE IF NOT EXISTS post_vote_id_seq
         SQL);
         $this->addSql(<<<'SQL'
             SELECT setval('post_vote_id_seq', (SELECT MAX(id) FROM post_vote))
