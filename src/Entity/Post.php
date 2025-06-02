@@ -61,6 +61,12 @@ class Post
     #[ORM\Column(enumType: PostType::class, options: ['default' => PostType::ARTICLE])]
     private ?PostType $type = PostType::ARTICLE;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTime $featuredStartDate = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTime $featuredEndDate = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -287,6 +293,30 @@ class Post
     public function setType(PostType $type): static
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getFeaturedStartDate(): ?\DateTime
+    {
+        return $this->featuredStartDate;
+    }
+
+    public function setFeaturedStartDate(?\DateTime $featuredStartDate): static
+    {
+        $this->featuredStartDate = $featuredStartDate;
+
+        return $this;
+    }
+
+    public function getFeaturedEndDate(): ?\DateTime
+    {
+        return $this->featuredEndDate;
+    }
+
+    public function setFeaturedEndDate(?\DateTime $featuredEndDate): static
+    {
+        $this->featuredEndDate = $featuredEndDate;
 
         return $this;
     }
