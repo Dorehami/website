@@ -14,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
@@ -41,39 +42,69 @@ class UserCrudController extends AbstractCrudController
             ->setEntityLabelInSingular('User')
             ->setEntityLabelInPlural('Users')
             ->setSearchFields(['email', 'discordUsername'])
-            ->setPaginatorPageSize(10);
+            ->setDefaultSort(['joinedAt' => 'DESC'])
+            ->setPaginatorPageSize(20);
     }
 
     public function configureFields(string $pageName): iterable
     {
+        // === Tab: Identity ===
+        yield FormField::addTab('👤 Identity & Access');
+        yield FormField::addFieldset('Login & Display');
+        yield FormField::addColumn(6);
         yield IdField::new('id')->hideOnForm();
         yield EmailField::new('email');
+        yield TextField::new('displayName')->setHelp('Name shown in the app');
 
-        if (Crud::PAGE_NEW === $pageName) {
+        if ($pageName === Crud::PAGE_NEW) {
             yield TextField::new('password')
                 ->setFormType(PasswordType::class)
-                ->setRequired(true);
-        } elseif (Crud::PAGE_EDIT === $pageName) {
+                ->setHelp('Required on creation');
+        } elseif ($pageName === Crud::PAGE_EDIT) {
             yield TextField::new('password')
                 ->setFormType(PasswordType::class)
                 ->setRequired(false)
                 ->setHelp('Leave blank to keep the current password');
         }
 
-        yield ArrayField::new('roles');
-        yield TextField::new('discordId')->hideOnForm();
-        yield TextField::new('displayName');
-        yield TextField::new('discordUsername')->hideOnForm();
+        yield ArrayField::new('roles')->setHelp('e.g. ROLE_USER, ROLE_ADMIN');
+
+        yield FormField::addFieldset('Avatar')->addCssClass('mt-3');
+        yield FormField::addColumn(6);
         yield TextField::new('avatarUrl')->hideOnIndex();
         yield ImageField::new('avatarUrl')
-            ->setLabel('Avatar')
             ->onlyOnIndex()
+            ->setLabel('Avatar')
             ->setTemplatePath('admin/field/user_avatar.html.twig');
 
-        yield BooleanField::new('banned');
-        yield DateTimeField::new('bannedAt')->hideOnForm();
-        yield TextareaField::new('banReason')->hideOnIndex();
-        yield AssociationField::new('bannedBy')->hideOnForm();
+        // === Tab: Discord & GitHub ===
+        yield FormField::addTab('🌐 Social Handles')->onlyOnDetail();
+        yield FormField::addFieldset('Connected Accounts')->onlyOnDetail()->collapsible();
+
+        yield FormField::addColumn(6);
+        yield TextField::new('discordUsername')->onlyOnDetail();
+        yield TextField::new('discordId')->onlyOnDetail();
+
+        yield FormField::addColumn(6);
+        yield TextField::new('githubUsername')->onlyOnDetail();
+        yield TextField::new('githubId')->onlyOnDetail();
+
+        // === Tab: Moderation ===
+        yield FormField::addTab('🛡️ Moderation');
+        yield FormField::addFieldset('Ban Settings')->setIcon('ban')->collapsible();
+
+        yield BooleanField::new('banned')->setColumns(4);
+        yield DateTimeField::new('bannedAt')->hideOnIndex()->setColumns(4);
+        yield AssociationField::new('bannedBy')->hideOnIndex()->setColumns(4);
+        yield TextareaField::new('banReason')
+            ->hideOnIndex()
+            ->setHelp('Visible only if banned');
+
+        // === Optional: Notifications (if editable later)
+        yield FormField::addTab('🔔 Notifications');
+        yield BooleanField::new('receiveCommentEmailNotification')->hideOnIndex();
+        yield BooleanField::new('receiveUpvoteEmailNotification')->hideOnIndex();
+        yield BooleanField::new('receiveCommentReplyEmailNotification')->hideOnIndex();
     }
 
     public function configureActions(Actions $actions): Actions

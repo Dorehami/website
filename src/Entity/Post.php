@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Enum\PostType;
 use App\Repository\PostRepository;
+use DateTime;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
+#[ORM\HasLifecycleCallbacks()]
 class Post
 {
     #[ORM\Id]
@@ -62,16 +64,34 @@ class Post
     private ?PostType $type = PostType::ARTICLE;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTime $featuredStartDate = null;
+    private ?DateTime $featuredStartDate = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTime $featuredEndDate = null;
+    private ?DateTime $featuredEndDate = null;
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->createdAt = new DateTimeImmutable();
+    }
+    
+    #[ORM\PrePersist]
+    public function prePersist(): void
+    {
+        // nothing for now
+    }
+
+    #[ORM\PreUpdate]
+    public function preUpdate(): void
+    {
+        if ($this->featuredStartDate instanceof DateTime) {
+            $this->featuredStartDate->setTime(0, 0, 0);
+        }
+
+        if ($this->featuredEndDate instanceof DateTime) {
+            $this->featuredEndDate->setTime(23, 59, 59);
+        }
     }
 
     public function getId(): ?int
@@ -297,24 +317,24 @@ class Post
         return $this;
     }
 
-    public function getFeaturedStartDate(): ?\DateTime
+    public function getFeaturedStartDate(): ?DateTime
     {
         return $this->featuredStartDate;
     }
 
-    public function setFeaturedStartDate(?\DateTime $featuredStartDate): static
+    public function setFeaturedStartDate(?DateTime $featuredStartDate): static
     {
         $this->featuredStartDate = $featuredStartDate;
 
         return $this;
     }
 
-    public function getFeaturedEndDate(): ?\DateTime
+    public function getFeaturedEndDate(): ?DateTime
     {
         return $this->featuredEndDate;
     }
 
-    public function setFeaturedEndDate(?\DateTime $featuredEndDate): static
+    public function setFeaturedEndDate(?DateTime $featuredEndDate): static
     {
         $this->featuredEndDate = $featuredEndDate;
 

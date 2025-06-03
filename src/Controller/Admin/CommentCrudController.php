@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
@@ -20,8 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
 class CommentCrudController extends AbstractCrudController
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly AdminUrlGenerator $adminUrlGenerator
     ) {
     }
 
@@ -40,18 +39,56 @@ class CommentCrudController extends AbstractCrudController
             ->setPaginatorPageSize(20);
     }
 
+
     public function configureFields(string $pageName): iterable
     {
+        // === Tab: Content ===
+        yield FormField::addTab('💬 Comment');
+        yield FormField::addFieldset('Content');
         yield IdField::new('id')->hideOnForm();
-        yield TextareaField::new('content');
-        yield AssociationField::new('author');
-        yield AssociationField::new('post');
-        yield DateTimeField::new('createdAt')->hideOnForm();
-        yield BooleanField::new('visible');
-        yield TextareaField::new('moderationReason')->hideOnIndex();
-        yield DateTimeField::new('moderatedAt')->hideOnForm();
-        yield AssociationField::new('moderatedBy')->hideOnForm();
+        yield TextareaField::new('content')
+            ->setHelp('Raw user-submitted comment content.');
+
+        yield BooleanField::new('visible')
+            ->setHelp('Toggle visibility (hidden comments are not shown publicly).');
+
+        // === Tab: Relations ===
+        yield FormField::addTab('🔗 Relations');
+        yield FormField::addFieldset('Linked Entities');
+
+        yield FormField::addColumn(6);
+        yield AssociationField::new('author')->setHelp('Comment creator');
+
+        yield FormField::addColumn(6);
+        yield AssociationField::new('post')->setHelp('Associated post');
+
+        yield AssociationField::new('parent')
+            ->hideOnIndex()
+            ->setHelp('If this is a reply, points to the parent comment.');
+
+        yield FormField::addFieldset('Metadata');
+        yield FormField::addColumn(6);
+        yield DateTimeField::new('createdAt')
+            ->hideOnForm()
+            ->setHelp('When this comment was originally submitted.');
+
+        // === Tab: Moderation ===
+        yield FormField::addTab('🛡 Moderation');
+        yield FormField::addFieldset('Moderation Status')->collapsible();
+
+        yield TextareaField::new('moderationReason')
+            ->hideOnIndex()
+            ->setHelp('Why the comment was moderated (optional).');
+
+        yield DateTimeField::new('moderatedAt')
+            ->hideOnForm()
+            ->setHelp('Date/time of moderation (read-only)');
+
+        yield AssociationField::new('moderatedBy')
+            ->hideOnForm()
+            ->setHelp('Admin/moderator who performed the action.');
     }
+
 
     public function configureActions(Actions $actions): Actions
     {
