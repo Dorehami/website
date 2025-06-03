@@ -128,4 +128,19 @@ class PostRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    
+    public function findFeatured(): array
+    {
+        $today = new DateTimeImmutable("now");
+        
+        $qb = $this->createQueryBuilder('p')
+            ->where('p.featuredStartDate <= :threshold AND p.featuredEndDate >= :threshold')
+            ->setParameter('threshold', $today)
+            ->orderBy('p.createdAt', 'DESC')
+            ->setParameter('threshold', $today);
+        
+        $results = $qb->getQuery()->getResult();
+        
+        return $results;
+    }
 }

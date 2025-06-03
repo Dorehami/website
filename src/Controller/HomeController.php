@@ -17,6 +17,7 @@ class HomeController extends AbstractController
         PostRepository $postRepository,
         DiscordService $discordService,
     ): Response {
+        $featuredPosts = $postRepository->findFeatured();
         $discordInfo = $discordService->fetchWidgetData();
         $discordEvents = $discordService->fetchUpcomingEvents();
         $mostPopularPosts = $postRepository->findMostPopularLastDay();
@@ -34,6 +35,7 @@ class HomeController extends AbstractController
             'posts' => $result['posts'],
             'discord_info' => $discordInfo,
             'discord_events' => $discordEvents,
+            'featured_posts' => $featuredPosts,
             'pagination' => $result['pagination'],
             'most_popular_posts' => $mostPopularPosts,
         ]);
