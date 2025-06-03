@@ -17,7 +17,7 @@ class SitemapController extends AbstractController
     public function sitemap(Request $request, PostRepository $postRepository): Response
     {
         $hostname = $request->getSchemeAndHttpHost();
-        $posts = $postRepository->findRecent(daysWindow: 365);
+        $posts = $postRepository->findRecentByThreshold(daysWindow: 365);
 
         $urls = [];
         $urls[] = ['loc' => $this->generateUrl('app_home'), 'changefreq' => 'daily', 'priority' => '1.0'];
@@ -59,7 +59,7 @@ class SitemapController extends AbstractController
     public function rssFeed(Request $request, PostRepository $postRepository): Response
     {
         $hostname = $request->getSchemeAndHttpHost();
-        $posts = $postRepository->findRecent(daysWindow: 60);
+        $posts = $postRepository->findRecentByThreshold(daysWindow: 60);
 
         $response = new Response(
             $this->renderView('sitemap/feed.xml.twig', [

@@ -24,10 +24,12 @@ class HomeController extends AbstractController
 
         $filter = $request->query->get('filter', 'newest');
         $page = max(1, (int)$request->query->get('page', 1));
+        
+        $defaultPageSize = 10;
 
         $result = match ($filter) {
-            'popular' => $postRepository->findMostPopular(10, $page),
-            default => $postRepository->findNewest(10, $page)
+            'popular' => $postRepository->findMostPopular($defaultPageSize, $page),
+            default => $postRepository->findRecentPaginated($defaultPageSize, $page)
         };
 
         return $this->render('home/index.html.twig', [

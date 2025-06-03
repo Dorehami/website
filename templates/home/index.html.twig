@@ -147,8 +147,8 @@
                                                             <a href="{{ path('app_post_show', {'id': post.id}) }}"
                                                                class="w-full mb-2 flex gap-2 items-center align-middle text-yellow-700 dark:text-yellow-300 font-semibold hover:text-yellow-900 hover:dark:text-yellow-100 transition duration-150 ease-in-out">
                                                                 {{ post.type.icon | raw }}
-                                                                <span>({{ post.type.label }}) {{ post.title }}</span>
-                                                                <span class="ml-2 text-xs bg-yellow-300 dark:bg-yellow-800 text-yellow-900 dark:text-yellow-100 rounded-full px-2 py-0.5 font-medium">⭐ ویژه</span>
+                                                                <span><small class="pl-1">[{{ post.type.label }}]</small> {{ post.title }}</span>
+                                                                <span class="ml-2 text-xs bg-yellow-300 dark:bg-yellow-800 text-yellow-900 dark:text-yellow-100 rounded-full px-2 py-0.5 font-medium">⭐</span>
                                                             </a>
 
                                                             <div class="text-xs text-slate-400 dark:text-slate-600 flex flex-col md:flex-row items-center space-x-2">
@@ -211,7 +211,7 @@
                                                             <a href="{{ path('app_post_show', {'id': post.id}) }}"
                                                                class="w-full mb-2 flex gap-2 items-center align-middle text-slate-500 dark:text-slate-200 font-semibold hover:text-slate-700 hover:dark:text-white transition duration-150 ease-in-out">
                                                                 {{ post.type.icon | raw }}
-                                                                <span>({{ post.type.label }}) {{ post.title }}</span>
+                                                                <span><small class="pl-1">[{{ post.type.label }}]</small> {{ post.title }}</span>
                                                             </a>
                                                             <div class="text-xs text-slate-300 dark:text-slate-600 flex flex-col md:flex-row items-center space-x-2">
                                                                 <div class="flex gap-2 items-center">
@@ -265,39 +265,38 @@
                                     </div> #}
                                 </div>
 
-                                <div class="flex gap-12 justify-between items-center space-x-2">
-                                    {% set paginationBtnClass = "flex gap-8 btn-sm py-1.5 h-8 text-indigo-500 border dark:border-slate-700 dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20 hover:dark:bg-slate-800" %}
+                                {% set paginationBtnClass = "flex items-center gap-2 text-sm font-medium px-3 py-1.5 border rounded-md transition hover:bg-slate-100 dark:hover:bg-slate-700 text-indigo-500 border-slate-300 dark:border-slate-700 dark:bg-slate-800" %}
+
+                                <div class="flex flex-col-reverse sm:flex-row justify-between items-center gap-4 mt-8 rtl:space-x-reverse">
                                     {% if pagination.has_previous %}
-                                        <div class="text-right">
-                                            <a href="{{ path('app_home', {'filter': filter, 'page': pagination.previous_page}) }}"
-                                               class="{{ paginationBtnClass }}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                     stroke-width="1.5" stroke="currentColor" class="w-4">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                          d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
-                                                </svg>
-                                                <span>صفحه‌ی قبل</span>
-                                            </a>
-                                        </div>
+                                        <a href="{{ path('app_home', {'filter': filter, 'page': pagination.previous_page}) }}"
+                                           class="{{ paginationBtnClass }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>                                            </svg>
+                                            <span>صفحه‌ی قبل</span>
+                                        </a>
+                                    {% else %}
+                                        <div></div>
                                     {% endif %}
 
-                                    <div class="text-center">
-                                        <p class="{{ paginationBtnClass }} hover:none">
-                                            صفحه‌ی {{ pagination.current_page|persian_number }}</p>
+                                    <div class="text-sm text-slate-600 dark:text-slate-300">
+                                        صفحه‌ی {{ pagination.current_page|persian_number }}
                                     </div>
 
                                     {% if pagination.has_next %}
-                                        <div class="text-right">
-                                            <a href="{{ path('app_home', {'filter': filter, 'page': pagination.next_page}) }}"
-                                               class="{{ paginationBtnClass }}">
-                                                <span>صفحه‌ی بعد</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                     stroke-width="1.5" stroke="currentColor" class="w-4">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                          d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
-                                                </svg>
-                                            </a>
-                                        </div>
+                                        <a href="{{ path('app_home', {'filter': filter, 'page': pagination.next_page}) }}"
+                                           class="{{ paginationBtnClass }}">
+                                            <span>صفحه‌ی بعد</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
+                                            </svg>
+                                        </a>
+                                    {% else %}
+                                        <div></div>
                                     {% endif %}
                                 </div>
                             </div>

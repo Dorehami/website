@@ -22,9 +22,10 @@ class PostRepository extends ServiceEntityRepository
     /**
      * @return array Returns an array with posts and pagination info sorted by newest
      */
-    public function findNewest(int $limit = 10, int $page = 1): array
+    public function findRecentPaginated(int $limit = 10, int $page = 1): array
     {
         $queryBuilder = $this->createQueryBuilder('p')
+            ->where('p.featuredStartDate IS NULL AND p.featuredEndDate IS NULL')
             ->orderBy('p.createdAt', 'DESC');
 
         return $this->paginate($queryBuilder, $page, $limit);
@@ -87,6 +88,7 @@ class PostRepository extends ServiceEntityRepository
     public function findMostPopular(int $limit = 10, int $page = 1): array
     {
         $queryBuilder = $this->createQueryBuilder('p')
+            ->where('p.featuredEndDate IS NULL AND p.featuredStartDate IS NULL')
             ->leftJoin('p.votes', 'v')
             ->groupBy('p.id')
             ->orderBy('COUNT(v.id)', 'DESC')//->addOrderBy('p.createdAt', 'DESC')   -> probably not relevant for most popular
@@ -117,7 +119,7 @@ class PostRepository extends ServiceEntityRepository
      * Find recent posts within a specific time window (e.g., 365 days)
      * @return Post[]
      */
-    public function findRecent(int $daysWindow = 365): array
+    public function findRecentByThreshold(int $daysWindow = 365): array
     {
         $dateThreshold = new DateTimeImmutable("-{$daysWindow} days");
 
