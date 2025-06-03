@@ -24,7 +24,7 @@ class HomeController extends AbstractController
 
         $filter = $request->query->get('filter', 'newest');
         $page = max(1, (int)$request->query->get('page', 1));
-        
+
         $defaultPageSize = 10;
 
         $result = match ($filter) {
