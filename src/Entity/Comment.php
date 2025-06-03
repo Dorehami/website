@@ -219,7 +219,7 @@ class Comment implements ReportableEntity
     {
         return $this->getVisibleReplies()->count();
     }
-    
+
     public function __toString(): string
     {
         return sprintf("%s-%s", $this->id, $this->createdAt->format("YmdHis"));

@@ -75,7 +75,7 @@ class Post
         $this->votes = new ArrayCollection();
         $this->createdAt = new DateTimeImmutable();
     }
-    
+
     #[ORM\PrePersist]
     public function prePersist(): void
     {

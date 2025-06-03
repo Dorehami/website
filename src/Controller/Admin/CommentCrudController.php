@@ -20,8 +20,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CommentCrudController extends AbstractCrudController
 {
-    public function __construct(
-    ) {
+    public function __construct()
+    {
     }
 
     public static function getEntityFqcn(): string
