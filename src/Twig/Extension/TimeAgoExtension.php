@@ -28,7 +28,7 @@ class TimeAgoExtension extends AbstractExtension
         $now = new DateTime();
         $diff = $now->getTimestamp() - $dt->getTimestamp();
 
-        $prefix = $diff > 1 ? 'پیش' : 'دیگر';
+        $prefix = $diff > 1 ? 'پیش' : 'آینده';
 
         $diff = abs($diff);
 

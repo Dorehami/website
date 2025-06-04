@@ -1,7 +1,8 @@
+{% set paddingClass = "md:pr-6 lg:pr-10 pb-6" %}
+
 <aside class="md:w-64 lg:w-80 md:shrink-0 pt-6 pb-12 md:pb-20">
-    <div class="md:pr-6 lg:pr-10">
-        <div class="space-y-6">
-            {# <form>
+    <div class="space-y-6 divide-y dark:divide-slate-800">
+        {# <form>
                                 <div class="flex flex-wrap">
                                     <div class="w-full">
                                         <label class="block text-sm sr-only" for="search">Search</label>
@@ -19,62 +20,54 @@
                                     </div>
                                 </div>
                             </form> #}
-            <div>
-                {% set max_members = 50 %}
-                {% set reset_members = (discord_info.members|length) - max_members %}
-                
-                {% set titleClass = "text-xs uppercase text-slate-500 dark:text-slate-600 font-semibold mb-4" %}
+        <div class="{{ paddingClass }}">
+            {% set max_members = 50 %}
+            {% set reset_members = (discord_info.members|length) - max_members %}
 
-                <div class="{{ titleClass }}">کاربران آنلاین</div>
-                <div class="flex -space-x-1.5 mt-2">
-                    {% for member in (discord_info.members|slice(0, max_members)) %}
-                        <img
-                                class="ring-background rounded-full ring-2 ring-indigo-500 w-8 h-8"
-                                src="{{ member.avatar_url }}"
-                                alt="{{ member.username }}"
-                        />
-                    {% endfor %}
-                </div>
-                {% if reset_members > 0 %}
-                    <p class="text-muted-foreground px-2 text-xs">
-                        و <strong class="text-foreground font-medium">{{ reset_members|persian_number }}</strong> تن
-                        دیگر
-                    </p>
-                {% endif %}
+            {% set titleClass = "text-md uppercase text-slate-500 dark:text-slate-600 font-semibold mb-4" %}
+
+            <div class="{{ titleClass }}">👥 کاربران آنلاین</div>
+            <div class="flex -space-x-1.5 mt-2">
+                {% for member in (discord_info.members|slice(0, max_members)) %}
+                    <img
+                            class="ring-background rounded-full ring-2 ring-indigo-500 w-8 h-8"
+                            src="{{ member.avatar_url }}"
+                            alt="{{ member.username }}"
+                    />
+                {% endfor %}
             </div>
-            
-            {% set linkClass = "text-slate-500 hover:text-slate-700 dark:text-slate-200 font-semibold dark:hover:text-white transition duration-150 ease-in-out" %}
-            
-            {% if discord_events|length > 0 %}
-                <div>
-                    <div class="{{ titleClass }}">رویدادهای پیش رو</div>
-                    <ul class="space-y-6">
-                        {% for event in discord_events %}
-                            <li>
-                                <div class="flex items-center mb-1">
-                                    <img class="rounded-full ml-2 w-8 h-8"
-                                         src="https://cdn.discordapp.com/avatars/{{ event.creator.id }}/{{ event.creator.avatar }}.png"
-                                         alt="{{ event.creator.id }}"/>
-                                    <div class="text-xs">
-                                        <span class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">{{ event.creator.username }}</span>
-                                    </div>
-                                </div>
-                                <h3 class="text-sm mb-2">
-                                    <a class="{{ linkClass }}"
-                                       href="{{ path('redirect_event', {'eventId': event.id}) }}">{{ event.name }}</a>
-                                    <p class="text-slate-400 text-xs">{{ event.description|nl2br }}</p>
-                                </h3>
-                                <div class="text-xs text-slate-600">
-                                    <span class="text-slate-500">{{ event.scheduled_start_time|persian_ago }}</span>
-                                    · <span
-                                            class="text-slate-500">{{ event.user_count|persian_number }} شرکت‌کننده</span>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+            {% if reset_members > 0 %}
+                <p class="text-muted-foreground px-2 text-xs">
+                    و <strong class="text-foreground font-medium">{{ reset_members|persian_number }}</strong> تن
+                    دیگر
+                </p>
             {% endif %}
-            {#                             <div>
+        </div>
+
+        {% set linkClass = "text-slate-500 hover:text-slate-700 dark:text-slate-200 font-semibold dark:hover:text-white transition duration-150 ease-in-out" %}
+
+        {% if discord_events|length > 0 %}
+            <div class="{{ paddingClass }}">
+                <div class="{{ titleClass }}">🗓️ رویدادهای پیش رو</div>
+                <ul class="space-y-6">
+                    {% for event in discord_events %}
+                        <li>
+                            <h3 class="text-sm mb-2 flex flex-col gap-2">
+                                <a class="{{ linkClass }}"
+                                   href="{{ path('redirect_event', {'eventId': event.id}) }}">{{ event.name }}</a>
+                                <p class="text-slate-400 text-xs">{{ event.description|nl2br }}</p>
+                            </h3>
+                            <div class="text-xs text-slate-600">
+                                <span class="text-slate-500">{{ event.scheduled_start_time|persian_ago }}</span>{#
+                                · <span
+                                        class="text-slate-500">{{ event.user_count|persian_number }} شرکت‌کننده</span>#}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        {#                             <div>
                                 <div class="text-xs uppercase text-slate-600 font-semibold mb-4">جدید‌ترین پوزیشن‌ها</div>
                                 <ul class="space-y-3">
                                     <li>
@@ -112,51 +105,50 @@
                                     </li>
                                 </ul>
                             </div> #}
-            <div>
-                <div class="{{ titleClass }}">
-                    محبوب‌ترین لینک‌های ماه گذشته
-                </div>
-                <ul class="space-y-6">
-                    {% for post in most_popular_posts %}
-                        <li>
-                            <a href="{{ path('app_profile_user', {'id': post.author.id}) }}" class="flex items-center mb-1">
-                                <img class="rounded-full ml-2" src="{{ post.author.avatarUrl }}"
-                                     width="16" height="16" alt="{{ post.author.displayName }}"/>
-                                <div class="text-xs">
-                                    <span class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">{{ post.author.displayName }}</span>
-                                </div>
-                            </a>
-                            <h3 class="text-sm mb-1">
-                                <a class="{{ linkClass }} flex gap-1 items-center"
-                                   href="{{ path('app_post_show', {'id': post.id}) }}">
-                                    <span>{{ post.type.icon | replace({'w-6': 'w-5', 'h-6': 'h-5'}) | raw }}</span>
-                                    <span>{{ post.title }}</span>
-                                </a>
-                            </h3>
-                            <div class="text-xs text-slate-600 flex gap-1">
-                                <span class="text-slate-500">{{ post.createdAt|persian_ago }}</span>
-                                <span>·</span>
-                                <span class="text-slate-500">{{ post.points|persian_number }} امتیاز</span>
-                                <span>·</span>
-                                <span class="text-slate-500">{{ post.visibleComments|length|persian_number }} دیدگاه</span>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
+        <div class="{{ paddingClass }}">
+            <div class="{{ titleClass }}">🩷
+                محبوب‌ترین لینک‌های ماه گذشته
             </div>
-            <div class="-rotate-1">
-                <div class="relative p-5 light:bg-slate-50 dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20">
-                    <div class="absolute inset-0 -m-px pointer-events-none -z-10 before:absolute before:inset-0 before:bg-slate-100 before:dark:bg-linear-to-t before:dark:from-slate-700 before:dark:to-slate-800 after:absolute after:inset-0 after:bg-slate-50 after:dark:bg-slate-900 after:m-px"
-                         aria-hidden="true"></div>
-                    <div class="font-badkhat text-2xl text-center bg-clip-text text-transparent bg-linear-to-tr to-indigo-400 via-sky-600 from-slate-700 dark:from-indigo-500 dark:via-sky-300 dark:to-slate-200 mb-3">
-                        شما هم بخشی از این جامعه‌ی {{ discord_info.total_members }} نفره بشید
-                    </div>
+            <ul class="space-y-6">
+                {% for post in most_popular_posts %}
+                    <li>
+                        <a href="{{ path('app_profile_user', {'id': post.author.id}) }}" class="flex items-center mb-1">
+                            <img class="rounded-full ml-2" src="{{ post.author.avatarUrl }}"
+                                 width="16" height="16" alt="{{ post.author.displayName }}"/>
+                            <div class="text-xs">
+                                <span class="font-medium text-indigo-500 hover:text-indigo-400 transition duration-150 ease-in-out">{{ post.author.displayName }}</span>
+                            </div>
+                        </a>
+                        <h3 class="text-sm mb-1">
+                            <a class="{{ linkClass }} flex gap-1 items-center"
+                               href="{{ path('app_post_show', {'id': post.id}) }}">
+                                <span>{{ post.type.icon | replace({'w-6': 'w-5', 'h-6': 'h-5'}) | raw }}</span>
+                                <span>{{ post.title }}</span>
+                            </a>
+                        </h3>
+                        <div class="text-xs text-slate-600 flex gap-1">
+                            <span class="text-slate-500">{{ post.createdAt|persian_ago }}</span>
+                            <span>·</span>
+                            <span class="text-slate-500">{{ post.points|persian_number }} امتیاز</span>
+                            <span>·</span>
+                            <span class="text-slate-500">{{ post.visibleComments|length|persian_number }} دیدگاه</span>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="-rotate-1 {{ paddingClass }}">
+            <div class="relative p-5 light:bg-slate-50 dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20">
+                <div class="absolute inset-0 -m-px pointer-events-none -z-10 before:absolute before:inset-0 before:bg-slate-100 before:dark:bg-linear-to-t before:dark:from-slate-700 before:dark:to-slate-800 after:absolute after:inset-0 after:bg-slate-50 after:dark:bg-slate-900 after:m-px"
+                     aria-hidden="true"></div>
+                <div class="font-badkhat text-2xl text-center bg-clip-text text-transparent bg-linear-to-tr to-indigo-400 via-sky-600 from-slate-700 dark:from-indigo-500 dark:via-sky-300 dark:to-slate-200 mb-3">
+                    شما هم بخشی از این جامعه‌ی {{ discord_info.total_members }} نفره بشید
+                </div>
 
-                    <div class="w-full">
-                        <a href="{{ path('redirect_invite') }}"
-                           class="btn-sm text-white bg-indigo-500 hover:bg-indigo-600 w-full">روی این
-                            لینک کلیک کنید</a>
-                    </div>
+                <div class="w-full">
+                    <a href="{{ path('redirect_invite') }}"
+                       class="btn-sm text-white bg-indigo-500 hover:bg-indigo-600 w-full">روی این
+                        لینک کلیک کنید</a>
                 </div>
             </div>
         </div>
