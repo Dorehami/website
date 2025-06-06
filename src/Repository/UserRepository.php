@@ -57,6 +57,11 @@ class UserRepository extends ServiceEntityRepository
         return $this->findOneBy(['discordId' => $discordId]);
     }
 
+    public function findOneByGithubId(string $githubId): ?User
+    {
+        return $this->findOneBy(['githubId' => $githubId]);
+    }
+
     public function findOneByEmail(string $email): ?User
     {
         return $this->findOneBy(['email' => $email]);
