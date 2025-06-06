@@ -43,14 +43,14 @@ class PostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $existingPost = $postRepository->findRecentByNormalizedUrl($post->getUrl());
+            $normalizedUrl = $urlNormalizer->normalizeUrl($post->getUrl());
+            $existingPost = $postRepository->findRecentByNormalizedUrl($normalizedUrl);
 
             if ($existingPost) {
                 $this->addFlash('info', 'این لینک قبلاً ارسال شده است. به صفحه مقاله قبلی هدایت می‌شوید.');
                 return $this->redirectToRoute('app_post_show', ['id' => $existingPost->getId()]);
             }
 
-            $normalizedUrl = $urlNormalizer->normalizeUrl($post->getUrl());
             $post->setNormalizedUrl($normalizedUrl);
             $post->setAuthor($this->getUser());
 
