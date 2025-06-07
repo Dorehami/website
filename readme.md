@@ -11,8 +11,10 @@
 ## ویژگی‌ها
 
 - احراز هویت کاربران با استفاده از OAuth دیسکورد و ایمیل/رمز عبور
+- امکان ورود با حساب گیت‌هاب
 - سیستم اشتراک‌گذاری لینک و رأی‌دهی (مشابه Hacker News)
 - سیستم نظردهی روی لینک‌های به اشتراک گذاشته شده
+- سیستم گزارش تخلف با بررسی خودکار محتوا توسط OpenAI
 - پنل مدیریت برای نظارت بر محتوا
 - یکپارچه‌سازی با دیسکورد برای آمار جامعه
 - پشتیبانی از RTL برای زبان فارسی
@@ -56,6 +58,11 @@ OAUTH_DISCORD_CLIENT_ID=your_discord_client_id
 OAUTH_DISCORD_CLIENT_SECRET=your_discord_client_secret
 DISCORD_GUILD_ID=your_discord_server_id
 DISCORD_TOKEN=your_discord_bot_token
+OAUTH_GITHUB_CLIENT_ID=your_github_client_id
+OAUTH_GITHUB_CLIENT_SECRET=your_github_client_secret
+OPENAI_API_KEY=your_openai_api_key
+WEBHOOK_URL=https://example.com/webhook
+WEBHOOK_SECRET=your_webhook_secret
 ```
 
 ## اجرای لوکال
@@ -85,6 +92,7 @@ docker compose up -d
 
 ```bash
 ./docker/bin/yarn install
+./docker/bin/yarn build
 ```
 
 6. راه‌اندازی پایگاه داده:
@@ -132,9 +140,12 @@ docker compose up -d
 ├── assets/              # فایل‌های فرانت‌اند (JS، CSS)
 ├── bin/                 # کنسول Symfony
 ├── config/              # تنظیمات Symfony
-├── docker/              # تنظیمات داکر
-│   ├── bin/             # اسکریپت‌های کمکی
-│   └── images/          # تنظیمات تصاویر داکر
+├── docker/              # پیکربندی سرویس‌های داکر
+│   ├── bin/             # اسکریپت‌های خط فرمان
+│   └── images/          # Dockerfile ها
+├── compose.yml          # سرویس‌های اصلی داکر
+├── compose.cli.yml      # سرویس‌های کمکی برای ابزارها
+├── migrations/          # فایل‌های مهاجرت پایگاه داده
 ├── public/              # دایرکتوری عمومی وب
 ├── src/                 # کد منبع PHP
 │   ├── Controller/      # کنترلرهای برنامه
@@ -154,7 +165,8 @@ docker compose up -d
 این برنامه از دو روش احراز هویت پشتیبانی می‌کند:
 
 1. **دیسکورد OAuth**: کاربران می‌توانند با حساب دیسکورد خود وارد شوند
-2. **ایمیل/رمز عبور**: برای کاربران ادمین
+2. **گیت‌هاب OAuth**: ورود با حساب GitHub
+3. **ایمیل/رمز عبور**: برای کاربران ادمین
 
 ## پنل مدیریت
 
