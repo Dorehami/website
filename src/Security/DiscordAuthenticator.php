@@ -16,6 +16,8 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
@@ -31,6 +33,7 @@ class DiscordAuthenticator extends OAuth2Authenticator implements Authentication
         private readonly UserRepository $userRepository,
         private readonly BannedUserChecker $bannedUserChecker,
         private readonly MessageBusInterface $messageBus,
+        private readonly TokenStorageInterface $tokenStorage,
     ) {
     }
 
@@ -49,15 +52,41 @@ class DiscordAuthenticator extends OAuth2Authenticator implements Authentication
                 /** @var DiscordResourceOwner $discordUser */
                 $discordUser = $client->fetchUserFromToken($accessToken);
 
-                // Check if user already exists
-                $existingUser = $this->userRepository->findOneByEmail($discordUser->getEmail());
+                $currentUser = $this->tokenStorage->getToken()?->getUser();
+
+                if ($currentUser instanceof User) {
+                    $otherUser = $this->userRepository->findOneByDiscordId($discordUser->getId());
+                    if ($otherUser && $otherUser->getId() !== $currentUser->getId()) {
+                        throw new CustomUserMessageAuthenticationException('این حساب دیسکورد قبلاً به کاربر دیگری متصل شده است.');
+                    }
+
+                    $this->bannedUserChecker->checkPreAuth($currentUser);
+                    $currentUser->setDiscordId($discordUser->getId());
+                    $currentUser->setDiscordUsername($discordUser->getUsername());
+                    if ($discordUser->getAvatarHash()) {
+                        $currentUser->setAvatarUrl('https://cdn.discordapp.com/avatars/' . $discordUser->getId() . '/' . $discordUser->getAvatarHash() . '.png');
+                    }
+                    if (!$currentUser->getEmail() && $discordUser->getEmail()) {
+                        $currentUser->setEmail($discordUser->getEmail());
+                    }
+
+                    $this->entityManager->persist($currentUser);
+                    $this->entityManager->flush();
+
+                    return $currentUser;
+                }
+
+                $existingUser = $this->userRepository->findOneByDiscordId($discordUser->getId())
+                    ?? $this->userRepository->findOneByEmail($discordUser->getEmail());
 
                 if ($existingUser) {
                     $this->bannedUserChecker->checkPreAuth($existingUser);
+                    $existingUser->setDiscordId($discordUser->getId());
                     $existingUser->setDiscordUsername($discordUser->getUsername());
                     if ($discordUser->getAvatarHash()) {
                         $existingUser->setAvatarUrl('https://cdn.discordapp.com/avatars/' . $discordUser->getId() . '/' . $discordUser->getAvatarHash() . '.png');
                     }
+
                     $this->entityManager->persist($existingUser);
                     $this->entityManager->flush();
 

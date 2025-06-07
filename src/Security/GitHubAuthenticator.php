@@ -17,6 +17,8 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
@@ -31,6 +33,7 @@ class GitHubAuthenticator extends OAuth2Authenticator implements AuthenticationE
         private readonly UserRepository $userRepository,
         private readonly BannedUserChecker $bannedUserChecker,
         private readonly MessageBusInterface $messageBus,
+        private readonly TokenStorageInterface $tokenStorage,
     ) {
     }
 
@@ -49,7 +52,29 @@ class GitHubAuthenticator extends OAuth2Authenticator implements AuthenticationE
                 /** @var GithubResourceOwner $githubUser */
                 $githubUser = $client->fetchUserFromToken($accessToken);
 
-                $existingUser = $this->userRepository->findOneByEmail($githubUser->getEmail());
+                $currentUser = $this->tokenStorage->getToken()?->getUser();
+
+                if ($currentUser instanceof User) {
+                    $otherUser = $this->userRepository->findOneByGithubId($githubUser->getId());
+                    if ($otherUser && $otherUser->getId() !== $currentUser->getId()) {
+                        throw new CustomUserMessageAuthenticationException('این حساب گیتهاب قبلاً به کاربر دیگری متصل شده است.');
+                    }
+
+                    $this->bannedUserChecker->checkPreAuth($currentUser);
+                    $currentUser->setGithubId($githubUser->getId());
+                    $currentUser->setGithubUsername($githubUser->getNickname());
+                    if (empty($currentUser->getDisplayName())) {
+                        $currentUser->setDisplayName($githubUser->getName());
+                    }
+
+                    $this->entityManager->persist($currentUser);
+                    $this->entityManager->flush();
+
+                    return $currentUser;
+                }
+
+                $existingUser = $this->userRepository->findOneByGithubId($githubUser->getId())
+                    ?? $this->userRepository->findOneByEmail($githubUser->getEmail());
 
                 if ($existingUser) {
                     $this->bannedUserChecker->checkPreAuth($existingUser);
