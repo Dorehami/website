@@ -13,7 +13,7 @@
     "doctrine/orm": "^3.3.3",
     "easycorp/easyadmin-bundle": "^4.24.7",
     "knpuniversity/oauth2-client-bundle": "^2.18.3",
-    "league/oauth2-github": "^3.1.1",
+    "stevenmaguire/oauth2-keycloak": "^5.1",
     "symfony/asset": "7.2.*",
     "symfony/console": "7.2.*",
     "symfony/dotenv": "7.2.*",
@@ -28,8 +28,7 @@
     "symfony/webpack-encore-bundle": "^2.2",
     "symfony/yaml": "7.2.*",
     "twig/extra-bundle": "^3.21",
-    "twig/twig": "^2.12|^3.21.1",
-    "wohali/oauth2-discord-new": "^1.2.1"
+    "twig/twig": "^2.12|^3.21.1"
   },
   "config": {
     "allow-plugins": {

@@ -8,19 +8,17 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
-class GithubController extends AbstractController
+class KeycloakController extends AbstractController
 {
-    #[Route('/connect/github', name: 'connect_github')]
+    #[Route('/connect/auth', name: 'connect_auth')]
     public function connectAction(ClientRegistry $clientRegistry): RedirectResponse
     {
         return $clientRegistry
-            ->getClient('github')
-            ->redirect([
-                'user:email', 'read:user'
-            ]);
+            ->getClient('keycloak')
+            ->redirect(['openid', 'profile', 'email']);
     }
 
-    #[Route('/connect/github/check', name: 'connect_github_check')]
+    #[Route('/connect/auth/check', name: 'connect_auth_check')]
     public function connectCheckAction(Request $request, ClientRegistry $clientRegistry): RedirectResponse
     {
         return $this->redirectToRoute('app_home');

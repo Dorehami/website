@@ -1,14 +1,12 @@
 knpu_oauth2_client:
   clients:
-    discord:
-      type: discord
-      client_id: '%env(OAUTH_DISCORD_CLIENT_ID)%'
-      client_secret: '%env(OAUTH_DISCORD_CLIENT_SECRET)%'
-      redirect_route: connect_discord_check
-      redirect_params: { }
-    github:
-      type: github
-      client_id: '%env(OAUTH_GITHUB_CLIENT_ID)%'
-      client_secret: '%env(OAUTH_GITHUB_CLIENT_SECRET)%'
-      redirect_route: connect_github_check
+    keycloak:
+      type: generic
+      provider_class: Stevenmaguire\OAuth2\Client\Provider\Keycloak
+      provider_options:
+        authServerUrl: '%env(KEYCLOAK_BASE_URL)%'
+        realm: '%env(KEYCLOAK_REALM)%'
+      client_id: '%env(OAUTH_KEYCLOAK_CLIENT_ID)%'
+      client_secret: '%env(OAUTH_KEYCLOAK_CLIENT_SECRET)%'
+      redirect_route: connect_auth_check
       redirect_params: { }

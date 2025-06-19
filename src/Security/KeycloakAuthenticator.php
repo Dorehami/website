@@ -9,22 +9,22 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
-use League\OAuth2\Client\Provider\GithubResourceOwner;
+use Stevenmaguire\OAuth2\Client\Provider\KeycloakResourceOwner;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 
-class GitHubAuthenticator extends OAuth2Authenticator implements AuthenticationEntryPointInterface
+class KeycloakAuthenticator extends OAuth2Authenticator implements AuthenticationEntryPointInterface
 {
     public function __construct(
         private readonly ClientRegistry $clientRegistry,
@@ -39,32 +39,32 @@ class GitHubAuthenticator extends OAuth2Authenticator implements AuthenticationE
 
     public function supports(Request $request): ?bool
     {
-        return $request->attributes->get('_route') === 'connect_github_check';
+        return $request->attributes->get('_route') === 'connect_auth_check';
     }
 
     public function authenticate(Request $request): Passport
     {
-        $client = $this->clientRegistry->getClient('github');
+        $client = $this->clientRegistry->getClient('keycloak');
         $accessToken = $this->fetchAccessToken($client);
 
         return new SelfValidatingPassport(
             new UserBadge($accessToken->getToken(), function () use ($accessToken, $client) {
-                /** @var GithubResourceOwner $githubUser */
-                $githubUser = $client->fetchUserFromToken($accessToken);
+                /** @var KeycloakResourceOwner $kcUser */
+                $kcUser = $client->fetchUserFromToken($accessToken);
 
                 $currentUser = $this->tokenStorage->getToken()?->getUser();
 
                 if ($currentUser instanceof User) {
-                    $otherUser = $this->userRepository->findOneByGithubId($githubUser->getId());
+                    $otherUser = $this->userRepository->findOneByEmail($kcUser->getEmail());
                     if ($otherUser && $otherUser->getId() !== $currentUser->getId()) {
-                        throw new CustomUserMessageAuthenticationException('این حساب گیتهاب قبلاً به کاربر دیگری متصل شده است.');
+                        throw new CustomUserMessageAuthenticationException('این حساب قبلاً به کاربر دیگری متصل شده است.');
                     }
 
                     $this->bannedUserChecker->checkPreAuth($currentUser);
-                    $currentUser->setGithubId($githubUser->getId());
-                    $currentUser->setGithubUsername($githubUser->getNickname());
-                    if (empty($currentUser->getDisplayName())) {
-                        $currentUser->setDisplayName($githubUser->getName());
+
+                    $currentUser->setEmail($kcUser->getEmail());
+                    if (method_exists($kcUser, 'getName')) {
+                        $currentUser->setDisplayName($kcUser->getName());
                     }
 
                     $this->entityManager->persist($currentUser);
@@ -73,17 +73,10 @@ class GitHubAuthenticator extends OAuth2Authenticator implements AuthenticationE
                     return $currentUser;
                 }
 
-                $existingUser = $this->userRepository->findOneByGithubId($githubUser->getId())
-                    ?? $this->userRepository->findOneByEmail($githubUser->getEmail());
+                $existingUser = $this->userRepository->findOneByEmail($kcUser->getEmail());
 
                 if ($existingUser) {
                     $this->bannedUserChecker->checkPreAuth($existingUser);
-                    $existingUser->setGithubId($githubUser->getId());
-                    $existingUser->setGithubUsername($githubUser->getNickname());
-
-                    if (empty($existingUser->getDisplayName())) {
-                        $existingUser->setDisplayName($githubUser->getName());
-                    }
 
                     $this->entityManager->persist($existingUser);
                     $this->entityManager->flush();
@@ -92,12 +85,10 @@ class GitHubAuthenticator extends OAuth2Authenticator implements AuthenticationE
                 }
 
                 $user = new User();
-                $user->setGithubId($githubUser->getId());
-                $user->setGithubUsername($githubUser->getNickname());
-                if ($githubUser->getEmail()) {
-                    $user->setEmail($githubUser->getEmail());
-                } else {
-                    $user->setEmail('github_' . $githubUser->getId() . '@example.com');
+
+                $user->setEmail($kcUser->getEmail());
+                if (method_exists($kcUser, 'getName')) {
+                    $user->setDisplayName($kcUser->getName());
                 }
 
                 $user->setPassword('');
@@ -110,7 +101,7 @@ class GitHubAuthenticator extends OAuth2Authenticator implements AuthenticationE
                     WebhookEventAction::USER_JOINED,
                     [
                         'userId' => $user->getId(),
-                        'gate' => 'github'
+                        'gate' => 'keycloak'
                     ]
                 ));
 
