@@ -7,7 +7,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-
 use function get_class;
 
 /**
@@ -50,16 +49,6 @@ class UserRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
-    }
-
-    public function findOneByDiscordId(string $discordId): ?User
-    {
-        return $this->findOneBy(['discordId' => $discordId]);
-    }
-
-    public function findOneByGithubId(string $githubId): ?User
-    {
-        return $this->findOneBy(['githubId' => $githubId]);
     }
 
     public function findOneByEmail(string $email): ?User

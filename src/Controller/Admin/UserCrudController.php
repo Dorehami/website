@@ -77,18 +77,6 @@ class UserCrudController extends AbstractCrudController
             ->setLabel('Avatar')
             ->setTemplatePath('admin/field/user_avatar.html.twig');
 
-        // === Tab: Discord & GitHub ===
-        yield FormField::addTab('🌐 Social Handles')->onlyOnDetail();
-        yield FormField::addFieldset('Connected Accounts')->onlyOnDetail()->collapsible();
-
-        yield FormField::addColumn(6);
-        yield TextField::new('discordUsername')->onlyOnDetail();
-        yield TextField::new('discordId')->onlyOnDetail();
-
-        yield FormField::addColumn(6);
-        yield TextField::new('githubUsername')->onlyOnDetail();
-        yield TextField::new('githubId')->onlyOnDetail();
-
         // === Tab: Moderation ===
         yield FormField::addTab('🛡️ Moderation');
         yield FormField::addFieldset('Ban Settings')->setIcon('ban')->collapsible();

@@ -131,33 +131,4 @@ class DiscordService
 
         return $cachedEvents ?: [];
     }
-
-    public function isGuest(string $userDiscordId): bool
-    {
-        $cacheKey = 'discord_is_guest_' . $userDiscordId;
-        $cacheTtl = 120;
-
-        $cachedEvents = $this->cache->get($cacheKey, function () use ($cacheTtl, $userDiscordId) {
-            try {
-                $response = $this->httpClient->request('GET', "{$this->guildUrl}/members/{$userDiscordId}", [
-                    'headers' => [
-                        'Authorization' => "Bot {$this->discordToken}",
-                        'Content-Type' => 'application/json',
-                    ]
-                ]);
-
-                if ($response->getStatusCode() !== 200) {
-                    return false;
-                }
-
-                $data = json_decode($response->getBody()->getContents(), true);
-
-                return in_array($this->guestRoleId, $data['roles'] ?? [], true);
-            } catch (Exception $e) {
-                return false;
-            }
-        }, $cacheTtl);
-
-        return $cachedEvents ?: false;
-    }
 }

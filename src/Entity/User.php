@@ -33,18 +33,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $discordId = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $discordUsername = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $githubId = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $githubUsername = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatarUrl = null;
 
     #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'author')]
@@ -165,55 +153,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getDiscordId(): ?string
-    {
-        return $this->discordId;
-    }
-
-    public function setDiscordId(?string $discordId): static
-    {
-        $this->discordId = $discordId;
-
-        return $this;
-    }
-
-    public function getDiscordUsername(): ?string
-    {
-        return $this->discordUsername;
-    }
-
-    public function setDiscordUsername(?string $discordUsername): static
-    {
-        $this->discordUsername = $discordUsername;
-
-        return $this;
-    }
-
-    public function getGithubId(): ?string
-    {
-        return $this->githubId;
-    }
-
-    public function setGithubId(?string $githubId): static
-    {
-        $this->githubId = $githubId;
-        return $this;
-    }
-
-    public function getGithubUsername(): ?string
-    {
-        return $this->githubUsername;
-    }
-
-    public function setGithubUsername(?string $githubUsername): static
-    {
-        $this->githubUsername = $githubUsername;
-        return $this;
-    }
-
     public function getAvatarUrl(): ?string
     {
-        return $this->avatarUrl;
+        return $this->avatarUrl ?? "https://ui-avatars.com/api/?size=128&name=" . $this->displayName;
     }
 
     public function setAvatarUrl(?string $avatarUrl): static
@@ -393,8 +335,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getDisplayName(): string
     {
         return $this->displayName ??
-            $this->discordUsername ??
-            $this->githubUsername ??
             $this->email ??
             'کاربر ' . $this->getId();
     }

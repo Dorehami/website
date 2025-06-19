@@ -54,12 +54,8 @@ APP_SECRET=your_secure_secret_key
 
 DATABASE_URL="postgresql://app:!ChangeMe!@database:5432/app?serverVersion=16&charset=utf8"
 
-OAUTH_DISCORD_CLIENT_ID=your_discord_client_id
-OAUTH_DISCORD_CLIENT_SECRET=your_discord_client_secret
 DISCORD_GUILD_ID=your_discord_server_id
 DISCORD_TOKEN=your_discord_bot_token
-OAUTH_GITHUB_CLIENT_ID=your_github_client_id
-OAUTH_GITHUB_CLIENT_SECRET=your_github_client_secret
 OPENAI_API_KEY=your_openai_api_key
 WEBHOOK_URL=https://example.com/webhook
 WEBHOOK_SECRET=your_webhook_secret
