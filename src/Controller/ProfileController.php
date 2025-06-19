@@ -9,6 +9,7 @@ use App\Service\PlausibleAnalyticsService;
 use App\Service\UtilityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -55,6 +56,7 @@ final class ProfileController extends AbstractController
     public function edit(
         Request $request,
         EntityManagerInterface $entityManager,
+        ParameterBagInterface $params,
     ): Response {
         $user = $this->getUser();
         $form = $this->createForm(ProfileEditType::class, $user);
@@ -74,8 +76,12 @@ final class ProfileController extends AbstractController
             }
         }
 
+        $accountUrl = rtrim($params->get('app.keycloak_base_url'), '/') .
+            '/realms/' . $params->get('app.keycloak_realm') . '/account';
+        
         return $this->render('profile/edit.html.twig', [
             'form' => $form,
+            'keycloak_account_url' => $accountUrl,
         ]);
     }
 }

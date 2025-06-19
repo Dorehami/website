@@ -11,7 +11,9 @@ parameters:
   app.webhook_url: '%env(WEBHOOK_URL)%'
   app.webhook_secret: '%env(WEBHOOK_SECRET)%'
   app.analytics_token: '%env(ANALYTICS_TOKEN)%'
-  
+  app.keycloak_base_url: '%env(KEYCLOAK_BASE_URL)%'
+  app.keycloak_realm: '%env(KEYCLOAK_REALM)%'
+    
 services:
   # default configuration for services in *this* file
   _defaults:
