@@ -22,6 +22,19 @@
                         </div>
                     {% endif %}
 
+                    <div>
+                        <a href="{{ path('connect_auth') }}"
+                           class="btn-sm h-9 text-indigo-500 border dark:border-slate-700 dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20 hover:dark:bg-slate-800 hover:bg-slate-100 w-full flex justify-center items-center">
+                            ورود با DorehamiID
+                        </a>
+                    </div>
+
+                    <div class="flex items-center my-8">
+                        <div class="border-t border-slate-300 dark:border-slate-800 grow mr-3" aria-hidden="true"></div>
+                        <div class="px-2 text-xs text-slate-500 dark:text-slate-400 italic">یا</div>
+                        <div class="border-t border-slate-300 dark:border-slate-800 grow ml-3" aria-hidden="true"></div>
+                    </div>
+
                     <form method="post">
                         <div class="space-y-4">
                             <div>
@@ -60,13 +73,6 @@
                             </button>
                         </div>
                     </form>
-
-                    <div class="mt-6">
-                        <a href="{{ path('connect_auth') }}"
-                           class="btn-sm h-9 text-indigo-500 border dark:border-slate-700 dark:bg-linear-to-tr dark:from-slate-800/20 dark:via-slate-800/50 dark:to-slate-800/20 hover:dark:bg-slate-800 hover:bg-slate-100 w-full flex justify-center items-center">
-                            ورود با سیستم احراز هویت دورهمی
-                        </a>
-                    </div>
 
                     <div class="mt-6 text-center text-sm text-gray-600">
                         <p>شما با ورود به سایت،
