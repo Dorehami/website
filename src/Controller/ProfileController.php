@@ -78,7 +78,7 @@ final class ProfileController extends AbstractController
 
         $accountUrl = rtrim($params->get('app.keycloak_base_url'), '/') .
             '/realms/' . $params->get('app.keycloak_realm') . '/account';
-        
+
         return $this->render('profile/edit.html.twig', [
             'form' => $form,
             'keycloak_account_url' => $accountUrl,
